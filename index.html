@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SupremeAlpha — Founder & Digital Architect</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --bg:#0a0a0a;
+  --bg2:#111;
+  --bg3:#1a1a1a;
+  --fg:#f5f5f5;
+  --fg2:#ccc;
+  --fg3:#666;
+  --gold:#c9a84c;
+  --border:rgba(255,255,255,0.06);
+}
+
+.light{
+  --bg:#f8f8f8;
+  --bg2:#fff;
+  --bg3:#f0f0f0;
+  --fg:#111;
+  --fg2:#444;
+  --fg3:#888;
+  --gold:#8a6d1f;
+  --border:rgba(0,0,0,0.08);
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  background:var(--bg);
+  color:var(--fg);
+  line-height:1.6;
+  overflow-x:hidden;
+  transition:background .3s,color .3s;
+}
+
+::selection{background:var(--gold);color:var(--bg)}
+
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--fg3);border-radius:3px}
+
+/* HEADER */
+.header{
+  position:fixed;
+  top:0;left:0;right:0;
+  z-index:1000;
+  padding:0 48px;
+  height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:transparent;
+  transition:all .3s;
+}
+
+.header.scrolled{
+  background:var(--bg);
+  border-bottom:1px solid var(--border);
+}
+
+.logo{
+  font-size:20px;
+  font-weight:900;
+  color:var(--fg);
+  letter-spacing:-1px;
+  text-decoration:none;
+}
+
+.logo span{color:var(--gold)}
+
+.theme-toggle{
+  width:44px;
+  height:24px;
+  background:var(--fg3);
+  border-radius:12px;
+  position:relative;
+  cursor:pointer;
+  border:none;
+  transition:background .3s;
+}
+
+.theme-toggle::after{
+  content:'';
+  position:absolute;
+  width:18px;
+  height:18px;
+  background:var(--fg);
+  border-radius:50%;
+  top:3px;left:3px;
+  transition:transform .3s;
+}
+
+.light .theme-toggle{background:var(--gold)}
+.light .theme-toggle::after{transform:translateX(20px);background:#fff}
+
+/* VERTICAL TECH STRIP */
+.tech-strip{
+  position:fixed;
+  right:0;
+  top:0;
+  bottom:0;
+  width:48px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:32px;
+  z-index:99;
+  background:linear-gradient(to left,var(--bg),transparent);
+}
+
+.tech-strip::before{
+  content:'';
+  position:absolute;
+  left:0;
+  top:20%;
+  bottom:20%;
+  width:1px;
+  background:var(--border);
+}
+
+.tech-item{
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+  font-size:9px;
+  color:var(--fg3);
+  letter-spacing:2px;
+  text-transform:uppercase;
+  font-family:'Courier New',monospace;
+  transition:color .3s;
+  cursor:default;
+  white-space:nowrap;
+}
+
+.tech-item:hover{color:var(--gold)}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  padding:120px 100px 80px 48px;
+  position:relative;
+}
+
+.hero-content{max-width:800px}
+
+.hero-label{
+  font-family:'Courier New',monospace;
+  font-size:11px;
+  color:var(--gold);
+  letter-spacing:3px;
+  text-transform:uppercase;
+  margin-bottom:28px;
+}
+
+.hero h1{
+  font-size:clamp(48px,9vw,100px);
+  font-weight:900;
+  line-height:0.95;
+  letter-spacing:-3px;
+  margin-bottom:12px;
+}
+
+.hero h1 span{color:var(--fg3);display:block}
+
+.hero-role{
+  font-size:18px;
+  color:var(--fg2);
+  font-weight:400;
+  margin-bottom:36px;
+}
+
+.hero-desc{
+  font-size:16px;
+  color:var(--fg2);
+  max-width:480px;
+  line-height:1.7;
+  margin-bottom:40px;
+}
+
+.hero-btns{display:flex;gap:16px}
+
+.btn{
+  font-size:13px;
+  font-weight:600;
+  padding:14px 32px;
+  border-radius:4px;
+  text-decoration:none;
+  transition:all .25s;
+  cursor:pointer;
+  border:none;
+  font-family:inherit;
+}
+
+.btn-gold{
+  background:var(--gold);
+  color:var(--bg);
+}
+.btn-gold:hover{opacity:.9;transform:translateY(-2px)}
+
+.btn-ghost{
+  background:transparent;
+  color:var(--fg2);
+  border:1px solid var(--border);
+}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+
+/* SECTIONS */
+section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
+
+.sec-label{
+  font-family:'Courier New',monospace;
+  font-size:11px;
+  color:var(--gold);
+  letter-spacing:3px;
+  text-transform:uppercase;
+  margin-bottom:16px;
+}
+
+.sec-title{
+  font-size:clamp(32px,5vw,56px);
+  font-weight:900;
+  line-height:1.05;
+  letter-spacing:-2px;
+  margin-bottom:20px;
+}
+
+.sec-desc{
+  font-size:16px;
+  color:var(--fg2);
+  max-width:520px;
+  line-height:1.7;
+}
+
+/* ABOUT */
+.about-sec{background:var(--bg2)}
+.about-grid{
+  display:grid;
+  grid-template-columns:1.2fr 1fr;
+  gap:80px;
+  align-items:center;
+  margin-top:60px;
+}
+
+.about-text h3{
+  font-size:28px;
+  font-weight:800;
+  margin-bottom:20px;
+}
+
+.about-text p{
+  font-size:15px;
+  color:var(--fg2);
+  line-height:1.8;
+  margin-bottom:16px;
+}
+
+.about-quote{
+  margin-top:32px;
+  padding:24px 28px;
+  background:var(--bg);
+  border-left:2px solid var(--gold);
+  border-radius:0 8px 8px 0;
+}
+
+.about-quote p{
+  font-size:16px;
+  color:var(--fg);
+  font-style:italic;
+  margin:0;
+}
+
+.about-quote small{
+  display:block;
+  margin-top:12px;
+  font-size:10px;
+  color:var(--fg3);
+  text-transform:uppercase;
+  letter-spacing:2px;
+  font-family:'Courier New',monospace;
+}
+
+.about-img-wrap{position:relative}
+.about-img-wrap::before{
+  content:'';
+  position:absolute;
+  inset:-16px;
+  border:1px solid var(--border);
+  border-radius:6px;
+  z-index:-1;
+}
+
+.about-img{
+  width:100%;
+  aspect-ratio:3/4;
+  object-fit:cover;
+  border-radius:4px;
+  filter:grayscale(20%);
+  transition:filter .4s;
+}
+
+.about-img:hover{filter:grayscale(0)}
+
+.about-img-fallback{
+  display:none;
+  width:100%;
+  aspect-ratio:3/4;
+  background:var(--bg3);
+  border-radius:4px;
+  align-items:center;
+  justify-content:center;
+  color:var(--fg3);
+  font-size:12px;
+  font-family:monospace;
+}
+
+/* PRODUCTS */
+.work-sec{background:var(--bg)}
+.products-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:1px;
+  background:var(--border);
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+  margin-top:60px;
+}
+
+.product{
+  background:var(--bg2);
+  padding:40px;
+  transition:all .3s;
+  position:relative;
+}
+
+.product::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;
+  width:0;height:2px;
+  background:var(--gold);
+  transition:width .4s;
+}
+
+.product:hover::before{width:100%}
+.product:hover{background:var(--bg3)}
+
+.prod-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.prod-logo{
+  width:48px;
+  height:48px;
+  border-radius:10px;
+  object-fit:cover;
+  border:1px solid var(--border);
+  background:var(--bg);
+}
+
+.prod-logo-fallback{
+  display:none;
+  width:48px;
+  height:48px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:var(--bg);
+  align-items:center;
+  justify-content:center;
+  color:var(--fg3);
+  font-size:12px;
+  font-weight:700;
+  font-family:monospace;
+}
+
+.prod-status{
+  font-family:'Courier New',monospace;
+  font-size:10px;
+  padding:4px 10px;
+  border-radius:3px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+.status-live{color:#4ade80;border:1px solid rgba(74,222,128,.15);background:rgba(74,222,128,.05)}
+.status-soon{color:var(--fg3);border:1px solid var(--border)}
+
+.product h3{
+  font-size:20px;
+  font-weight:800;
+  margin-bottom:10px;
+}
+
+.product p{
+  font-size:14px;
+  color:var(--fg2);
+  line-height:1.7;
+  margin-bottom:20px;
+}
+
+.prod-tags{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+
+.prod-tags span{
+  font-size:11px;
+  color:var(--fg3);
+  background:var(--bg);
+  padding:5px 12px;
+  border-radius:3px;
+  border:1px solid var(--border);
+}
+
+.prod-btns{display:flex;gap:10px}
+.prod-btns .btn{padding:10px 24px;font-size:12px}
+
+/* PHILOSOPHY */
+.phil-sec{background:var(--bg2)}
+.phil-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:48px;
+  margin-top:60px;
+}
+
+.phil-item{
+  padding-top:24px;
+  border-top:1px solid var(--border);
+}
+
+.phil-num{
+  font-family:'Courier New',monospace;
+  font-size:11px;
+  color:var(--gold);
+  margin-bottom:16px;
+}
+
+.phil-item h3{
+  font-size:18px;
+  font-weight:800;
+  margin-bottom:10px;
+}
+
+.phil-item p{
+  font-size:14px;
+  color:var(--fg2);
+  line-height:1.7;
+}
+
+/* MESSAGE / CONTACT */
+.message-sec{background:var(--bg)}
+.message-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:1px;
+  background:var(--border);
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+  margin-top:60px;
+}
+
+.message-card{
+  background:var(--bg2);
+  padding:40px;
+  transition:all .3s;
+}
+
+.message-card:hover{background:var(--bg3)}
+
+.message-card h3{
+  font-size:18px;
+  font-weight:800;
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.message-card p{
+  font-size:14px;
+  color:var(--fg2);
+  line-height:1.7;
+  margin-bottom:24px;
+}
+
+.message-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:12px 24px;
+  background:var(--gold);
+  color:var(--bg);
+  text-decoration:none;
+  border-radius:4px;
+  font-size:13px;
+  font-weight:600;
+  transition:all .25s;
+}
+
+.message-btn:hover{opacity:.9;transform:translateY(-2px)}
+
+.message-btn.ghost{
+  background:transparent;
+  color:var(--fg2);
+  border:1px solid var(--border);
+}
+
+.message-btn.ghost:hover{border-color:var(--gold);color:var(--gold)}
+
+/* FOOTER */
+.site-footer{
+  padding:48px;
+  border-top:1px solid var(--border);
+  max-width:1200px;
+  margin:0 auto;
+  display:flex;
+  justify-content:space-between;
+}
+
+.site-footer p{
+  font-size:12px;
+  color:var(--fg3);
+  font-family:monospace;
+}
+
+/* FLOATING NAV */
+.float-nav{
+  position:fixed;
+  bottom:28px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:1000;
+  display:flex;
+  gap:4px;
+  background:rgba(17,17,17,.95);
+  backdrop-filter:blur(20px);
+  border:1px solid var(--border);
+  border-radius:100px;
+  padding:6px;
+  box-shadow:0 20px 50px rgba(0,0,0,.3);
+}
+
+.light .float-nav{background:rgba(248,248,248,.95);box-shadow:0 20px 50px rgba(0,0,0,.1)}
+
+.float-btn{
+  padding:12px 28px;
+  border-radius:100px;
+  border:none;
+  background:transparent;
+  color:var(--fg3);
+  font-family:inherit;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all .3s;
+  text-decoration:none;
+}
+
+.float-btn:hover{color:var(--fg2)}
+.float-btn.active{background:var(--gold);color:var(--bg)}
+
+/* ADMIN */
+.admin-sec{display:none;background:var(--bg)}
+.admin-sec.active{display:block}
+.admin-box{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:120px 48px;
+}
+.admin-login{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:48px;
+  width:100%;
+  max-width:400px;
+  text-align:center;
+}
+.admin-login h2{font-size:24px;font-weight:800;margin-bottom:8px}
+.admin-login p{font-size:14px;color:var(--fg2);margin-bottom:32px}
+.admin-input{
+  width:100%;
+  padding:14px 18px;
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:6px;
+  color:var(--fg);
+  font-family:inherit;
+  font-size:14px;
+  margin-bottom:12px;
+  outline:none;
+}
+.admin-input:focus{border-color:var(--gold)}
+.admin-err{color:#f87171;font-size:13px;margin-top:12px;display:none}
+.admin-dash{display:none}
+.admin-dash.active{display:block;padding:120px 48px;max-width:1200px;margin:0 auto}
+
+/* ANIMATIONS */
+.reveal{
+  opacity:0;
+  transform:translateY(30px);
+  transition:all .7s cubic-bezier(.4,0,.2,1);
+}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .tech-strip{display:none}
+  .hero{padding:120px 48px 80px}
+  section{padding:100px 48px}
+  .about-grid,.message-grid{grid-template-columns:1fr;gap:60px}
+  .products-grid{grid-template-columns:1fr}
+  .phil-grid{grid-template-columns:1fr;gap:32px}
+  .site-footer{flex-direction:column;gap:12px;text-align:center}
+}
+
+@media(max-width:640px){
+  .header{padding:0 24px}
+  .hero{padding:100px 24px 60px}
+  .hero h1{font-size:40px;letter-spacing:-2px}
+  section{padding:80px 24px}
+  .product{padding:32px}
+  .float-btn{padding:10px 20px;font-size:11px}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header" id="header">
+  <a href="#home" class="logo">Alpha<span>-Log</span></a>
+  <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme"></button>
+</header>
+
+<!-- VERTICAL TECH STRIP -->
+<div class="tech-strip">
+  <div class="tech-item">JavaScript</div>
+  <div class="tech-item">HTML/CSS</div>
+  <div class="tech-item">Appwrite</div>
+  <div class="tech-item">Web3.js</div>
+  <div class="tech-item">BNB Chain</div>
+  <div class="tech-item">Ethereum</div>
+  <div class="tech-item">TON</div>
+  <div class="tech-item">Supabase</div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-content">
+    <div class="hero-label">Founder & Digital Architect</div>
+    <h1>Supreme<span>Alpha</span></h1>
+    <p class="hero-role">Building the Future of African Digital Innovation</p>
+    <p class="hero-desc">Nigerian technology entrepreneur and software developer. Founder of SupremeAmer — creating platforms that merge blockchain infrastructure with intuitive user experiences.</p>
+    <div class="hero-btns">
+      <a href="#work" class="btn btn-gold">View Work</a>
+      <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-sec" id="about">
+  <div class="sec-label">About</div>
+  <h2 class="sec-title">The Founder</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <h3>SupremeAlpha</h3>
+      <p>Nigerian technology entrepreneur, software developer, and digital innovator focused on building scalable platforms that combine blockchain technology, affiliate marketing, and modern web experiences.</p>
+      <p>Founded with the vision of creating accessible digital opportunities across Africa. Every product empowers users to earn, transact, and participate in the growing decentralized economy.</p>
+      <div class="about-quote">
+        <p>"To create innovative digital ecosystems that empower individuals across Africa through technology, financial inclusion, and decentralized opportunities."</p>
+        <small>— Mission Statement</small>
+      </div>
+    </div>
+    <div class="about-img-wrap">
+      <img src="your-image.jpg" class="about-img" alt="SupremeAlpha" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="about-img-fallback">your-image.jpg</div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="work-sec" id="work">
+  <div class="sec-label">Work</div>
+  <h2 class="sec-title">Deployed Modules</h2>
+  <p class="sec-desc">Production-ready platforms powering African digital commerce and Web3 adoption.</p>
+  
+  <div class="products-grid">
+    <div class="product">
+      <div class="prod-header">
+        <img src="logo-wallet.png" class="prod-logo" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="prod-logo-fallback">SA</div>
+        <span class="prod-status status-live">Live</span>
+      </div>
+      <h3>SupremeAmer Wallet</h3>
+      <p>Multi-chain Web3 wallet supporting BNB, Ethereum, TON, and SAT token with DeFi integrations.</p>
+      <div class="prod-tags"><span>Web & Mobile</span><span>Multi-Chain</span><span>DeFi</span></div>
+      <div class="prod-btns"><a href="https://wallet.supremeamer.com" class="btn btn-gold" target="_blank">Launch App</a></div>
+    </div>
+    
+    <div class="product">
+      <div class="prod-header">
+        <img src="logo-mining.png" class="prod-logo" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="prod-logo-fallback">MN</div>
+        <span class="prod-status status-live">Live</span>
+      </div>
+      <h3>SupremeAmer Mining DApp</h3>
+      <p>Blockchain-powered token mining with reward claiming, speed upgrades, and earnings tracking.</p>
+      <div class="prod-tags"><span>Web</span><span>Smart Contracts</span><span>BNB Chain</span></div>
+      <div class="prod-btns"><a href="https://mine.supremeamer.com" class="btn btn-gold" target="_blank">Launch App</a></div>
+    </div>
+    
+    <div class="product">
+      <div class="prod-header">
+        <img src="logo-affiliate.png" class="prod-logo" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="prod-logo-fallback">AF</div>
+        <span class="prod-status status-soon">Soon</span>
+      </div>
+      <h3>Supreme Affiliate Network</h3>
+      <p>Digital affiliate ecosystem for product promotion, commissions, and referral management.</p>
+      <div class="prod-tags"><span>Web & Mobile</span><span>Wallet Integration</span></div>
+      <div class="prod-btns"><button class="btn btn-ghost" style="cursor:default">Launching Soon</button></div>
+    </div>
+    
+    <div class="product">
+      <div class="prod-header">
+        <img src="logo-motive.png" class="prod-logo" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="prod-logo-fallback">MT</div>
+        <span class="prod-status status-soon">Soon</span>
+      </div>
+      <h3>Supreme Motive</h3>
+      <p>Digital products marketplace with affiliate mechanics for creators and marketers.</p>
+      <div class="prod-tags"><span>Web & Mobile</span><span>PWA</span><span>Marketplace</span></div>
+      <div class="prod-btns"><button class="btn btn-ghost" style="cursor:default">Launching Soon</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="phil-sec" id="philosophy">
+  <div class="sec-label">Philosophy</div>
+  <h2 class="sec-title">Core Protocols</h2>
+  <div class="phil-grid">
+    <div class="phil-item">
+      <div class="phil-num">01</div>
+      <h3>Create Opportunities</h3>
+      <p>Every platform opens new income streams and financial access for users across Africa.</p>
+    </div>
+    <div class="phil-item">
+      <div class="phil-num">02</div>
+      <h3>Remove Barriers</h3>
+      <p>Complex blockchain abstracted into intuitive interfaces. No Web3 knowledge required.</p>
+    </div>
+    <div class="phil-item">
+      <div class="phil-num">03</div>
+      <h3>Empower Participation</h3>
+      <p>Users are stakeholders — from mining rewards to affiliate commissions.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MESSAGE / CONTACT -->
+<section class="message-sec" id="contact">
+  <div class="sec-label">Contact</div>
+  <h2 class="sec-title">Get In Touch</h2>
+  <p class="sec-desc">Available for collaboration, partnerships, and building the next generation of Web3 products. Reach out through any channel.</p>
+  
+  <div class="message-grid">
+    <div class="message-card">
+      <h3>📧 Email</h3>
+      <p>Send a direct message for business inquiries, partnerships, or project discussions. I typically respond within 24 hours.</p>
+      <a href="mailto:supremeaalpha@gmail.com" class="message-btn">Send Email</a>
+    </div>
+    
+    <div class="message-card">
+      <h3>💬 WhatsApp</h3>
+      <p>Quick conversations, project updates, or urgent inquiries. Available during business hours (WAT).</p>
+      <a href="https://wa.me/234XXXXXXXXXX" class="message-btn" target="_blank">Message on WhatsApp</a>
+    </div>
+    
+    <div class="message-card">
+      <h3>🐙 GitHub</h3>
+      <p>Explore open source projects, review code, or contribute to repositories. See the work behind the products.</p>
+      <a href="#" class="message-btn ghost" onclick="alert('Add your GitHub URL');return false">View GitHub</a>
+    </div>
+    
+    <div class="message-card">
+      <h3>💼 LinkedIn</h3>
+      <p>Professional connections, endorsements, and business networking. Let's grow together.</p>
+      <a href="#" class="message-btn ghost" onclick="alert('Add your LinkedIn URL');return false">Connect on LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <p>SupremeAlpha — Founder, SupremeAmer Organization</p>
+  <p>Abuja, Nigeria · 2026</p>
+</footer>
+
+<!-- FLOATING NAV -->
+<div class="float-nav">
+  <a href="#home" class="float-btn active">Home</a>
+  <a href="#work" class="float-btn">Work</a>
+  <a href="#contact" class="float-btn">Contact</a>
+</div>
+
+<!-- ADMIN -->
+<section class="admin-sec" id="admin">
+  <div class="admin-box">
+    <div class="admin-login" id="admin-login">
+      <h2>Admin Access</h2>
+      <p>Restricted area. Email verification required.</p>
+      <input type="email" class="admin-input" id="admin-email" placeholder="admin@supremeamer.com">
+      <button class="btn btn-gold" onclick="checkAdmin()" style="width:100%">Verify Access</button>
+      <div class="admin-err" id="admin-err">Unauthorized email address.</div>
+    </div>
+    <div class="admin-dash" id="admin-dash">
+      <div class="sec-label">Admin</div>
+      <h2 class="sec-title">Dashboard</h2>
+      <p class="sec-desc">Manage deployed modules.</p>
+      <div style="margin-top:40px">
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:24px;margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <span style="font-weight:700">SupremeAmer Wallet</span>
+            <span class="status-live" style="font-size:10px;padding:4px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:1px;font-family:monospace">Live</span>
+          </div>
+          <div style="font-size:13px;color:var(--fg2);font-family:monospace">8,291 users · wallet.supremeamer.com</div>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:24px;margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <span style="font-weight:700">Mining DApp</span>
+            <span class="status-live" style="font-size:10px;padding:4px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:1px;font-family:monospace">Live</span>
+          </div>
+          <div style="font-size:13px;color:var(--fg2);font-family:monospace">12,847 miners · mine.supremeamer.com</div>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:24px;margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <span style="font-weight:700">Affiliate Network</span>
+            <span class="status-soon" style="font-size:10px;padding:4px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:1px;font-family:monospace">Soon</span>
+          </div>
+          <div style="font-size:13px;color:var(--fg2);font-family:monospace">In development</div>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:24px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <span style="font-weight:700">Supreme Motive</span>
+            <span class="status-soon" style="font-size:10px;padding:4px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:1px;font-family:monospace">Soon</span>
+          </div>
+          <div style="font-size:13px;color:var(--fg2);font-family:monospace">In development</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+function toggleTheme(){
+  document.body.classList.toggle('light');
+  localStorage.setItem('theme',document.body.classList.contains('light')?'light':'dark');
+}
+
+if(localStorage.getItem('theme')==='light'){
+  document.body.classList.add('light');
+}
+
+window.addEventListener('scroll',()=>{
+  document.getElementById('header').classList.toggle('scrolled',window.scrollY>50);
+});
+
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting)entry.target.classList.add('visible');
+  });
+},{threshold:0.1});
+
+document.querySelectorAll('.sec-title,.sec-desc,.about-grid,.products-grid,.phil-grid,.message-grid').forEach(el=>{
+  el.classList.add('reveal');
+  observer.observe(el);
+});
+
+const sections=['home','work','contact'];
+const floatBtns=document.querySelectorAll('.float-btn');
+
+window.addEventListener('scroll',()=>{
+  let current='home';
+  sections.forEach(sec=>{
+    const el=document.getElementById(sec);
+    if(el){
+      const rect=el.getBoundingClientRect();
+      if(rect.top<=200)current=sec;
+    }
+  });
+  floatBtns.forEach(btn=>{
+    btn.classList.toggle('active',btn.getAttribute('href')==='#'+current);
+  });
+});
+
+const ADMIN_EMAIL='admin@supremeamer.com';
+function checkAdmin(){
+  const e=document.getElementById('admin-email').value.trim().toLowerCase();
+  if(e===ADMIN_EMAIL.toLowerCase()){
+    document.getElementById('admin-login').style.display='none';
+    document.getElementById('admin-dash').classList.add('active');
+  }else{
+    const err=document.getElementById('admin-err');
+    err.style.display='block';
+    setTimeout(()=>err.style.display='none',2500);
+  }
+}
+
+if(location.search.includes('admin')){
+  document.querySelectorAll('section').forEach(s=>s.style.display='none');
+  document.querySelector('.site-footer').style.display='none';
+  document.querySelector('.float-nav').style.display='none';
+  document.querySelector('.tech-strip').style.display='none';
+  document.getElementById('admin').classList.add('active');
+}
+</script>
+
+</body>
+</html>
