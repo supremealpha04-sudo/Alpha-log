@@ -4,652 +4,295 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SupremeAlpha — Founder & Digital Architect</title>
+<meta name="description" content="Nigerian technology entrepreneur building the future of African digital innovation through blockchain, Web3, and decentralized platforms.">
+<meta name="theme-color" content="#0a0a0a">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.108.2/dist/umd/supabase.min.js"></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-
 :root{
-  --bg:#0a0a0a;
-  --bg2:#111;
-  --bg3:#1a1a1a;
-  --fg:#f5f5f5;
-  --fg2:#ccc;
-  --fg3:#666;
-  --gold:#c9a84c;
+  --bg:#0a0a0a;--bg2:#111;--bg3:#1a1a1a;--bg4:#0d0d0d;
+  --fg:#f5f5f5;--fg2:#ccc;--fg3:#666;
+  --gold:#c9a84c;--gold-dim:#8a6d1f;
   --border:rgba(255,255,255,0.06);
+  --success:#4ade80;--error:#f87171;--warning:#fbbf24;--info:#60a5fa;
 }
-
 .light{
-  --bg:#f8f8f8;
-  --bg2:#fff;
-  --bg3:#f0f0f0;
-  --fg:#111;
-  --fg2:#444;
-  --fg3:#888;
-  --gold:#8a6d1f;
+  --bg:#f8f8f8;--bg2:#fff;--bg3:#f0f0f0;--bg4:#fafafa;
+  --fg:#111;--fg2:#444;--fg3:#888;
+  --gold:#8a6d1f;--gold-dim:#5c4a14;
   --border:rgba(0,0,0,0.08);
 }
-
 html{scroll-behavior:smooth}
-body{
-  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-  background:var(--bg);
-  color:var(--fg);
-  line-height:1.6;
-  overflow-x:hidden;
-  transition:background .3s,color .3s;
-}
-
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--fg);line-height:1.6;overflow-x:hidden;transition:background .3s,color .3s}
 ::selection{background:var(--gold);color:var(--bg)}
-
 ::-webkit-scrollbar{width:6px}
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--fg3);border-radius:3px}
-
-/* HEADER */
-.header{
-  position:fixed;
-  top:0;left:0;right:0;
-  z-index:1000;
-  padding:0 48px;
-  height:72px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  background:transparent;
-  transition:all .3s;
-}
-
-.header.scrolled{
-  background:var(--bg);
-  border-bottom:1px solid var(--border);
-}
-
-.logo{
-  font-size:20px;
-  font-weight:900;
-  color:var(--fg);
-  letter-spacing:-1px;
-  text-decoration:none;
-}
-
+.page-loader{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .5s,visibility .5s}
+.page-loader.hidden{opacity:0;visibility:hidden}
+.loader-bar{width:120px;height:2px;background:var(--bg3);border-radius:1px;overflow:hidden}
+.loader-bar::after{content:'';display:block;width:40px;height:100%;background:var(--gold);border-radius:1px;animation:loaderSlide 1s ease-in-out infinite}
+@keyframes loaderSlide{0%{transform:translateX(-40px)}100%{transform:translateX(120px)}}
+.loader-text{font-family:'Courier New',monospace;font-size:11px;color:var(--fg3);letter-spacing:3px;text-transform:uppercase}
+.toast-container{position:fixed;top:90px;right:24px;z-index:10001;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:14px 20px;min-width:280px;max-width:400px;display:flex;align-items:center;gap:12px;box-shadow:0 10px 40px rgba(0,0,0,.4);transform:translateX(120%);transition:transform .4s cubic-bezier(.4,0,.2,1);pointer-events:auto}
+.toast.show{transform:translateX(0)}
+.toast-icon{font-size:18px}
+.toast-content{flex:1}
+.toast-title{font-size:13px;font-weight:700;margin-bottom:2px}
+.toast-msg{font-size:12px;color:var(--fg2)}
+.toast-close{background:none;border:none;color:var(--fg3);cursor:pointer;font-size:16px;padding:4px}
+.toast-success{border-left:3px solid var(--success)}
+.toast-error{border-left:3px solid var(--error)}
+.toast-warning{border-left:3px solid var(--warning)}
+.toast-info{border-left:3px solid var(--info)}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:10000;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;visibility:hidden;transition:all .3s}
+.modal-overlay.active{opacity:1;visibility:visible}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:12px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;transform:scale(.95) translateY(10px);transition:transform .3s}
+.modal-overlay.active .modal{transform:scale(1) translateY(0)}
+.modal-header{padding:24px 24px 0;display:flex;justify-content:space-between;align-items:center}
+.modal-header h3{font-size:18px;font-weight:800}
+.modal-close{background:none;border:none;color:var(--fg3);font-size:20px;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:6px;transition:all .2s}
+.modal-close:hover{background:var(--bg3);color:var(--fg)}
+.modal-body{padding:20px 24px 24px}
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px;font-family:'Courier New',monospace;margin-bottom:8px}
+.form-input,.form-textarea,.form-select{width:100%;padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--fg);font-family:inherit;font-size:14px;outline:none;transition:border-color .2s}
+.form-input:focus,.form-textarea:focus,.form-select:focus{border-color:var(--gold)}
+.form-textarea{min-height:120px;resize:vertical}
+.form-select{cursor:pointer;appearance:none}
+.form-error{color:var(--error);font-size:12px;margin-top:6px;display:none}
+.form-error.visible{display:block}
+.form-hint{color:var(--fg3);font-size:12px;margin-top:6px}
+.tag-input-wrap{display:flex;flex-wrap:wrap;gap:6px;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:6px;min-height:44px}
+.tag-input-wrap:focus-within{border-color:var(--gold)}
+.tag-pill{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:4px 10px;font-size:12px;display:flex;align-items:center;gap:6px}
+.tag-pill button{background:none;border:none;color:var(--fg3);cursor:pointer;font-size:14px;line-height:1}
+.tag-input{background:transparent;border:none;color:var(--fg);font-family:inherit;font-size:14px;outline:none;flex:1;min-width:80px}
+.header{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 48px;height:72px;display:flex;align-items:center;justify-content:space-between;background:transparent;transition:all .3s}
+.header.scrolled{background:var(--bg);border-bottom:1px solid var(--border)}
+.logo{font-size:20px;font-weight:900;color:var(--fg);letter-spacing:-1px;text-decoration:none}
 .logo span{color:var(--gold)}
-
-.theme-toggle{
-  width:44px;
-  height:24px;
-  background:var(--fg3);
-  border-radius:12px;
-  position:relative;
-  cursor:pointer;
-  border:none;
-  transition:background .3s;
-}
-
-.theme-toggle::after{
-  content:'';
-  position:absolute;
-  width:18px;
-  height:18px;
-  background:var(--fg);
-  border-radius:50%;
-  top:3px;left:3px;
-  transition:transform .3s;
-}
-
+.header-actions{display:flex;align-items:center;gap:16px}
+.theme-toggle{width:44px;height:24px;background:var(--fg3);border-radius:12px;position:relative;cursor:pointer;border:none;transition:background .3s}
+.theme-toggle::after{content:'';position:absolute;width:18px;height:18px;background:var(--fg);border-radius:50%;top:3px;left:3px;transition:transform .3s}
 .light .theme-toggle{background:var(--gold)}
 .light .theme-toggle::after{transform:translateX(20px);background:#fff}
-
-/* VERTICAL TECH STRIP */
-.tech-strip{
-  position:fixed;
-  right:0;
-  top:0;
-  bottom:0;
-  width:48px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:32px;
-  z-index:99;
-  background:linear-gradient(to left,var(--bg),transparent);
-}
-
-.tech-strip::before{
-  content:'';
-  position:absolute;
-  left:0;
-  top:20%;
-  bottom:20%;
-  width:1px;
-  background:var(--border);
-}
-
-.tech-item{
-  writing-mode:vertical-rl;
-  text-orientation:mixed;
-  font-size:9px;
-  color:var(--fg3);
-  letter-spacing:2px;
-  text-transform:uppercase;
-  font-family:'Courier New',monospace;
-  transition:color .3s;
-  cursor:default;
-  white-space:nowrap;
-}
-
+.auth-btn{padding:8px 20px;border-radius:100px;border:none;background:var(--bg3);color:var(--fg2);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .25s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.auth-btn:hover{background:var(--gold);color:var(--bg)}
+.auth-btn.outline{background:transparent;border:1px solid var(--border)}
+.auth-btn.outline:hover{border-color:var(--gold);color:var(--gold);background:transparent}
+.user-menu{position:relative}
+.user-menu-btn{display:flex;align-items:center;gap:8px;padding:6px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:100px;color:var(--fg);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .25s}
+.user-menu-btn:hover{border-color:var(--gold)}
+.user-avatar{width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800}
+.user-dropdown{position:absolute;top:calc(100% + 8px);right:0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:8px;min-width:180px;box-shadow:0 20px 50px rgba(0,0,0,.4);opacity:0;visibility:hidden;transform:translateY(-8px);transition:all .2s}
+.user-menu:hover .user-dropdown,.user-dropdown.active{opacity:1;visibility:visible;transform:translateY(0)}
+.user-dropdown-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:6px;color:var(--fg2);font-size:13px;text-decoration:none;cursor:pointer;transition:all .2s;background:none;border:none;width:100%;font-family:inherit;text-align:left}
+.user-dropdown-item:hover{background:var(--bg3);color:var(--fg)}
+.user-dropdown-divider{height:1px;background:var(--border);margin:6px 0}
+.tech-strip{position:fixed;right:0;top:0;bottom:0;width:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;z-index:99;background:linear-gradient(to left,var(--bg),transparent)}
+.tech-strip::before{content:'';position:absolute;left:0;top:20%;bottom:20%;width:1px;background:var(--border)}
+.tech-item{writing-mode:vertical-rl;text-orientation:mixed;font-size:9px;color:var(--fg3);letter-spacing:2px;text-transform:uppercase;font-family:'Courier New',monospace;transition:color .3s;cursor:default;white-space:nowrap}
 .tech-item:hover{color:var(--gold)}
-
-/* HERO */
-.hero{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  padding:120px 100px 80px 48px;
-  position:relative;
-}
-
+.hero{min-height:100vh;display:flex;align-items:center;padding:120px 100px 80px 48px;position:relative}
 .hero-content{max-width:800px}
-
-.hero-label{
-  font-family:'Courier New',monospace;
-  font-size:11px;
-  color:var(--gold);
-  letter-spacing:3px;
-  text-transform:uppercase;
-  margin-bottom:28px;
-}
-
-.hero h1{
-  font-size:clamp(48px,9vw,100px);
-  font-weight:900;
-  line-height:0.95;
-  letter-spacing:-3px;
-  margin-bottom:12px;
-}
-
+.hero-label{font-family:'Courier New',monospace;font-size:11px;color:var(--gold);letter-spacing:3px;text-transform:uppercase;margin-bottom:28px}
+.hero h1{font-size:clamp(48px,9vw,100px);font-weight:900;line-height:0.95;letter-spacing:-3px;margin-bottom:12px}
 .hero h1 span{color:var(--fg3);display:block}
-
-.hero-role{
-  font-size:18px;
-  color:var(--fg2);
-  font-weight:400;
-  margin-bottom:36px;
-}
-
-.hero-desc{
-  font-size:16px;
-  color:var(--fg2);
-  max-width:480px;
-  line-height:1.7;
-  margin-bottom:40px;
-}
-
-.hero-btns{display:flex;gap:16px}
-
-.btn{
-  font-size:13px;
-  font-weight:600;
-  padding:14px 32px;
-  border-radius:4px;
-  text-decoration:none;
-  transition:all .25s;
-  cursor:pointer;
-  border:none;
-  font-family:inherit;
-}
-
-.btn-gold{
-  background:var(--gold);
-  color:var(--bg);
-}
+.hero-role{font-size:18px;color:var(--fg2);font-weight:400;margin-bottom:36px}
+.hero-desc{font-size:16px;color:var(--fg2);max-width:480px;line-height:1.7;margin-bottom:40px}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap}
+.btn{font-size:13px;font-weight:600;padding:14px 32px;border-radius:4px;text-decoration:none;transition:all .25s;cursor:pointer;border:none;font-family:inherit;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn-gold{background:var(--gold);color:var(--bg)}
 .btn-gold:hover{opacity:.9;transform:translateY(-2px)}
-
-.btn-ghost{
-  background:transparent;
-  color:var(--fg2);
-  border:1px solid var(--border);
-}
+.btn-gold:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn-ghost{background:transparent;color:var(--fg2);border:1px solid var(--border)}
 .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
-
-/* SECTIONS */
+.btn-ghost:disabled{opacity:.5;cursor:not-allowed}
+.btn-danger{background:transparent;color:var(--error);border:1px solid rgba(248,113,113,.2)}
+.btn-danger:hover{background:rgba(248,113,113,.1)}
+.btn-sm{padding:8px 18px;font-size:12px}
 section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
-
-.sec-label{
-  font-family:'Courier New',monospace;
-  font-size:11px;
-  color:var(--gold);
-  letter-spacing:3px;
-  text-transform:uppercase;
-  margin-bottom:16px;
-}
-
-.sec-title{
-  font-size:clamp(32px,5vw,56px);
-  font-weight:900;
-  line-height:1.05;
-  letter-spacing:-2px;
-  margin-bottom:20px;
-}
-
-.sec-desc{
-  font-size:16px;
-  color:var(--fg2);
-  max-width:520px;
-  line-height:1.7;
-}
-
-/* ABOUT */
+.sec-label{font-family:'Courier New',monospace;font-size:11px;color:var(--gold);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px}
+.sec-title{font-size:clamp(32px,5vw,56px);font-weight:900;line-height:1.05;letter-spacing:-2px;margin-bottom:20px}
+.sec-desc{font-size:16px;color:var(--fg2);max-width:520px;line-height:1.7}
+.sec-header{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px}
 .about-sec{background:var(--bg2)}
-.about-grid{
-  display:grid;
-  grid-template-columns:1.2fr 1fr;
-  gap:80px;
-  align-items:center;
-  margin-top:60px;
-}
-
-.about-text h3{
-  font-size:28px;
-  font-weight:800;
-  margin-bottom:20px;
-}
-
-.about-text p{
-  font-size:15px;
-  color:var(--fg2);
-  line-height:1.8;
-  margin-bottom:16px;
-}
-
-.about-quote{
-  margin-top:32px;
-  padding:24px 28px;
-  background:var(--bg);
-  border-left:2px solid var(--gold);
-  border-radius:0 8px 8px 0;
-}
-
-.about-quote p{
-  font-size:16px;
-  color:var(--fg);
-  font-style:italic;
-  margin:0;
-}
-
-.about-quote small{
-  display:block;
-  margin-top:12px;
-  font-size:10px;
-  color:var(--fg3);
-  text-transform:uppercase;
-  letter-spacing:2px;
-  font-family:'Courier New',monospace;
-}
-
+.about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:80px;align-items:center;margin-top:60px}
+.about-text h3{font-size:28px;font-weight:800;margin-bottom:20px}
+.about-text p{font-size:15px;color:var(--fg2);line-height:1.8;margin-bottom:16px}
+.about-quote{margin-top:32px;padding:24px 28px;background:var(--bg);border-left:2px solid var(--gold);border-radius:0 8px 8px 0}
+.about-quote p{font-size:16px;color:var(--fg);font-style:italic;margin:0}
+.about-quote small{display:block;margin-top:12px;font-size:10px;color:var(--fg3);text-transform:uppercase;letter-spacing:2px;font-family:'Courier New',monospace}
 .about-img-wrap{position:relative}
-.about-img-wrap::before{
-  content:'';
-  position:absolute;
-  inset:-16px;
-  border:1px solid var(--border);
-  border-radius:6px;
-  z-index:-1;
-}
-
-.about-img{
-  width:100%;
-  aspect-ratio:3/4;
-  object-fit:cover;
-  border-radius:4px;
-  filter:grayscale(20%);
-  transition:filter .4s;
-}
-
+.about-img-wrap::before{content:'';position:absolute;inset:-16px;border:1px solid var(--border);border-radius:6px;z-index:-1}
+.about-img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:4px;filter:grayscale(20%);transition:filter .4s}
 .about-img:hover{filter:grayscale(0)}
-
-.about-img-fallback{
-  display:none;
-  width:100%;
-  aspect-ratio:3/4;
-  background:var(--bg3);
-  border-radius:4px;
-  align-items:center;
-  justify-content:center;
-  color:var(--fg3);
-  font-size:12px;
-  font-family:monospace;
-}
-
-/* PRODUCTS */
 .work-sec{background:var(--bg)}
-.products-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:1px;
-  background:var(--border);
-  border:1px solid var(--border);
-  border-radius:12px;
-  overflow:hidden;
-  margin-top:60px;
-}
-
-.product{
-  background:var(--bg2);
-  padding:40px;
-  transition:all .3s;
-  position:relative;
-}
-
-.product::before{
-  content:'';
-  position:absolute;
-  top:0;left:0;
-  width:0;height:2px;
-  background:var(--gold);
-  transition:width .4s;
-}
-
+.products-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:60px}
+.product{background:var(--bg2);padding:40px;transition:all .3s;position:relative}
+.product::before{content:'';position:absolute;top:0;left:0;width:0;height:2px;background:var(--gold);transition:width .4s}
 .product:hover::before{width:100%}
 .product:hover{background:var(--bg3)}
-
-.prod-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:20px;
-}
-
-.prod-logo{
-  width:48px;
-  height:48px;
-  border-radius:10px;
-  object-fit:cover;
-  border:1px solid var(--border);
-  background:var(--bg);
-}
-
-.prod-logo-fallback{
-  display:none;
-  width:48px;
-  height:48px;
-  border-radius:10px;
-  border:1px solid var(--border);
-  background:var(--bg);
-  align-items:center;
-  justify-content:center;
-  color:var(--fg3);
-  font-size:12px;
-  font-weight:700;
-  font-family:monospace;
-}
-
-.prod-status{
-  font-family:'Courier New',monospace;
-  font-size:10px;
-  padding:4px 10px;
-  border-radius:3px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-}
-
+.prod-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.prod-logo{width:48px;height:48px;border-radius:10px;object-fit:cover;border:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:var(--gold)}
+.prod-status{font-family:'Courier New',monospace;font-size:10px;padding:4px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:1px}
 .status-live{color:#4ade80;border:1px solid rgba(74,222,128,.15);background:rgba(74,222,128,.05)}
 .status-soon{color:var(--fg3);border:1px solid var(--border)}
-
-.product h3{
-  font-size:20px;
-  font-weight:800;
-  margin-bottom:10px;
-}
-
-.product p{
-  font-size:14px;
-  color:var(--fg2);
-  line-height:1.7;
-  margin-bottom:20px;
-}
-
-.prod-tags{
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap;
-  margin-bottom:20px;
-}
-
-.prod-tags span{
-  font-size:11px;
-  color:var(--fg3);
-  background:var(--bg);
-  padding:5px 12px;
-  border-radius:3px;
-  border:1px solid var(--border);
-}
-
-.prod-btns{display:flex;gap:10px}
-.prod-btns .btn{padding:10px 24px;font-size:12px}
-
-/* PHILOSOPHY */
-.phil-sec{background:var(--bg2)}
-.phil-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:48px;
-  margin-top:60px;
-}
-
-.phil-item{
-  padding-top:24px;
-  border-top:1px solid var(--border);
-}
-
-.phil-num{
-  font-family:'Courier New',monospace;
-  font-size:11px;
-  color:var(--gold);
-  margin-bottom:16px;
-}
-
-.phil-item h3{
-  font-size:18px;
-  font-weight:800;
-  margin-bottom:10px;
-}
-
-.phil-item p{
-  font-size:14px;
-  color:var(--fg2);
-  line-height:1.7;
-}
-
-/* MESSAGE / CONTACT */
+.product h3{font-size:20px;font-weight:800;margin-bottom:10px}
+.product p{font-size:14px;color:var(--fg2);line-height:1.7;margin-bottom:20px}
+.prod-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+.prod-tags span{font-size:11px;color:var(--fg3);background:var(--bg);padding:5px 12px;border-radius:3px;border:1px solid var(--border)}
+.prod-btns{display:flex;gap:10px;flex-wrap:wrap}
+.empty-state{grid-column:1/-1;padding:80px 40px;text-align:center;background:var(--bg2)}
+.empty-state p{color:var(--fg3);font-size:14px}
+.sponsors-sec{background:var(--bg2)}
+.sponsors-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:60px}
+.sponsor-card{background:var(--bg);padding:40px;transition:all .3s;position:relative}
+.sponsor-card::before{content:'';position:absolute;top:0;left:0;width:0;height:2px;background:var(--gold);transition:width .4s}
+.sponsor-card:hover::before{width:100%}
+.sponsor-card:hover{background:var(--bg3)}
+.sponsor-tier{font-family:'Courier New',monospace;font-size:10px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px}
+.sponsor-card h3{font-size:22px;font-weight:800;margin-bottom:8px}
+.sponsor-amount{font-size:28px;font-weight:900;color:var(--gold);margin-bottom:16px}
+.sponsor-card p{font-size:14px;color:var(--fg2);line-height:1.7;margin-bottom:24px}
+.sponsor-benefits{list-style:none;margin-bottom:24px}
+.sponsor-benefits li{font-size:13px;color:var(--fg2);padding:6px 0;padding-left:20px;position:relative}
+.sponsor-benefits li::before{content:'✓';position:absolute;left:0;color:var(--gold);font-weight:700}
+.phil-sec{background:var(--bg)}
+.phil-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;margin-top:60px}
+.phil-item{padding-top:24px;border-top:1px solid var(--border)}
+.phil-num{font-family:'Courier New',monospace;font-size:11px;color:var(--gold);margin-bottom:16px}
+.phil-item h3{font-size:18px;font-weight:800;margin-bottom:10px}
+.phil-item p{font-size:14px;color:var(--fg2);line-height:1.7}
 .message-sec{background:var(--bg)}
-.message-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:1px;
-  background:var(--border);
-  border:1px solid var(--border);
-  border-radius:12px;
-  overflow:hidden;
-  margin-top:60px;
-}
-
-.message-card{
-  background:var(--bg2);
-  padding:40px;
-  transition:all .3s;
-}
-
+.message-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:60px}
+.message-card{background:var(--bg2);padding:40px;transition:all .3s}
 .message-card:hover{background:var(--bg3)}
-
-.message-card h3{
-  font-size:18px;
-  font-weight:800;
-  margin-bottom:12px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.message-card p{
-  font-size:14px;
-  color:var(--fg2);
-  line-height:1.7;
-  margin-bottom:24px;
-}
-
-.message-btn{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:12px 24px;
-  background:var(--gold);
-  color:var(--bg);
-  text-decoration:none;
-  border-radius:4px;
-  font-size:13px;
-  font-weight:600;
-  transition:all .25s;
-}
-
+.message-card h3{font-size:18px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:12px}
+.message-card p{font-size:14px;color:var(--fg2);line-height:1.7;margin-bottom:24px}
+.message-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:var(--gold);color:var(--bg);text-decoration:none;border-radius:4px;font-size:13px;font-weight:600;transition:all .25s;border:none;cursor:pointer;font-family:inherit}
 .message-btn:hover{opacity:.9;transform:translateY(-2px)}
-
-.message-btn.ghost{
-  background:transparent;
-  color:var(--fg2);
-  border:1px solid var(--border);
-}
-
+.message-btn.ghost{background:transparent;color:var(--fg2);border:1px solid var(--border)}
 .message-btn.ghost:hover{border-color:var(--gold);color:var(--gold)}
-
-/* FOOTER */
-.site-footer{
-  padding:48px;
-  border-top:1px solid var(--border);
-  max-width:1200px;
-  margin:0 auto;
-  display:flex;
-  justify-content:space-between;
-}
-
-.site-footer p{
-  font-size:12px;
-  color:var(--fg3);
-  font-family:monospace;
-}
-
-/* FLOATING NAV */
-.float-nav{
-  position:fixed;
-  bottom:28px;
-  left:50%;
-  transform:translateX(-50%);
-  z-index:1000;
-  display:flex;
-  gap:4px;
-  background:rgba(17,17,17,.95);
-  backdrop-filter:blur(20px);
-  border:1px solid var(--border);
-  border-radius:100px;
-  padding:6px;
-  box-shadow:0 20px 50px rgba(0,0,0,.3);
-}
-
+.contact-form-sec{background:var(--bg2)}
+.contact-form-wrap{max-width:640px;margin:60px auto 0}
+.contact-form{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:40px}
+.site-footer{padding:48px;border-top:1px solid var(--border);max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.site-footer p{font-size:12px;color:var(--fg3);font-family:monospace}
+.float-nav{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:1000;display:flex;gap:4px;background:rgba(17,17,17,.95);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:100px;padding:6px;box-shadow:0 20px 50px rgba(0,0,0,.3)}
 .light .float-nav{background:rgba(248,248,248,.95);box-shadow:0 20px 50px rgba(0,0,0,.1)}
-
-.float-btn{
-  padding:12px 28px;
-  border-radius:100px;
-  border:none;
-  background:transparent;
-  color:var(--fg3);
-  font-family:inherit;
-  font-size:12px;
-  font-weight:600;
-  cursor:pointer;
-  transition:all .3s;
-  text-decoration:none;
-}
-
+.float-btn{padding:12px 28px;border-radius:100px;border:none;background:transparent;color:var(--fg3);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .3s;text-decoration:none}
 .float-btn:hover{color:var(--fg2)}
 .float-btn.active{background:var(--gold);color:var(--bg)}
-
-/* ADMIN */
-.admin-sec{display:none;background:var(--bg)}
+.admin-sec{display:none;background:var(--bg);min-height:100vh}
 .admin-sec.active{display:block}
-.admin-box{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:120px 48px;
-}
-.admin-login{
-  background:var(--bg2);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:48px;
-  width:100%;
-  max-width:400px;
-  text-align:center;
-}
-.admin-login h2{font-size:24px;font-weight:800;margin-bottom:8px}
-.admin-login p{font-size:14px;color:var(--fg2);margin-bottom:32px}
-.admin-input{
-  width:100%;
-  padding:14px 18px;
-  background:var(--bg);
-  border:1px solid var(--border);
-  border-radius:6px;
-  color:var(--fg);
-  font-family:inherit;
-  font-size:14px;
-  margin-bottom:12px;
-  outline:none;
-}
-.admin-input:focus{border-color:var(--gold)}
-.admin-err{color:#f87171;font-size:13px;margin-top:12px;display:none}
-.admin-dash{display:none}
-.admin-dash.active{display:block;padding:120px 48px;max-width:1200px;margin:0 auto}
-
-/* ANIMATIONS */
-.reveal{
-  opacity:0;
-  transform:translateY(30px);
-  transition:all .7s cubic-bezier(.4,0,.2,1);
-}
+.admin-nav{position:fixed;top:0;left:0;bottom:0;width:260px;background:var(--bg2);border-right:1px solid var(--border);z-index:100;padding:24px 0;display:flex;flex-direction:column}
+.admin-nav-header{padding:0 24px 24px;border-bottom:1px solid var(--border);margin-bottom:16px}
+.admin-nav-header .logo{margin-bottom:4px;display:inline-block}
+.admin-nav-header p{font-size:11px;color:var(--fg3);font-family:monospace}
+.admin-nav-item{display:flex;align-items:center;gap:12px;padding:12px 24px;color:var(--fg2);font-size:13px;text-decoration:none;transition:all .2s;cursor:pointer;border:none;background:none;width:100%;text-align:left;font-family:inherit;position:relative}
+.admin-nav-item:hover{color:var(--fg);background:var(--bg3)}
+.admin-nav-item.active{color:var(--gold);background:var(--bg3)}
+.admin-nav-item .badge{margin-left:auto;background:var(--error);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px;min-width:20px;text-align:center}
+.admin-nav-footer{margin-top:auto;padding:16px 24px 0;border-top:1px solid var(--border)}
+.admin-main{margin-left:260px;padding:40px 48px;min-height:100vh}
+.admin-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:40px}
+.admin-header h1{font-size:28px;font-weight:800}
+.admin-header-actions{display:flex;gap:12px}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+.stat-label{font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;margin-bottom:8px}
+.stat-value{font-size:32px;font-weight:900;color:var(--fg);margin-bottom:4px}
+.stat-change{font-size:12px;color:var(--success);font-family:monospace}
+.stat-change.negative{color:var(--error)}
+.data-table-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.data-table{width:100%;border-collapse:collapse}
+.data-table th{text-align:left;padding:14px 20px;font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1px;font-family:monospace;font-weight:400;border-bottom:1px solid var(--border);background:var(--bg3)}
+.data-table td{padding:14px 20px;font-size:13px;color:var(--fg2);border-bottom:1px solid var(--border)}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--bg3)}
+.data-table .status-pill{display:inline-block;font-size:10px;padding:3px 10px;border-radius:100px;text-transform:uppercase;letter-spacing:1px;font-family:monospace}
+.status-new{background:rgba(96,165,250,.1);color:var(--info);border:1px solid rgba(96,165,250,.2)}
+.status-read{background:rgba(74,222,128,.1);color:var(--success);border:1px solid rgba(74,222,128,.2)}
+.status-replied{background:rgba(201,168,76,.1);color:var(--gold);border:1px solid rgba(201,168,76,.2)}
+.table-actions{display:flex;gap:6px}
+.table-actions button{background:none;border:none;color:var(--fg3);cursor:pointer;padding:4px;border-radius:4px;transition:all .2s}
+.table-actions button:hover{background:var(--bg);color:var(--fg)}
+.tabs{display:flex;gap:4px;margin-bottom:24px;border-bottom:1px solid var(--border);padding-bottom:1px}
+.tab-btn{padding:10px 20px;background:none;border:none;border-bottom:2px solid transparent;color:var(--fg3);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;margin-bottom:-2px}
+.tab-btn:hover{color:var(--fg2)}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.reveal{opacity:0;transform:translateY(30px);transition:all .7s cubic-bezier(.4,0,.2,1)}
 .reveal.visible{opacity:1;transform:translateY(0)}
-
-/* RESPONSIVE */
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .6s linear infinite}
 @media(max-width:1024px){
   .tech-strip{display:none}
   .hero{padding:120px 48px 80px}
   section{padding:100px 48px}
   .about-grid,.message-grid{grid-template-columns:1fr;gap:60px}
-  .products-grid{grid-template-columns:1fr}
+  .products-grid,.sponsors-grid{grid-template-columns:1fr}
   .phil-grid{grid-template-columns:1fr;gap:32px}
   .site-footer{flex-direction:column;gap:12px;text-align:center}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .admin-nav{transform:translateX(-100%);transition:transform .3s}
+  .admin-nav.open{transform:translateX(0)}
+  .admin-main{margin-left:0}
 }
-
 @media(max-width:640px){
   .header{padding:0 24px}
   .hero{padding:100px 24px 60px}
   .hero h1{font-size:40px;letter-spacing:-2px}
   section{padding:80px 24px}
-  .product{padding:32px}
+  .product,.sponsor-card,.message-card{padding:32px}
   .float-btn{padding:10px 20px;font-size:11px}
+  .stats-grid{grid-template-columns:1fr}
+  .admin-main{padding:24px}
 }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
+<div class="page-loader" id="pageLoader">
+  <div class="loader-bar"></div>
+  <div class="loader-text">Initializing</div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
 <header class="header" id="header">
   <a href="#home" class="logo">Alpha<span>-Log</span></a>
-  <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme"></button>
+  <div class="header-actions">
+    <div id="authSection">
+      <button class="auth-btn outline" onclick="openAuthModal('login')">Sign In</button>
+      <button class="auth-btn" onclick="openAuthModal('signup')">Get Started</button>
+    </div>
+    <div class="user-menu" id="userMenu" style="display:none">
+      <button class="user-menu-btn" id="userMenuBtn">
+        <div class="user-avatar" id="userAvatar">SA</div>
+        <span id="userName">User</span>
+      </button>
+      <div class="user-dropdown">
+        <div class="user-dropdown-item" onclick="openMyMessages()">
+          <span>💬</span> My Messages
+        </div>
+        <div class="user-dropdown-item" id="adminNavItem" style="display:none" onclick="goToAdmin()">
+          <span>⚡</span> Admin Panel
+        </div>
+        <div class="user-dropdown-divider"></div>
+        <button class="user-dropdown-item" onclick="handleSignOut()">
+          <span>🚪</span> Sign Out
+        </button>
+      </div>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme"></button>
+  </div>
 </header>
 
-<!-- VERTICAL TECH STRIP -->
 <div class="tech-strip">
   <div class="tech-item">JavaScript</div>
   <div class="tech-item">HTML/CSS</div>
@@ -661,21 +304,20 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
   <div class="tech-item">Supabase</div>
 </div>
 
-<!-- HERO -->
 <section class="hero" id="home">
   <div class="hero-content">
     <div class="hero-label">Founder & Digital Architect</div>
     <h1>Supreme<span>Alpha</span></h1>
     <p class="hero-role">Building the Future of African Digital Innovation</p>
-    <p class="hero-desc">Nigerian technology entrepreneur and software developer. Founder of <a href="supreme-amerweb.vercel.app">SupremeAmer</a> — creating platforms that merge blockchain infrastructure with intuitive user experiences.</p>
+    <p class="hero-desc">Nigerian technology entrepreneur and software developer. Founder of <a href="https://supreme-amerweb.vercel.app" target="_blank" style="color:var(--gold);text-decoration:none">SupremeAmer</a> — creating platforms that merge blockchain infrastructure with intuitive user experiences.</p>
     <div class="hero-btns">
       <a href="#work" class="btn btn-gold">View Work</a>
       <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+      <a href="#sponsors" class="btn btn-ghost">Sponsor</a>
     </div>
   </div>
 </section>
 
-<!-- ABOUT -->
 <section class="about-sec" id="about">
   <div class="sec-label">About</div>
   <h2 class="sec-title">The Founder</h2>
@@ -691,69 +333,43 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
     </div>
     <div class="about-img-wrap">
       <img src="file_00000000832c71f4a3e2b6d42ec94c07.png" class="about-img" alt="SupremeAlpha" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-      <div class="about-img-fallback">your-image.jpg</div>
+      <div style="display:none;width:100%;aspect-ratio:3/4;background:var(--bg3);border-radius:4px;align-items:center;justify-content:center;color:var(--fg3);font-size:12px;font-family:monospace">your-image.jpg</div>
     </div>
   </div>
 </section>
 
-<!-- WORK -->
 <section class="work-sec" id="work">
-  <div class="sec-label">Work</div>
-  <h2 class="sec-title">Deployed Modules</h2>
-  <p class="sec-desc">Production-ready platforms powering African digital commerce and Web3 adoption.</p>
-  
-  <div class="products-grid">
-    <div class="product">
-      <div class="prod-header">
-        <img src="logo-wallet.png" class="prod-logo" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="prod-logo-fallback">SA</div>
-        <span class="prod-status status-live">Live</span>
-      </div>
-      <h3>SupremeAmer Wallet</h3>
-      <p>Multi-chain Web3 wallet supporting BNB, Ethereum, TON, and SAT token with DeFi integrations.</p>
-      <div class="prod-tags"><span>Web & Mobile</span><span>Multi-Chain</span><span>DeFi</span></div>
-      <div class="prod-btns"><a href="https://wallet.supremeamer.com" class="btn btn-gold" target="_blank">Launch App</a></div>
+  <div class="sec-header">
+    <div>
+      <div class="sec-label">Work</div>
+      <h2 class="sec-title">Deployed Modules</h2>
+      <p class="sec-desc">Production-ready platforms powering African digital commerce and Web3 adoption.</p>
     </div>
-    
-    <div class="product">
-      <div class="prod-header">
-        <img src="logo-mining.png" class="prod-logo" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="prod-logo-fallback">MN</div>
-        <span class="prod-status status-live">Live</span>
-      </div>
-      <h3>SupremeAmer Mining DApp</h3>
-      <p>Blockchain-powered token mining with reward claiming, speed upgrades, and earnings tracking.</p>
-      <div class="prod-tags"><span>Web</span><span>Smart Contracts</span><span>BNB Chain</span></div>
-      <div class="prod-btns"><a href="https://mine.supremeamer.com" class="btn btn-gold" target="_blank">Launch App</a></div>
-    </div>
-    
-    <div class="product">
-      <div class="prod-header">
-        <img src="logo-affiliate.png" class="prod-logo" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="prod-logo-fallback">AF</div>
-        <span class="prod-status status-soon">Soon</span>
-      </div>
-      <h3>Supreme Affiliate Network</h3>
-      <p>Digital affiliate ecosystem for product promotion, commissions, and referral management.</p>
-      <div class="prod-tags"><span>Web & Mobile</span><span>Wallet Integration</span></div>
-      <div class="prod-btns"><button class="btn btn-ghost" style="cursor:default">Launching Soon</button></div>
-    </div>
-    
-    <div class="product">
-      <div class="prod-header">
-        <img src="logo-motive.png" class="prod-logo" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="prod-logo-fallback">MT</div>
-        <span class="prod-status status-soon">Soon</span>
-      </div>
-      <h3>Supreme Motive</h3>
-      <p>Digital products marketplace with affiliate mechanics for creators and marketers.</p>
-      <div class="prod-tags"><span>Web & Mobile</span><span>PWA</span><span>Marketplace</span></div>
-      <div class="prod-btns"><button class="btn btn-ghost" style="cursor:default">Launching Soon</button></div>
+  </div>
+  <div class="products-grid" id="projectsGrid">
+    <div class="empty-state">
+      <div class="spinner" style="width:24px;height:24px;margin:0 auto 16px"></div>
+      <p>Loading projects...</p>
     </div>
   </div>
 </section>
 
-<!-- PHILOSOPHY -->
+<section class="sponsors-sec" id="sponsors">
+  <div class="sec-header">
+    <div>
+      <div class="sec-label">Invest</div>
+      <h2 class="sec-title">Sponsor Tiers</h2>
+      <p class="sec-desc">Partner with SupremeAmer to shape the future of African digital innovation.</p>
+    </div>
+  </div>
+  <div class="sponsors-grid" id="sponsorsGrid">
+    <div class="empty-state">
+      <div class="spinner" style="width:24px;height:24px;margin:0 auto 16px"></div>
+      <p>Loading sponsor tiers...</p>
+    </div>
+  </div>
+</section>
+
 <section class="phil-sec" id="philosophy">
   <div class="sec-label">Philosophy</div>
   <h2 class="sec-title">Core Protocols</h2>
@@ -776,31 +392,26 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
   </div>
 </section>
 
-<!-- MESSAGE / CONTACT -->
 <section class="message-sec" id="contact">
   <div class="sec-label">Contact</div>
   <h2 class="sec-title">Get In Touch</h2>
   <p class="sec-desc">Available for collaboration, partnerships, and building the next generation of Web3 products. Reach out through any channel.</p>
-  
   <div class="message-grid">
     <div class="message-card">
       <h3>📧 Email</h3>
       <p>Send a direct message for business inquiries, partnerships, or project discussions. I typically respond within 24 hours.</p>
       <a href="mailto:supremeaalpha@gmail.com" class="message-btn">Send Email</a>
     </div>
-    
     <div class="message-card">
       <h3>💬 WhatsApp</h3>
       <p>Quick conversations, project updates, or urgent inquiries. Available during business hours (WAT).</p>
       <a href="https://wa.me/234XXXXXXXXXX" class="message-btn" target="_blank">Message on WhatsApp</a>
     </div>
-    
     <div class="message-card">
       <h3>🐙 GitHub</h3>
       <p>Explore open source projects, review code, or contribute to repositories. See the work behind the products.</p>
       <a href="#" class="message-btn ghost" onclick="alert('Add your GitHub URL');return false">View GitHub</a>
     </div>
-    
     <div class="message-card">
       <h3>💼 LinkedIn</h3>
       <p>Professional connections, endorsements, and business networking. Let's grow together.</p>
@@ -809,130 +420,1300 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
   </div>
 </section>
 
-<!-- FOOTER -->
+<section class="contact-form-sec" id="contact-form">
+  <div class="sec-label">Message</div>
+  <h2 class="sec-title" style="text-align:center">Send a Message</h2>
+  <p class="sec-desc" style="text-align:center;margin:0 auto">Have a project in mind or want to discuss partnership? Drop a message and I will get back to you.</p>
+  <div class="contact-form-wrap">
+    <form class="contact-form" id="contactForm" onsubmit="handleContactSubmit(event)">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="form-group">
+          <label class="form-label">Name</label>
+          <input type="text" class="form-input" id="contactName" placeholder="Your name" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" id="contactEmail" placeholder="you@example.com" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Subject</label>
+        <input type="text" class="form-input" id="contactSubject" placeholder="What is this about?">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Message</label>
+        <textarea class="form-textarea" id="contactMessage" placeholder="Tell me about your project, idea, or question..." required></textarea>
+      </div>
+      <button type="submit" class="btn btn-gold" style="width:100%" id="contactSubmitBtn">
+        <span>Send Message</span>
+      </button>
+      <p class="form-hint" style="text-align:center;margin-top:16px">
+        <span id="contactAuthHint">You will need to sign in to send messages. <a href="#" onclick="openAuthModal('signup');return false" style="color:var(--gold)">Create an account</a> or <a href="#" onclick="openAuthModal('login');return false" style="color:var(--gold)">sign in</a>.</span>
+      </p>
+    </form>
+  </div>
+</section>
+
 <footer class="site-footer">
   <p>SupremeAlpha — Founder, SupremeAmer Organization</p>
   <p>Abuja, Nigeria · 2026</p>
 </footer>
 
-<!-- FLOATING NAV -->
 <div class="float-nav">
   <a href="#home" class="float-btn active">Home</a>
   <a href="#work" class="float-btn">Work</a>
+  <a href="#sponsors" class="float-btn">Sponsor</a>
   <a href="#contact" class="float-btn">Contact</a>
 </div>
 
-<!-- ADMIN -->
-<section class="admin-sec" id="admin">
-  <div class="admin-box">
-    <div class="admin-login" id="admin-login">
-      <h2>Admin Access</h2>
-      <p>Restricted area. Email verification required.</p>
-      <input type="email" class="admin-input" id="admin-email" placeholder="admin@supremeamer.com">
-      <button class="btn btn-gold" onclick="checkAdmin()" style="width:100%">Verify Access</button>
-      <div class="admin-err" id="admin-err">Unauthorized email address.</div>
+<div class="modal-overlay" id="authModal">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-header">
+      <h3 id="authModalTitle">Sign In</h3>
+      <button class="modal-close" onclick="closeAuthModal()">&times;</button>
     </div>
-    <div class="admin-dash" id="admin-dash">
-      <div class="sec-label">Admin</div>
-      <h2 class="sec-title">Dashboard</h2>
-      <p class="sec-desc">Manage deployed modules.</p>
-      <div style="margin-top:40px">
-        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:24px;margin-bottom:16px">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-            <span style="font-weight:700">SupremeAmer Wallet</span>
-            <span class="status-live" style="font-size:10px;padding:4px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:1px;font-family:monospace">Live</span>
-          </div>
-          <div style="font-size:13px;color:var(--fg2);font-family:monospace">8,291 users · wallet.supremeamer.com</div>
+    <div class="modal-body">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchAuthTab('login')" id="tabLogin">Sign In</button>
+        <button class="tab-btn" onclick="switchAuthTab('signup')" id="tabSignup">Create Account</button>
+      </div>
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" id="loginEmail" placeholder="you@example.com" required>
         </div>
-        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:24px;margin-bottom:16px">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-            <span style="font-weight:700">Mining DApp</span>
-            <span class="status-live" style="font-size:10px;padding:4px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:1px;font-family:monospace">Live</span>
-          </div>
-          <div style="font-size:13px;color:var(--fg2);font-family:monospace">12,847 miners · mine.supremeamer.com</div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-input" id="loginPassword" placeholder="••••••••" required>
         </div>
-        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:24px;margin-bottom:16px">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-            <span style="font-weight:700">Affiliate Network</span>
-            <span class="status-soon" style="font-size:10px;padding:4px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:1px;font-family:monospace">Soon</span>
-          </div>
-          <div style="font-size:13px;color:var(--fg2);font-family:monospace">In development</div>
+        <button type="submit" class="btn btn-gold" style="width:100%" id="loginBtn"><span>Sign In</span></button>
+        <div class="form-error" id="loginError" style="text-align:center;margin-top:12px"></div>
+      </form>
+      <form id="signupForm" onsubmit="handleSignup(event)" style="display:none">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input type="text" class="form-input" id="signupName" placeholder="John Doe" required>
         </div>
-        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:24px">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-            <span style="font-weight:700">Supreme Motive</span>
-            <span class="status-soon" style="font-size:10px;padding:4px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:1px;font-family:monospace">Soon</span>
-          </div>
-          <div style="font-size:13px;color:var(--fg2);font-family:monospace">In development</div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" id="signupEmail" placeholder="you@example.com" required>
         </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-input" id="signupPassword" placeholder="Min 6 characters" minlength="6" required>
+        </div>
+        <button type="submit" class="btn btn-gold" style="width:100%" id="signupBtn"><span>Create Account</span></button>
+        <div class="form-error" id="signupError" style="text-align:center;margin-top:12px"></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="sponsorModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Sponsor Inquiry</h3>
+      <button class="modal-close" onclick="closeSponsorModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="sponsorForm" onsubmit="handleSponsorSubmit(event)">
+        <div class="form-group">
+          <label class="form-label">Selected Tier</label>
+          <input type="text" class="form-input" id="sponsorTierName" readonly style="background:var(--bg3);color:var(--gold);font-weight:700">
+          <input type="hidden" id="sponsorTierId">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="form-group">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-input" id="sponsorName" placeholder="Your name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" id="sponsorEmail" placeholder="you@company.com" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Company / Organization</label>
+          <input type="text" class="form-input" id="sponsorCompany" placeholder="Company name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message</label>
+          <textarea class="form-textarea" id="sponsorMessage" placeholder="Tell us about your interest and goals..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-gold" style="width:100%" id="sponsorSubmitBtn"><span>Submit Inquiry</span></button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="messagesModal">
+  <div class="modal" style="max-width:700px;max-height:80vh">
+    <div class="modal-header">
+      <h3>My Messages</h3>
+      <button class="modal-close" onclick="closeMessagesModal()">&times;</button>
+    </div>
+    <div class="modal-body" style="padding:0">
+      <div id="myMessagesList" style="max-height:60vh;overflow-y:auto">
+        <div style="padding:40px;text-align:center;color:var(--fg3)">Loading...</div>
       </div>
     </div>
   </div>
+</div>
+
+<section class="admin-sec" id="admin">
+  <nav class="admin-nav" id="adminNav">
+    <div class="admin-nav-header">
+      <a href="#home" class="logo" onclick="exitAdmin()">Alpha<span>-Log</span></a>
+      <p>Admin Dashboard</p>
+    </div>
+    <button class="admin-nav-item active" onclick="switchAdminTab('overview')" data-tab="overview"><span>📊</span> Overview</button>
+    <button class="admin-nav-item" onclick="switchAdminTab('messages')" data-tab="messages"><span>💬</span> Messages <span class="badge" id="msgBadge" style="display:none">0</span></button>
+    <button class="admin-nav-item" onclick="switchAdminTab('projects')" data-tab="projects"><span>🚀</span> Projects</button>
+    <button class="admin-nav-item" onclick="switchAdminTab('sponsors')" data-tab="sponsors"><span>🤝</span> Sponsor Tiers</button>
+    <button class="admin-nav-item" onclick="switchAdminTab('analytics')" data-tab="analytics"><span>📈</span> Analytics</button>
+    <div class="admin-nav-footer">
+      <button class="user-dropdown-item" onclick="exitAdmin()" style="width:100%"><span>🏠</span> Back to Site</button>
+      <button class="user-dropdown-item" onclick="handleSignOut()" style="width:100%"><span>🚪</span> Sign Out</button>
+    </div>
+  </nav>
+  <main class="admin-main">
+    <div class="tab-panel active" id="tab-overview">
+      <div class="admin-header">
+        <h1>Dashboard Overview</h1>
+        <div class="admin-header-actions"><span style="font-size:13px;color:var(--fg3);font-family:monospace" id="lastUpdated">Updated just now</span></div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-label">Total Messages</div><div class="stat-value" id="statTotalMessages">0</div><div class="stat-change">All time</div></div>
+        <div class="stat-card"><div class="stat-label">New Messages</div><div class="stat-value" id="statNewMessages">0</div><div class="stat-change">Awaiting reply</div></div>
+        <div class="stat-card"><div class="stat-label">Projects</div><div class="stat-value" id="statProjects">0</div><div class="stat-change" id="statProjectsLive">0 Live</div></div>
+        <div class="stat-card"><div class="stat-label">Sponsor Tiers</div><div class="stat-value" id="statSponsors">0</div><div class="stat-change">Active</div></div>
+      </div>
+      <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;font-family:monospace;text-transform:uppercase;letter-spacing:1px;color:var(--fg3)">Recent Messages</h3>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead><tr><th>From</th><th>Subject</th><th>Type</th><th>Status</th><th>Date</th></tr></thead>
+          <tbody id="recentMessagesTable"><tr><td colspan="5" style="text-align:center;color:var(--fg3)">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="tab-panel" id="tab-messages">
+      <div class="admin-header">
+        <h1>All Messages</h1>
+        <div class="admin-header-actions"><button class="btn btn-ghost btn-sm" onclick="refreshMessages()">🔄 Refresh</button></div>
+      </div>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead><tr><th>From</th><th>Email</th><th>Subject</th><th>Type</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+          <tbody id="allMessagesTable"><tr><td colspan="7" style="text-align:center;color:var(--fg3)">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="tab-panel" id="tab-projects">
+      <div class="admin-header">
+        <h1>Manage Projects</h1>
+        <div class="admin-header-actions"><button class="btn btn-gold btn-sm" onclick="openProjectModal()">+ Add Project</button></div>
+      </div>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Name</th><th>Status</th><th>URL</th><th>Tags</th><th>Actions</th></tr></thead>
+          <tbody id="adminProjectsTable"><tr><td colspan="5" style="text-align:center;color:var(--fg3)">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="tab-panel" id="tab-sponsors">
+      <div class="admin-header">
+        <h1>Manage Sponsor Tiers</h1>
+        <div class="admin-header-actions"><button class="btn btn-gold btn-sm" onclick="openSponsorTierModal()">+ Add Tier</button></div>
+      </div>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Name</th><th>Amount</th><th>Status</th><th>Benefits</th><th>Actions</th></tr></thead>
+          <tbody id="adminSponsorsTable"><tr><td colspan="5" style="text-align:center;color:var(--fg3)">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="tab-panel" id="tab-analytics">
+      <div class="admin-header"><h1>Analytics</h1></div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-label">Page Views (30d)</div><div class="stat-value" id="statPageViews">0</div></div>
+        <div class="stat-card"><div class="stat-label">Unique Visitors</div><div class="stat-value" id="statVisitors">0</div></div>
+        <div class="stat-card"><div class="stat-label">Contact Submissions</div><div class="stat-value" id="statContacts">0</div></div>
+        <div class="stat-card"><div class="stat-label">Sponsor Inquiries</div><div class="stat-value" id="statSponsorInq">0</div></div>
+      </div>
+      <div style="margin-top:40px">
+        <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;font-family:monospace;text-transform:uppercase;letter-spacing:1px;color:var(--fg3)">Daily Views (Last 7 Days)</h3>
+        <div id="analyticsChart" style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px;min-height:200px;display:flex;align-items:center;justify-content:center;color:var(--fg3)">Loading analytics...</div>
+      </div>
+    </div>
+  </main>
 </section>
 
+<div class="modal-overlay" id="projectModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="projectModalTitle">Add Project</h3>
+      <button class="modal-close" onclick="closeProjectModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="projectForm" onsubmit="handleProjectSubmit(event)">
+        <input type="hidden" id="projectId">
+        <div class="form-group"><label class="form-label">Project Name</label><input type="text" class="form-input" id="projectName" required></div>
+        <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="projectDesc" required></textarea></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="form-group"><label class="form-label">Status</label><select class="form-select" id="projectStatus"><option value="live">Live</option><option value="soon">Coming Soon</option></select></div>
+          <div class="form-group"><label class="form-label">URL</label><input type="url" class="form-input" id="projectUrl" placeholder="https://..."></div>
+        </div>
+        <div class="form-group"><label class="form-label">Logo URL</label><input type="url" class="form-input" id="projectLogo" placeholder="https://..."></div>
+        <div class="form-group"><label class="form-label">Tags (press Enter to add)</label><div class="tag-input-wrap" id="projectTagsWrap"><input type="text" class="tag-input" id="projectTagInput" placeholder="Add tag..."></div></div>
+        <div class="form-group"><label class="form-label">Sort Order</label><input type="number" class="form-input" id="projectSort" value="0" min="0"></div>
+        <div style="display:flex;gap:10px"><button type="submit" class="btn btn-gold" style="flex:1" id="projectSubmitBtn">Save Project</button><button type="button" class="btn btn-ghost" onclick="closeProjectModal()">Cancel</button></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="sponsorTierModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="sponsorTierModalTitle">Add Sponsor Tier</h3>
+      <button class="modal-close" onclick="closeSponsorTierModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="sponsorTierForm" onsubmit="handleSponsorTierSubmit(event)">
+        <input type="hidden" id="sponsorTierId">
+        <div class="form-group"><label class="form-label">Tier Name</label><input type="text" class="form-input" id="sponsorTierNameInput" required></div>
+        <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="sponsorTierDesc" required></textarea></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="form-group"><label class="form-label">Amount</label><input type="text" class="form-input" id="sponsorTierAmount" placeholder="$1,000 - $5,000" required></div>
+          <div class="form-group"><label class="form-label">Status</label><select class="form-select" id="sponsorTierStatus"><option value="active">Active</option><option value="inactive">Inactive</option></select></div>
+        </div>
+        <div class="form-group"><label class="form-label">Benefits (press Enter to add)</label><div class="tag-input-wrap" id="sponsorBenefitsWrap"><input type="text" class="tag-input" id="sponsorBenefitInput" placeholder="Add benefit..."></div></div>
+        <div class="form-group"><label class="form-label">Sort Order</label><input type="number" class="form-input" id="sponsorTierSort" value="0" min="0"></div>
+        <div style="display:flex;gap:10px"><button type="submit" class="btn btn-gold" style="flex:1" id="sponsorTierSubmitBtn">Save Tier</button><button type="button" class="btn btn-ghost" onclick="closeSponsorTierModal()">Cancel</button></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="messageDetailModal">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-header">
+      <h3>Message Detail</h3>
+      <button class="modal-close" onclick="closeMessageDetailModal()">&times;</button>
+    </div>
+    <div class="modal-body" id="messageDetailBody">
+      <div style="padding:20px;text-align:center;color:var(--fg3)">Loading...</div>
+    </div>
+  </div>
+</div>
+
 <script>
-function toggleTheme(){
-  document.body.classList.toggle('light');
-  localStorage.setItem('theme',document.body.classList.contains('light')?'light':'dark');
+// ============================================================
+// SUPREMEALPHA - SUPABASE BACKEND INTEGRATION
+// ============================================================
+
+// CONFIGURATION - Replace these with your actual Supabase credentials
+const SUPABASE_URL = window.__SUPABASE_URL__ || 'YOUR_SUPABASE_URL';
+const SUPABASE_ANON_KEY = window.__SUPABASE_ANON_KEY__ || 'YOUR_SUPABASE_ANON_KEY';
+const API_BASE_URL = window.__API_BASE_URL__ || ''; // Your Vercel API URL, e.g., 'https://your-app.vercel.app'
+
+// Initialize Supabase
+let supabase = null;
+try {
+  if (SUPABASE_URL !== 'YOUR_SUPABASE_URL' && SUPABASE_ANON_KEY !== 'YOUR_SUPABASE_ANON_KEY') {
+    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: {
+        autoRefreshToken: true,
+        persistSession: true,
+        detectSessionInUrl: true
+      }
+    });
+  }
+} catch(e) {
+  console.error('Supabase init error:', e);
 }
 
-if(localStorage.getItem('theme')==='light'){
+// STATE
+let currentUser = null;
+let isAdmin = false;
+let projects = [];
+let sponsorTiers = [];
+let messages = [];
+let projectTags = [];
+let sponsorBenefits = [];
+
+// ============================================================
+// TOAST SYSTEM
+// ============================================================
+function showToast(title, message, type = 'info') {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+  toast.innerHTML = `
+    <span class="toast-icon">${icons[type] || 'ℹ️'}</span>
+    <div class="toast-content">
+      <div class="toast-title">${title}</div>
+      <div class="toast-msg">${message}</div>
+    </div>
+    <button class="toast-close" onclick="this.parentElement.remove()">&times;</button>
+  `;
+  container.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add('show'));
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 400);
+  }, 4000);
+}
+
+// ============================================================
+// THEME
+// ============================================================
+function toggleTheme() {
+  document.body.classList.toggle('light');
+  localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
+}
+if (localStorage.getItem('theme') === 'light') {
   document.body.classList.add('light');
 }
 
-window.addEventListener('scroll',()=>{
-  document.getElementById('header').classList.toggle('scrolled',window.scrollY>50);
+// ============================================================
+// SCROLL & NAV
+// ============================================================
+window.addEventListener('scroll', () => {
+  document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50);
 });
 
-const observer=new IntersectionObserver((entries)=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting)entry.target.classList.add('visible');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
   });
-},{threshold:0.1});
+}, { threshold: 0.1 });
 
-document.querySelectorAll('.sec-title,.sec-desc,.about-grid,.products-grid,.phil-grid,.message-grid').forEach(el=>{
+document.querySelectorAll('.sec-title, .sec-desc, .about-grid, .products-grid, .phil-grid, .message-grid, .sponsors-grid').forEach(el => {
   el.classList.add('reveal');
   observer.observe(el);
 });
 
-const sections=['home','work','contact'];
-const floatBtns=document.querySelectorAll('.float-btn');
-
-window.addEventListener('scroll',()=>{
-  let current='home';
-  sections.forEach(sec=>{
-    const el=document.getElementById(sec);
-    if(el){
-      const rect=el.getBoundingClientRect();
-      if(rect.top<=200)current=sec;
+const sections = ['home', 'work', 'sponsors', 'contact'];
+const floatBtns = document.querySelectorAll('.float-btn');
+window.addEventListener('scroll', () => {
+  let current = 'home';
+  sections.forEach(sec => {
+    const el = document.getElementById(sec);
+    if (el) {
+      const rect = el.getBoundingClientRect();
+      if (rect.top <= 200) current = sec;
     }
   });
-  floatBtns.forEach(btn=>{
-    btn.classList.toggle('active',btn.getAttribute('href')==='#'+current);
+  floatBtns.forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('href') === '#' + current);
   });
 });
 
-const ADMIN_EMAIL='admin@supremeamer.com';
-function checkAdmin(){
-  const e=document.getElementById('admin-email').value.trim().toLowerCase();
-  if(e===ADMIN_EMAIL.toLowerCase()){
-    document.getElementById('admin-login').style.display='none';
-    document.getElementById('admin-dash').classList.add('active');
-  }else{
-    const err=document.getElementById('admin-err');
-    err.style.display='block';
-    setTimeout(()=>err.style.display='none',2500);
+// ============================================================
+// AUTH MODAL
+// ============================================================
+function openAuthModal(type) {
+  document.getElementById('authModal').classList.add('active');
+  switchAuthTab(type);
+}
+function closeAuthModal() {
+  document.getElementById('authModal').classList.remove('active');
+  document.getElementById('loginError').style.display = 'none';
+  document.getElementById('signupError').style.display = 'none';
+}
+function switchAuthTab(type) {
+  document.querySelectorAll('#authModal .tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab' + type.charAt(0).toUpperCase() + type.slice(1)).classList.add('active');
+  if (type === 'login') {
+    document.getElementById('loginForm').style.display = 'block';
+    document.getElementById('signupForm').style.display = 'none';
+    document.getElementById('authModalTitle').textContent = 'Sign In';
+  } else {
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('signupForm').style.display = 'block';
+    document.getElementById('authModalTitle').textContent = 'Create Account';
   }
 }
 
-if(location.search.includes('admin')){
-  document.querySelectorAll('section').forEach(s=>s.style.display='none');
-  document.querySelector('.site-footer').style.display='none';
-  document.querySelector('.float-nav').style.display='none';
-  document.querySelector('.tech-strip').style.display='none';
-  document.getElementById('admin').classList.add('active');
-}
-</script>
+// ============================================================
+// AUTHENTICATION
+// ============================================================
+async function handleLogin(e) {
+  e.preventDefault();
+  if (!supabase) { showToast('Error', 'Supabase not configured', 'error'); return; }
+  const btn = document.getElementById('loginBtn');
+  const originalText = btn.innerHTML;
+  btn.innerHTML = '<div class="spinner"></div>';
+  btn.disabled = true;
 
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+  btn.innerHTML = originalText;
+  btn.disabled = false;
+
+  if (error) {
+    document.getElementById('loginError').textContent = error.message;
+    document.getElementById('loginError').style.display = 'block';
+    return;
+  }
+
+  closeAuthModal();
+  await loadUser();
+  showToast('Welcome back!', 'You are now signed in.', 'success');
+}
+
+async function handleSignup(e) {
+  e.preventDefault();
+  if (!supabase) { showToast('Error', 'Supabase not configured', 'error'); return; }
+  const btn = document.getElementById('signupBtn');
+  const originalText = btn.innerHTML;
+  btn.innerHTML = '<div class="spinner"></div>';
+  btn.disabled = true;
+
+  const name = document.getElementById('signupName').value.trim();
+  const email = document.getElementById('signupEmail').value.trim();
+  const password = document.getElementById('signupPassword').value;
+
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: { data: { full_name: name } }
+  });
+
+  btn.innerHTML = originalText;
+  btn.disabled = false;
+
+  if (error) {
+    document.getElementById('signupError').textContent = error.message;
+    document.getElementById('signupError').style.display = 'block';
+    return;
+  }
+
+  closeAuthModal();
+  showToast('Account created!', 'Welcome to SupremeAlpha. You are now signed in.', 'success');
+  await loadUser();
+}
+
+async function handleSignOut() {
+  if (!supabase) return;
+  await supabase.auth.signOut();
+  currentUser = null;
+  isAdmin = false;
+  updateAuthUI();
+  showToast('Signed out', 'You have been signed out.', 'info');
+  if (document.getElementById('admin').classList.contains('active')) {
+    exitAdmin();
+  }
+}
+
+async function loadUser() {
+  if (!supabase) return;
+  const { data: { user } } = await supabase.auth.getUser();
+  currentUser = user;
+
+  if (user) {
+    // Check admin status
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('is_admin, full_name')
+      .eq('id', user.id)
+      .single();
+
+    isAdmin = profile?.is_admin || false;
+
+    // Update contact form with user info
+    document.getElementById('contactName').value = profile?.full_name || user.user_metadata?.full_name || '';
+    document.getElementById('contactEmail').value = user.email || '';
+  }
+
+  updateAuthUI();
+}
+
+function updateAuthUI() {
+  const authSection = document.getElementById('authSection');
+  const userMenu = document.getElementById('userMenu');
+  const adminNavItem = document.getElementById('adminNavItem');
+  const contactAuthHint = document.getElementById('contactAuthHint');
+
+  if (currentUser) {
+    authSection.style.display = 'none';
+    userMenu.style.display = 'block';
+    const name = currentUser.user_metadata?.full_name || currentUser.email?.split('@')[0] || 'User';
+    document.getElementById('userName').textContent = name;
+    document.getElementById('userAvatar').textContent = name.charAt(0).toUpperCase();
+    adminNavItem.style.display = isAdmin ? 'flex' : 'none';
+    if (contactAuthHint) contactAuthHint.innerHTML = 'Signed in as <strong style="color:var(--gold)">' + currentUser.email + '</strong>. Your messages will be linked to your account.';
+  } else {
+    authSection.style.display = 'flex';
+    userMenu.style.display = 'none';
+    adminNavItem.style.display = 'none';
+    if (contactAuthHint) contactAuthHint.innerHTML = 'You will need to sign in to send messages. <a href="#" onclick="openAuthModal(\'signup\');return false" style="color:var(--gold)">Create an account</a> or <a href="#" onclick="openAuthModal(\'login\');return false" style="color:var(--gold)">sign in</a>.';
+  }
+}
+
+// ============================================================
+// DATA LOADING
+// ============================================================
+async function loadProjects() {
+  if (!supabase) {
+    renderProjects([]);
+    return;
+  }
+  const { data, error } = await supabase
+    .from('projects')
+    .select('*')
+    .order('sort_order', { ascending: true });
+
+  if (error) {
+    console.error('Load projects error:', error);
+    renderProjects([]);
+    return;
+  }
+  projects = data || [];
+  renderProjects(projects);
+  if (isAdmin) renderAdminProjects();
+}
+
+function renderProjects(data) {
+  const grid = document.getElementById('projectsGrid');
+  if (!data || data.length === 0) {
+    grid.innerHTML = '<div class="empty-state"><p>No projects yet.</p></div>';
+    return;
+  }
+
+  grid.innerHTML = data.map(p => `
+    <div class="product">
+      <div class="prod-header">
+        <div class="prod-logo">${p.name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase()}</div>
+        <span class="prod-status ${p.status === 'live' ? 'status-live' : 'status-soon'}">${p.status === 'live' ? 'Live' : 'Soon'}</span>
+      </div>
+      <h3>${p.name}</h3>
+      <p>${p.description}</p>
+      <div class="prod-tags">${(p.tags || []).map(t => `<span>${t}</span>`).join('')}</div>
+      <div class="prod-btns">
+        ${p.url ? `<a href="${p.url}" class="btn btn-gold" target="_blank">Launch App</a>` : `<button class="btn btn-ghost" style="cursor:default">Launching Soon</button>`}
+      </div>
+    </div>
+  `).join('');
+}
+
+async function loadSponsorTiers() {
+  if (!supabase) {
+    renderSponsorTiers([]);
+    return;
+  }
+  const { data, error } = await supabase
+    .from('sponsor_tiers')
+    .select('*')
+    .eq('status', 'active')
+    .order('sort_order', { ascending: true });
+
+  if (error) {
+    console.error('Load sponsors error:', error);
+    renderSponsorTiers([]);
+    return;
+  }
+  sponsorTiers = data || [];
+  renderSponsorTiers(sponsorTiers);
+  if (isAdmin) renderAdminSponsors();
+}
+
+function renderSponsorTiers(data) {
+  const grid = document.getElementById('sponsorsGrid');
+  if (!data || data.length === 0) {
+    grid.innerHTML = '<div class="empty-state"><p>No sponsor tiers available.</p></div>';
+    return;
+  }
+
+  grid.innerHTML = data.map(s => `
+    <div class="sponsor-card">
+      <div class="sponsor-tier">${s.name}</div>
+      <h3>${s.name}</h3>
+      <div class="sponsor-amount">${s.amount}</div>
+      <p>${s.description}</p>
+      <ul class="sponsor-benefits">${(s.benefits || []).map(b => `<li>${b}</li>`).join('')}</ul>
+      <button class="btn btn-gold" style="width:100%" onclick="openSponsorInquiry('${s.id}', '${s.name.replace(/'/g, "\\'")}')">Inquire Now</button>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+// CONTACT FORM
+// ============================================================
+async function handleContactSubmit(e) {
+  e.preventDefault();
+  if (!supabase) { showToast('Error', 'Supabase not configured', 'error'); return; }
+  if (!currentUser) { openAuthModal('login'); return; }
+
+  const btn = document.getElementById('contactSubmitBtn');
+  const originalText = btn.innerHTML;
+  btn.innerHTML = '<div class="spinner"></div> Sending...';
+  btn.disabled = true;
+
+  const name = document.getElementById('contactName').value.trim();
+  const email = document.getElementById('contactEmail').value.trim();
+  const subject = document.getElementById('contactSubject').value.trim();
+  const message = document.getElementById('contactMessage').value.trim();
+
+  // Save to Supabase
+  const { data: msgData, error: msgError } = await supabase
+    .from('messages')
+    .insert([{
+      user_id: currentUser.id,
+      name,
+      email,
+      subject,
+      message,
+      type: 'contact',
+      status: 'new'
+    }]);
+
+  if (msgError) {
+    btn.innerHTML = originalText;
+    btn.disabled = false;
+    showToast('Error', msgError.message, 'error');
+    return;
+  }
+
+  // Send email notification via API
+  try {
+    await fetch(API_BASE_URL + '/api/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, subject, message, type: 'contact' })
+    });
+  } catch(e) {
+    console.log('Email API not available');
+  }
+
+  btn.innerHTML = originalText;
+  btn.disabled = false;
+  document.getElementById('contactForm').reset();
+  document.getElementById('contactName').value = currentUser.user_metadata?.full_name || '';
+  document.getElementById('contactEmail').value = currentUser.email || '';
+  showToast('Message sent!', 'I will get back to you soon.', 'success');
+}
+
+// ============================================================
+// SPONSOR INQUIRY
+// ============================================================
+function openSponsorInquiry(tierId, tierName) {
+  if (!currentUser) { openAuthModal('login'); return; }
+  document.getElementById('sponsorTierId').value = tierId;
+  document.getElementById('sponsorTierName').value = tierName;
+  document.getElementById('sponsorName').value = currentUser.user_metadata?.full_name || '';
+  document.getElementById('sponsorEmail').value = currentUser.email || '';
+  document.getElementById('sponsorModal').classList.add('active');
+}
+function closeSponsorModal() {
+  document.getElementById('sponsorModal').classList.remove('active');
+  document.getElementById('sponsorForm').reset();
+}
+
+async function handleSponsorSubmit(e) {
+  e.preventDefault();
+  if (!supabase) { showToast('Error', 'Supabase not configured', 'error'); return; }
+
+  const btn = document.getElementById('sponsorSubmitBtn');
+  const originalText = btn.innerHTML;
+  btn.innerHTML = '<div class="spinner"></div> Submitting...';
+  btn.disabled = true;
+
+  const tierId = document.getElementById('sponsorTierId').value;
+  const name = document.getElementById('sponsorName').value.trim();
+  const email = document.getElementById('sponsorEmail').value.trim();
+  const company = document.getElementById('sponsorCompany').value.trim();
+  const message = document.getElementById('sponsorMessage').value.trim();
+  const tierName = document.getElementById('sponsorTierName').value;
+
+  const { error } = await supabase.from('messages').insert([{
+    user_id: currentUser.id,
+    name,
+    email,
+    subject: 'Sponsor Inquiry: ' + tierName + (company ? ' - ' + company : ''),
+    message,
+    type: 'sponsor_inquiry',
+    sponsor_tier_id: tierId,
+    status: 'new'
+  }]);
+
+  if (error) {
+    btn.innerHTML = originalText;
+    btn.disabled = false;
+    showToast('Error', error.message, 'error');
+    return;
+  }
+
+  // Send email
+  try {
+    await fetch(API_BASE_URL + '/api/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, subject: 'Sponsor Inquiry: ' + tierName, message, type: 'sponsor_inquiry', sponsorTier: tierName })
+    });
+  } catch(e) {}
+
+  btn.innerHTML = originalText;
+  btn.disabled = false;
+  closeSponsorModal();
+  showToast('Inquiry sent!', 'Thank you for your interest. I will be in touch soon.', 'success');
+}
+
+// ============================================================
+// MY MESSAGES
+// ============================================================
+function openMyMessages() {
+  document.getElementById('messagesModal').classList.add('active');
+  loadMyMessages();
+}
+function closeMessagesModal() {
+  document.getElementById('messagesModal').classList.remove('active');
+}
+
+async function loadMyMessages() {
+  if (!supabase || !currentUser) return;
+  const { data, error } = await supabase
+    .from('messages')
+    .select('*')
+    .eq('user_id', currentUser.id)
+    .order('created_at', { ascending: false });
+
+  const list = document.getElementById('myMessagesList');
+  if (error) {
+    list.innerHTML = '<div style="padding:40px;text-align:center;color:var(--error)">Error loading messages</div>';
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    list.innerHTML = '<div style="padding:40px;text-align:center;color:var(--fg3)">No messages yet.</div>';
+    return;
+  }
+
+  list.innerHTML = data.map(m => `
+    <div style="padding:20px 24px;border-bottom:1px solid var(--border)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <span style="font-weight:700;font-size:14px">${m.subject || 'No Subject'}</span>
+        <span class="status-pill status-${m.status}">${m.status}</span>
+      </div>
+      <p style="font-size:13px;color:var(--fg2);margin-bottom:8px;line-height:1.6">${m.message.substring(0, 150)}${m.message.length > 150 ? '...' : ''}</p>
+      <span style="font-size:11px;color:var(--fg3);font-family:monospace">${new Date(m.created_at).toLocaleDateString()}</span>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+// ADMIN PANEL
+// ============================================================
+function goToAdmin() {
+  if (!isAdmin) { showToast('Access Denied', 'Admin privileges required.', 'error'); return; }
+  document.querySelectorAll('section:not(.admin-sec), .site-footer, .float-nav, .tech-strip').forEach(el => el.style.display = 'none');
+  document.querySelector('.header').style.display = 'none';
+  document.getElementById('admin').classList.add('active');
+  loadAdminData();
+}
+
+function exitAdmin() {
+  document.querySelectorAll('section:not(.admin-sec), .site-footer, .float-nav, .tech-strip').forEach(el => el.style.display = '');
+  document.querySelector('.header').style.display = 'flex';
+  document.getElementById('admin').classList.remove('active');
+  window.scrollTo(0, 0);
+}
+
+function switchAdminTab(tab) {
+  document.querySelectorAll('.admin-nav-item').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.admin-nav-item[data-tab="${tab}"]`).classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+
+  if (tab === 'messages') refreshMessages();
+  if (tab === 'projects') renderAdminProjects();
+  if (tab === 'sponsors') renderAdminSponsors();
+  if (tab === 'analytics') loadAnalytics();
+}
+
+async function loadAdminData() {
+  await refreshMessages();
+  renderAdminProjects();
+  renderAdminSponsors();
+  updateStats();
+}
+
+async function refreshMessages() {
+  if (!supabase) return;
+  const { data, error } = await supabase
+    .from('messages')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) return;
+  messages = data || [];
+
+  // Update badge
+  const newCount = messages.filter(m => m.status === 'new').length;
+  const badge = document.getElementById('msgBadge');
+  if (newCount > 0) {
+    badge.textContent = newCount;
+    badge.style.display = 'block';
+  } else {
+    badge.style.display = 'none';
+  }
+
+  renderMessagesTable();
+  updateStats();
+}
+
+function renderMessagesTable() {
+  const recentTbody = document.getElementById('recentMessagesTable');
+  const allTbody = document.getElementById('allMessagesTable');
+
+  const recent = messages.slice(0, 5);
+
+  const renderRow = (m, showActions) => `
+    <tr>
+      <td><strong>${m.name}</strong></td>
+      ${!showActions ? '' : `<td>${m.email}</td>`}
+      <td>${m.subject || 'No Subject'}</td>
+      <td><span class="status-pill" style="font-size:9px;padding:2px 8px;background:${m.type === 'contact' ? 'rgba(96,165,250,.1)' : 'rgba(201,168,76,.1)'};color:${m.type === 'contact' ? 'var(--info)' : 'var(--gold)'};border:1px solid ${m.type === 'contact' ? 'rgba(96,165,250,.2)' : 'rgba(201,168,76,.2)'};border-radius:100px">${m.type === 'contact' ? 'Contact' : 'Sponsor'}</span></td>
+      <td><span class="status-pill status-${m.status}">${m.status}</span></td>
+      <td style="font-family:monospace;font-size:11px">${new Date(m.created_at).toLocaleDateString()}</td>
+      ${showActions ? `<td><div class="table-actions"><button onclick="viewMessage('${m.id}')" title="View">👁</button><button onclick="updateMessageStatus('${m.id}', 'read')" title="Mark Read">✓</button><button onclick="updateMessageStatus('${m.id}', 'replied')" title="Mark Replied">↩</button><button onclick="deleteMessage('${m.id}')" title="Delete" style="color:var(--error)">🗑</button></div></td>` : ''}
+    </tr>
+  `;
+
+  recentTbody.innerHTML = recent.length ? recent.map(m => renderRow(m, false)).join('') : '<tr><td colspan="5" style="text-align:center;color:var(--fg3)">No messages yet</td></tr>';
+  allTbody.innerHTML = messages.length ? messages.map(m => renderRow(m, true)).join('') : '<tr><td colspan="7" style="text-align:center;color:var(--fg3)">No messages yet</td></tr>';
+}
+
+async function viewMessage(id) {
+  const msg = messages.find(m => m.id === id);
+  if (!msg) return;
+
+  const body = document.getElementById('messageDetailBody');
+  body.innerHTML = `
+    <div style="margin-bottom:20px">
+      <div style="font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;margin-bottom:4px">From</div>
+      <div style="font-weight:700">${msg.name}</div>
+      <div style="color:var(--gold);font-size:13px">${msg.email}</div>
+    </div>
+    <div style="margin-bottom:20px">
+      <div style="font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;margin-bottom:4px">Subject</div>
+      <div>${msg.subject || 'No Subject'}</div>
+    </div>
+    <div style="margin-bottom:20px">
+      <div style="font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;margin-bottom:4px">Type</div>
+      <span class="status-pill" style="font-size:10px;padding:3px 10px;background:${msg.type === 'contact' ? 'rgba(96,165,250,.1)' : 'rgba(201,168,76,.1)'};color:${msg.type === 'contact' ? 'var(--info)' : 'var(--gold)'};border:1px solid ${msg.type === 'contact' ? 'rgba(96,165,250,.2)' : 'rgba(201,168,76,.2)'};border-radius:100px">${msg.type === 'contact' ? 'Contact' : 'Sponsor Inquiry'}</span>
+    </div>
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:20px">
+      <div style="font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;margin-bottom:8px">Message</div>
+      <p style="white-space:pre-wrap;line-height:1.7">${msg.message}</p>
+    </div>
+    <div style="font-size:11px;color:var(--fg3);font-family:monospace">Received: ${new Date(msg.created_at).toLocaleString()}</div>
+  `;
+  document.getElementById('messageDetailModal').classList.add('active');
+
+  // Auto-mark as read
+  if (msg.status === 'new') {
+    await updateMessageStatus(id, 'read');
+  }
+}
+
+function closeMessageDetailModal() {
+  document.getElementById('messageDetailModal').classList.remove('active');
+}
+
+async function updateMessageStatus(id, status) {
+  if (!supabase) return;
+  await supabase.from('messages').update({ status }).eq('id', id);
+  await refreshMessages();
+}
+
+async function deleteMessage(id) {
+  if (!confirm('Delete this message?')) return;
+  if (!supabase) return;
+  await supabase.from('messages').delete().eq('id', id);
+  await refreshMessages();
+  showToast('Deleted', 'Message has been deleted.', 'success');
+}
+
+function updateStats() {
+  document.getElementById('statTotalMessages').textContent = messages.length;
+  document.getElementById('statNewMessages').textContent = messages.filter(m => m.status === 'new').length;
+  document.getElementById('statProjects').textContent = projects.length;
+  document.getElementById('statProjectsLive').textContent = projects.filter(p => p.status === 'live').length + ' Live';
+  document.getElementById('statSponsors').textContent = sponsorTiers.length;
+}
+
+// ============================================================
+// ADMIN PROJECTS CRUD
+// ============================================================
+function renderAdminProjects() {
+  const tbody = document.getElementById('adminProjectsTable');
+  if (!projects.length) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--fg3)">No projects yet</td></tr>';
+    return;
+  }
+  tbody.innerHTML = projects.map(p => `
+    <tr>
+      <td><strong>${p.name}</strong></td>
+      <td><span class="status-pill ${p.status === 'live' ? 'status-live' : 'status-soon'}" style="font-size:9px;padding:2px 8px;border-radius:3px">${p.status}</span></td>
+      <td style="font-family:monospace;font-size:11px">${p.url ? '<a href="' + p.url + '" target="_blank" style="color:var(--gold)">Link</a>' : '-'}</td>
+      <td>${(p.tags || []).map(t => `<span style="font-size:10px;padding:2px 8px;background:var(--bg);border:1px solid var(--border);border-radius:3px;margin-right:4px">${t}</span>`).join('')}</td>
+      <td><div class="table-actions"><button onclick="editProject('${p.id}')" title="Edit">✏</button><button onclick="deleteProject('${p.id}')" title="Delete" style="color:var(--error)">🗑</button></div></td>
+    </tr>
+  `).join('');
+}
+
+function openProjectModal(projectId = null) {
+  projectTags = [];
+  document.getElementById('projectForm').reset();
+  document.getElementById('projectId').value = '';
+  document.getElementById('projectModalTitle').textContent = 'Add Project';
+  document.getElementById('projectTagsWrap').innerHTML = '<input type="text" class="tag-input" id="projectTagInput" placeholder="Add tag...">';
+  setupTagInput('projectTagInput', 'projectTagsWrap', projectTags);
+
+  if (projectId) {
+    const p = projects.find(x => x.id === projectId);
+    if (p) {
+      document.getElementById('projectId').value = p.id;
+      document.getElementById('projectName').value = p.name;
+      document.getElementById('projectDesc').value = p.description;
+      document.getElementById('projectStatus').value = p.status;
+      document.getElementById('projectUrl').value = p.url || '';
+      document.getElementById('projectLogo').value = p.logo_url || '';
+      document.getElementById('projectSort').value = p.sort_order || 0;
+      projectTags = [...(p.tags || [])];
+      renderTags('projectTagsWrap', 'projectTagInput', projectTags);
+      document.getElementById('projectModalTitle').textContent = 'Edit Project';
+    }
+  }
+
+  document.getElementById('projectModal').classList.add('active');
+}
+
+function closeProjectModal() {
+  document.getElementById('projectModal').classList.remove('active');
+}
+
+function editProject(id) {
+  openProjectModal(id);
+}
+
+async function handleProjectSubmit(e) {
+  e.preventDefault();
+  if (!supabase) return;
+
+  const btn = document.getElementById('projectSubmitBtn');
+  const originalText = btn.textContent;
+  btn.innerHTML = '<div class="spinner"></div>';
+  btn.disabled = true;
+
+  const id = document.getElementById('projectId').value;
+  const data = {
+    name: document.getElementById('projectName').value.trim(),
+    description: document.getElementById('projectDesc').value.trim(),
+    status: document.getElementById('projectStatus').value,
+    url: document.getElementById('projectUrl').value.trim() || null,
+    logo_url: document.getElementById('projectLogo').value.trim() || null,
+    tags: projectTags,
+    sort_order: parseInt(document.getElementById('projectSort').value) || 0
+  };
+
+  let error;
+  if (id) {
+    const { error: e } = await supabase.from('projects').update(data).eq('id', id);
+    error = e;
+  } else {
+    const { error: e } = await supabase.from('projects').insert([data]);
+    error = e;
+  }
+
+  btn.innerHTML = originalText;
+  btn.disabled = false;
+
+  if (error) {
+    showToast('Error', error.message, 'error');
+    return;
+  }
+
+  closeProjectModal();
+  await loadProjects();
+  showToast('Success', id ? 'Project updated.' : 'Project created.', 'success');
+}
+
+async function deleteProject(id) {
+  if (!confirm('Delete this project?')) return;
+  if (!supabase) return;
+  await supabase.from('projects').delete().eq('id', id);
+  await loadProjects();
+  showToast('Deleted', 'Project has been deleted.', 'success');
+}
+
+// ============================================================
+// ADMIN SPONSOR TIERS CRUD
+// ============================================================
+function renderAdminSponsors() {
+  const tbody = document.getElementById('adminSponsorsTable');
+  if (!sponsorTiers.length) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--fg3)">No sponsor tiers yet</td></tr>';
+    return;
+  }
+  tbody.innerHTML = sponsorTiers.map(s => `
+    <tr>
+      <td><strong>${s.name}</strong></td>
+      <td style="color:var(--gold);font-weight:700">${s.amount}</td>
+      <td><span class="status-pill ${s.status === 'active' ? 'status-live' : 'status-soon'}" style="font-size:9px;padding:2px 8px;border-radius:3px">${s.status}</span></td>
+      <td>${(s.benefits || []).map(b => `<span style="font-size:10px;padding:2px 8px;background:var(--bg);border:1px solid var(--border);border-radius:3px;margin-right:4px">${b}</span>`).join('')}</td>
+      <td><div class="table-actions"><button onclick="editSponsorTier('${s.id}')" title="Edit">✏</button><button onclick="deleteSponsorTier('${s.id}')" title="Delete" style="color:var(--error)">🗑</button></div></td>
+    </tr>
+  `).join('');
+}
+
+function openSponsorTierModal(tierId = null) {
+  sponsorBenefits = [];
+  document.getElementById('sponsorTierForm').reset();
+  document.getElementById('sponsorTierId').value = '';
+  document.getElementById('sponsorTierModalTitle').textContent = 'Add Sponsor Tier';
+  document.getElementById('sponsorBenefitsWrap').innerHTML = '<input type="text" class="tag-input" id="sponsorBenefitInput" placeholder="Add benefit...">';
+  setupTagInput('sponsorBenefitInput', 'sponsorBenefitsWrap', sponsorBenefits);
+
+  if (tierId) {
+    const s = sponsorTiers.find(x => x.id === tierId);
+    if (s) {
+      document.getElementById('sponsorTierId').value = s.id;
+      document.getElementById('sponsorTierNameInput').value = s.name;
+      document.getElementById('sponsorTierDesc').value = s.description;
+      document.getElementById('sponsorTierAmount').value = s.amount;
+      document.getElementById('sponsorTierStatus').value = s.status;
+      document.getElementById('sponsorTierSort').value = s.sort_order || 0;
+      sponsorBenefits = [...(s.benefits || [])];
+      renderTags('sponsorBenefitsWrap', 'sponsorBenefitInput', sponsorBenefits);
+      document.getElementById('sponsorTierModalTitle').textContent = 'Edit Sponsor Tier';
+    }
+  }
+
+  document.getElementById('sponsorTierModal').classList.add('active');
+}
+
+function closeSponsorTierModal() {
+  document.getElementById('sponsorTierModal').classList.remove('active');
+}
+
+function editSponsorTier(id) {
+  openSponsorTierModal(id);
+}
+
+async function handleSponsorTierSubmit(e) {
+  e.preventDefault();
+  if (!supabase) return;
+
+  const btn = document.getElementById('sponsorTierSubmitBtn');
+  const originalText = btn.textContent;
+  btn.innerHTML = '<div class="spinner"></div>';
+  btn.disabled = true;
+
+  const id = document.getElementById('sponsorTierId').value;
+  const data = {
+    name: document.getElementById('sponsorTierNameInput').value.trim(),
+    description: document.getElementById('sponsorTierDesc').value.trim(),
+    amount: document.getElementById('sponsorTierAmount').value.trim(),
+    status: document.getElementById('sponsorTierStatus').value,
+    benefits: sponsorBenefits,
+    sort_order: parseInt(document.getElementById('sponsorTierSort').value) || 0
+  };
+
+  let error;
+  if (id) {
+    const { error: e } = await supabase.from('sponsor_tiers').update(data).eq('id', id);
+    error = e;
+  } else {
+    const { error: e } = await supabase.from('sponsor_tiers').insert([data]);
+    error = e;
+  }
+
+  btn.innerHTML = originalText;
+  btn.disabled = false;
+
+  if (error) {
+    showToast('Error', error.message, 'error');
+    return;
+  }
+
+  closeSponsorTierModal();
+  await loadSponsorTiers();
+  showToast('Success', id ? 'Sponsor tier updated.' : 'Sponsor tier created.', 'success');
+}
+
+async function deleteSponsorTier(id) {
+  if (!confirm('Delete this sponsor tier?')) return;
+  if (!supabase) return;
+  await supabase.from('sponsor_tiers').delete().eq('id', id);
+  await loadSponsorTiers();
+  showToast('Deleted', 'Sponsor tier has been deleted.', 'success');
+}
+
+// ============================================================
+// TAG INPUT HELPER
+// ============================================================
+function setupTagInput(inputId, wrapId, tagsArray) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const val = input.value.trim();
+      if (val && !tagsArray.includes(val)) {
+        tagsArray.push(val);
+        renderTags(wrapId, inputId, tagsArray);
+      }
+      input.value = '';
+    }
+  });
+}
+
+function renderTags(wrapId, inputId, tagsArray) {
+  const wrap = document.getElementById(wrapId);
+  const input = document.getElementById(inputId);
+  wrap.innerHTML = '';
+  tagsArray.forEach((tag, i) => {
+    const pill = document.createElement('div');
+    pill.className = 'tag-pill';
+    pill.innerHTML = `${tag}<button onclick="removeTag(${i}, '${wrapId}', '${inputId}')">&times;</button>`;
+    wrap.appendChild(pill);
+  });
+  wrap.appendChild(input);
+  input.focus();
+}
+
+function removeTag(index, wrapId, inputId) {
+  if (wrapId === 'projectTagsWrap') {
+    projectTags.splice(index, 1);
+    renderTags(wrapId, inputId, projectTags);
+  } else {
+    sponsorBenefits.splice(index, 1);
+    renderTags(wrapId, inputId, sponsorBenefits);
+  }
+}
+
+// ============================================================
+// ANALYTICS
+// ============================================================
+async function loadAnalytics() {
+  if (!supabase) return;
+
+  // Page views
+  const { data: views } = await supabase.from('page_views').select('*');
+  const viewCount = views?.length || 0;
+  document.getElementById('statPageViews').textContent = viewCount;
+
+  // Unique visitors (by session_id)
+  const sessions = new Set(views?.map(v => v.session_id) || []);
+  document.getElementById('statVisitors').textContent = sessions.size;
+
+  // Contact submissions
+  const { data: contacts } = await supabase.from('messages').select('*').eq('type', 'contact');
+  document.getElementById('statContacts').textContent = contacts?.length || 0;
+
+  // Sponsor inquiries
+  const { data: inqs } = await supabase.from('messages').select('*').eq('type', 'sponsor_inquiry');
+  document.getElementById('statSponsorInq').textContent = inqs?.length || 0;
+
+  // Daily views chart (simple bar chart with CSS)
+  const daily = {};
+  (views || []).forEach(v => {
+    const d = new Date(v.created_at).toLocaleDateString('en-US', { weekday: 'short' });
+    daily[d] = (daily[d] || 0) + 1;
+  });
+
+  const days = Object.keys(daily);
+  const maxVal = Math.max(...Object.values(daily), 1);
+
+  const chartHtml = days.length ? `
+    <div style="display:flex;align-items:flex-end;gap:16px;height:160px;padding:20px 0">
+      ${days.map(d => `
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px">
+          <div style="width:100%;background:var(--bg3);border-radius:4px;height:120px;position:relative;overflow:hidden">
+            <div style="position:absolute;bottom:0;left:0;right:0;background:var(--gold);border-radius:4px;transition:height .5s;height:${(daily[d] / maxVal * 100)}%"></div>
+          </div>
+          <span style="font-size:11px;color:var(--fg3);font-family:monospace">${d}</span>
+          <span style="font-size:12px;font-weight:700">${daily[d]}</span>
+        </div>
+      `).join('')}
+    </div>
+  ` : '<div style="text-align:center;color:var(--fg3)">No data yet</div>';
+
+  document.getElementById('analyticsChart').innerHTML = chartHtml;
+}
+
+// ============================================================
+// PAGE VIEW TRACKING
+// ============================================================
+async function trackPageView() {
+  if (!supabase) return;
+  const sessionId = localStorage.getItem('sa_session') || 'sess_' + Math.random().toString(36).substr(2, 9);
+  localStorage.setItem('sa_session', sessionId);
+
+  await supabase.from('page_views').insert([{
+    page: window.location.pathname,
+    session_id: sessionId,
+    user_agent: navigator.userAgent,
+    referrer: document.referrer
+  }]);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', async () => {
+  // Hide loader
+  setTimeout(() => {
+    document.getElementById('pageLoader').classList.add('hidden');
+  }, 800);
+
+  if (!supabase) {
+    showToast('Configuration Needed', 'Please set your Supabase credentials in the code.', 'warning');
+    // Render empty states
+    renderProjects([]);
+    renderSponsorTiers([]);
+    return;
+  }
+
+  // Load user session
+  await loadUser();
+
+  // Load data
+  await Promise.all([
+    loadProjects(),
+    loadSponsorTiers(),
+    trackPageView()
+  ]);
+
+  // Setup tag inputs
+  setupTagInput('projectTagInput', 'projectTagsWrap', projectTags);
+  setupTagInput('sponsorBenefitInput', 'sponsorBenefitsWrap', sponsorBenefits);
+
+  // Listen for auth changes
+  supabase.auth.onAuthStateChange(async (event, session) => {
+    if (event === 'SIGNED_IN') {
+      await loadUser();
+    } else if (event === 'SIGNED_OUT') {
+      currentUser = null;
+      isAdmin = false;
+      updateAuthUI();
+    }
+  });
+});
+
+// Close modals on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) overlay.classList.remove('active');
+  });
+});
+</script>
 </body>
 </html>
