@@ -1,4 +1,4 @@
-This code has one issue and that's the fact that when terms and privacy is accepted the confirm button  won't be active again.. so just fix that an give me code back without  changing anything or removing  anything:<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -273,61 +273,6 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
 </style>
 </head>
 <body>
-
-<!-- TERMS & PRIVACY MODAL -->
-<div class="modal-overlay active" id="termsModal" style="z-index:100000">
-  <div class="modal" style="max-width:600px">
-    <div class="modal-header">
-      <h3>Terms of Use & Privacy Policy</h3>
-    </div>
-    <div class="modal-body">
-      <div class="terms-content">
-        <h4>1. Terms of Use</h4>
-        <p>By accessing and using this website, you accept and agree to be bound by the terms and provision of this agreement. This website is owned and operated by SupremeAlpha / SupremeAmer Organization.</p>
-        <p>The content on this site is for informational purposes only. All projects, services, and products described are subject to change without notice.</p>
-
-        <h4>2. Privacy Policy</h4>
-        <p>We collect minimal data to provide our services:</p>
-        <ul>
-          <li><strong>Account Data:</strong> Email and name when you create an account</li>
-          <li><strong>Messages:</strong> Content you submit through contact forms</li>
-          <li><strong>Analytics:</strong> Anonymous page view data for site improvement</li>
-          <li><strong>Session Data:</strong> Temporary identifiers for functionality</li>
-        </ul>
-        <p>We do not sell your data. Your information is stored securely using Supabase infrastructure with Row Level Security.</p>
-
-        <h4>3. Cookies & Local Storage</h4>
-        <p>This site uses local storage for:</p>
-        <ul>
-          <li>Theme preference (dark/light mode)</li>
-          <li>Authentication session</li>
-          <li>Terms acceptance status</li>
-          <li>PWA install state</li>
-        </ul>
-
-        <h4>4. User Accounts</h4>
-        <p>Creating an account allows you to send messages and view your message history. You are responsible for maintaining the confidentiality of your account credentials.</p>
-
-        <h4>5. Contact</h4>
-        <p>For any questions regarding these terms, contact: supremeaalpha@gmail.com</p>
-
-        <p style="margin-top:20px;font-size:11px;color:var(--fg3);font-family:monospace">Last updated: July 2026</p>
-      </div>
-
-      <div class="form-group">
-        <label class="checkbox-wrap">
-          <input type="checkbox" id="termsAccept">
-          <span>I have read and agree to the <strong>Terms of Use</strong> and <strong>Privacy Policy</strong>. I understand how my data will be collected and used.</span>
-        </label>
-      </div>
-
-      <button class="btn btn-gold" style="width:100%" id="termsAcceptBtn" onclick="acceptTerms()" disabled>
-        Continue to Site
-      </button>
-    </div>
-  </div>
-</div>
-
 <!-- PAGE LOADER -->
 <div class="page-loader" id="pageLoader">
   <div class="loader-bar"></div>
