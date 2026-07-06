@@ -6,6 +6,7 @@
 <title>SupremeAlpha — Founder & Digital Architect</title>
 <meta name="description" content="Nigerian technology entrepreneur building the future of African digital innovation through blockchain, Web3, and decentralized platforms.">
 <meta name="theme-color" content="#0a0a0a">
+<link rel="manifest" href="/manifest.json">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.108.2/dist/umd/supabase.min.js"></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -28,7 +29,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 ::-webkit-scrollbar{width:6px}
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--fg3);border-radius:3px}
-.page-loader{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .5s,visibility .5s}
+.page-loader{position:fixed;inset:0;background:var(--bg);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .5s,visibility .5s}
 .page-loader.hidden{opacity:0;visibility:hidden}
 .loader-bar{width:120px;height:2px;background:var(--bg3);border-radius:1px;overflow:hidden}
 .loader-bar::after{content:'';display:block;width:40px;height:100%;background:var(--gold);border-radius:1px;animation:loaderSlide 1s ease-in-out infinite}
@@ -46,15 +47,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .toast-error{border-left:3px solid var(--error)}
 .toast-warning{border-left:3px solid var(--warning)}
 .toast-info{border-left:3px solid var(--info)}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:10000;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;visibility:hidden;transition:all .3s}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(12px);z-index:10000;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;visibility:hidden;transition:all .3s}
 .modal-overlay.active{opacity:1;visibility:visible}
-.modal{background:var(--bg2);border:1px solid var(--border);border-radius:12px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;transform:scale(.95) translateY(10px);transition:transform .3s}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:12px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;transform:scale(.95) translateY(10px);transition:transform .3s}
 .modal-overlay.active .modal{transform:scale(1) translateY(0)}
 .modal-header{padding:24px 24px 0;display:flex;justify-content:space-between;align-items:center}
 .modal-header h3{font-size:18px;font-weight:800}
 .modal-close{background:none;border:none;color:var(--fg3);font-size:20px;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:6px;transition:all .2s}
 .modal-close:hover{background:var(--bg3);color:var(--fg)}
 .modal-body{padding:20px 24px 24px}
+.terms-content{max-height:300px;overflow-y:auto;padding:16px;background:var(--bg);border:1px solid var(--border);border-radius:8px;margin-bottom:20px;font-size:13px;line-height:1.8;color:var(--fg2)}
+.terms-content h4{color:var(--fg);margin:16px 0 8px;font-size:14px}
+.terms-content h4:first-child{margin-top:0}
+.terms-content p{margin-bottom:12px}
+.terms-content ul{margin-left:20px;margin-bottom:12px}
+.terms-content li{margin-bottom:4px}
 .form-group{margin-bottom:16px}
 .form-label{display:block;font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px;font-family:'Courier New',monospace;margin-bottom:8px}
 .form-input,.form-textarea,.form-select{width:100%;padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--fg);font-family:inherit;font-size:14px;outline:none;transition:border-color .2s}
@@ -64,6 +71,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .form-error{color:var(--error);font-size:12px;margin-top:6px;display:none}
 .form-error.visible{display:block}
 .form-hint{color:var(--fg3);font-size:12px;margin-top:6px}
+.checkbox-wrap{display:flex;align-items:flex-start;gap:12px;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:pointer;transition:border-color .2s}
+.checkbox-wrap:hover{border-color:var(--gold)}
+.checkbox-wrap input[type="checkbox"]{width:18px;height:18px;accent-color:var(--gold);margin-top:2px;cursor:pointer}
+.checkbox-wrap label{cursor:pointer;font-size:13px;color:var(--fg2);line-height:1.5}
+.checkbox-wrap label a{color:var(--gold);text-decoration:none}
+.checkbox-wrap label a:hover{text-decoration:underline}
 .tag-input-wrap{display:flex;flex-wrap:wrap;gap:6px;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:6px;min-height:44px}
 .tag-input-wrap:focus-within{border-color:var(--gold)}
 .tag-pill{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:4px 10px;font-size:12px;display:flex;align-items:center;gap:6px}
@@ -91,6 +104,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .user-dropdown-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:6px;color:var(--fg2);font-size:13px;text-decoration:none;cursor:pointer;transition:all .2s;background:none;border:none;width:100%;font-family:inherit;text-align:left}
 .user-dropdown-item:hover{background:var(--bg3);color:var(--fg)}
 .user-dropdown-divider{height:1px;background:var(--border);margin:6px 0}
+.pwa-install-btn{position:fixed;bottom:90px;right:24px;z-index:999;background:var(--gold);color:var(--bg);padding:12px 20px;border-radius:100px;font-size:13px;font-weight:700;cursor:pointer;border:none;box-shadow:0 10px 30px rgba(0,0,0,.4);transform:translateY(100px);opacity:0;transition:all .4s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;gap:8px}
+.pwa-install-btn.show{transform:translateY(0);opacity:1}
+.pwa-install-btn:hover{transform:translateY(-2px)}
 .tech-strip{position:fixed;right:0;top:0;bottom:0;width:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;z-index:99;background:linear-gradient(to left,var(--bg),transparent)}
 .tech-strip::before{content:'';position:absolute;left:0;top:20%;bottom:20%;width:1px;background:var(--border)}
 .tech-item{writing-mode:vertical-rl;text-orientation:mixed;font-size:9px;color:var(--fg3);letter-spacing:2px;text-transform:uppercase;font-family:'Courier New',monospace;transition:color .3s;cursor:default;white-space:nowrap}
@@ -252,18 +268,81 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
   .float-btn{padding:10px 20px;font-size:11px}
   .stats-grid{grid-template-columns:1fr}
   .admin-main{padding:24px}
+  .pwa-install-btn{bottom:80px;right:12px;padding:10px 16px;font-size:12px}
 }
 </style>
 </head>
 <body>
 
+<!-- TERMS & PRIVACY MODAL -->
+<div class="modal-overlay active" id="termsModal" style="z-index:100000">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-header">
+      <h3>Terms of Use & Privacy Policy</h3>
+    </div>
+    <div class="modal-body">
+      <div class="terms-content">
+        <h4>1. Terms of Use</h4>
+        <p>By accessing and using this website, you accept and agree to be bound by the terms and provision of this agreement. This website is owned and operated by SupremeAlpha / SupremeAmer Organization.</p>
+        <p>The content on this site is for informational purposes only. All projects, services, and products described are subject to change without notice.</p>
+
+        <h4>2. Privacy Policy</h4>
+        <p>We collect minimal data to provide our services:</p>
+        <ul>
+          <li><strong>Account Data:</strong> Email and name when you create an account</li>
+          <li><strong>Messages:</strong> Content you submit through contact forms</li>
+          <li><strong>Analytics:</strong> Anonymous page view data for site improvement</li>
+          <li><strong>Session Data:</strong> Temporary identifiers for functionality</li>
+        </ul>
+        <p>We do not sell your data. Your information is stored securely using Supabase infrastructure with Row Level Security.</p>
+
+        <h4>3. Cookies & Local Storage</h4>
+        <p>This site uses local storage for:</p>
+        <ul>
+          <li>Theme preference (dark/light mode)</li>
+          <li>Authentication session</li>
+          <li>Terms acceptance status</li>
+          <li>PWA install state</li>
+        </ul>
+
+        <h4>4. User Accounts</h4>
+        <p>Creating an account allows you to send messages and view your message history. You are responsible for maintaining the confidentiality of your account credentials.</p>
+
+        <h4>5. Contact</h4>
+        <p>For any questions regarding these terms, contact: supremeaalpha@gmail.com</p>
+
+        <p style="margin-top:20px;font-size:11px;color:var(--fg3);font-family:monospace">Last updated: July 2026</p>
+      </div>
+
+      <div class="form-group">
+        <label class="checkbox-wrap">
+          <input type="checkbox" id="termsAccept">
+          <label for="termsAccept">I have read and agree to the <strong>Terms of Use</strong> and <strong>Privacy Policy</strong>. I understand how my data will be collected and used.</label>
+        </label>
+      </div>
+
+      <button class="btn btn-gold" style="width:100%" id="termsAcceptBtn" onclick="acceptTerms()" disabled>
+        Continue to Site
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE LOADER -->
 <div class="page-loader" id="pageLoader">
   <div class="loader-bar"></div>
   <div class="loader-text">Initializing</div>
 </div>
 
+<!-- PWA INSTALL BUTTON -->
+<button class="pwa-install-btn" id="pwaInstallBtn" onclick="installPWA()">
+  <span>📲</span> Install App
+</button>
+
+<!-- TOAST CONTAINER -->
 <div class="toast-container" id="toastContainer"></div>
 
+<!-- HEADER -->
 <header class="header" id="header">
   <a href="#home" class="logo">Alpha<span>-Log</span></a>
   <div class="header-actions">
@@ -293,6 +372,7 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
   </div>
 </header>
 
+<!-- VERTICAL TECH STRIP -->
 <div class="tech-strip">
   <div class="tech-item">JavaScript</div>
   <div class="tech-item">HTML/CSS</div>
@@ -304,6 +384,7 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
   <div class="tech-item">Supabase</div>
 </div>
 
+<!-- HERO -->
 <section class="hero" id="home">
   <div class="hero-content">
     <div class="hero-label">Founder & Digital Architect</div>
@@ -318,6 +399,7 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
   </div>
 </section>
 
+<!-- ABOUT -->
 <section class="about-sec" id="about">
   <div class="sec-label">About</div>
   <h2 class="sec-title">The Founder</h2>
@@ -338,6 +420,7 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
   </div>
 </section>
 
+<!-- WORK / PROJECTS -->
 <section class="work-sec" id="work">
   <div class="sec-header">
     <div>
@@ -354,6 +437,7 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
   </div>
 </section>
 
+<!-- SPONSORS -->
 <section class="sponsors-sec" id="sponsors">
   <div class="sec-header">
     <div>
@@ -370,6 +454,7 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
   </div>
 </section>
 
+<!-- PHILOSOPHY -->
 <section class="phil-sec" id="philosophy">
   <div class="sec-label">Philosophy</div>
   <h2 class="sec-title">Core Protocols</h2>
@@ -392,6 +477,7 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
   </div>
 </section>
 
+<!-- CONTACT -->
 <section class="message-sec" id="contact">
   <div class="sec-label">Contact</div>
   <h2 class="sec-title">Get In Touch</h2>
@@ -420,6 +506,7 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
   </div>
 </section>
 
+<!-- CONTACT FORM -->
 <section class="contact-form-sec" id="contact-form">
   <div class="sec-label">Message</div>
   <h2 class="sec-title" style="text-align:center">Send a Message</h2>
@@ -454,11 +541,13 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer class="site-footer">
   <p>SupremeAlpha — Founder, SupremeAmer Organization</p>
   <p>Abuja, Nigeria · 2026</p>
 </footer>
 
+<!-- FLOATING NAV -->
 <div class="float-nav">
   <a href="#home" class="float-btn active">Home</a>
   <a href="#work" class="float-btn">Work</a>
@@ -466,6 +555,7 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
   <a href="#contact" class="float-btn">Contact</a>
 </div>
 
+<!-- AUTH MODAL -->
 <div class="modal-overlay" id="authModal">
   <div class="modal" style="max-width:420px">
     <div class="modal-header">
@@ -509,6 +599,7 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
   </div>
 </div>
 
+<!-- SPONSOR INQUIRY MODAL -->
 <div class="modal-overlay" id="sponsorModal">
   <div class="modal">
     <div class="modal-header">
@@ -546,6 +637,7 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
   </div>
 </div>
 
+<!-- MY MESSAGES MODAL -->
 <div class="modal-overlay" id="messagesModal">
   <div class="modal" style="max-width:700px;max-height:80vh">
     <div class="modal-header">
@@ -560,6 +652,7 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
   </div>
 </div>
 
+<!-- ADMIN PANEL -->
 <section class="admin-sec" id="admin">
   <nav class="admin-nav" id="adminNav">
     <div class="admin-nav-header">
@@ -648,6 +741,7 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
   </main>
 </section>
 
+<!-- PROJECT MODAL -->
 <div class="modal-overlay" id="projectModal">
   <div class="modal">
     <div class="modal-header">
@@ -672,6 +766,7 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
   </div>
 </div>
 
+<!-- SPONSOR TIER MODAL -->
 <div class="modal-overlay" id="sponsorTierModal">
   <div class="modal">
     <div class="modal-header">
@@ -695,6 +790,7 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
   </div>
 </div>
 
+<!-- MESSAGE DETAIL MODAL -->
 <div class="modal-overlay" id="messageDetailModal">
   <div class="modal" style="max-width:600px">
     <div class="modal-header">
@@ -710,17 +806,31 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
 <script>
 // ============================================================
 // SUPREMEALPHA - SUPABASE BACKEND INTEGRATION
+// v2.0 - Production Ready
 // ============================================================
 
-// CONFIGURATION - Replace these with your actual Supabase credentials
-const SUPABASE_URL = window.__SUPABASE_URL__ || 'YOUR_SUPABASE_URL';
-const SUPABASE_ANON_KEY = window.__SUPABASE_ANON_KEY__ || 'YOUR_SUPABASE_ANON_KEY';
-const API_BASE_URL = window.__API_BASE_URL__ || ''; // Your Vercel API URL, e.g., 'https://your-app.vercel.app'
+// ENVIRONMENT CONFIGURATION
+// These are read from window.env which is injected at build time
+// or from a config.js file. For local dev, create a config.js:
+// window.env = { SUPABASE_URL: '...', SUPABASE_ANON_KEY: '...', API_BASE_URL: '...' };
+const ENV = (typeof window !== 'undefined' && window.env) ? window.env : {};
 
-// Initialize Supabase
+const SUPABASE_URL = ENV.SUPABASE_URL || '';
+const SUPABASE_ANON_KEY = ENV.SUPABASE_ANON_KEY || '';
+const API_BASE_URL = ENV.API_BASE_URL || '';
+
+// SINGLE SUPABASE INITIALIZATION
 let supabase = null;
-try {
-  if (SUPABASE_URL !== 'YOUR_SUPABASE_URL' && SUPABASE_ANON_KEY !== 'YOUR_SUPABASE_ANON_KEY') {
+let supabaseInitialized = false;
+
+function initSupabase() {
+  if (supabaseInitialized) return supabase !== null;
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+    console.warn('[SupremeAlpha] Supabase credentials not configured. Running in static mode.');
+    supabaseInitialized = true;
+    return false;
+  }
+  try {
     supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
       auth: {
         autoRefreshToken: true,
@@ -728,9 +838,13 @@ try {
         detectSessionInUrl: true
       }
     });
+    supabaseInitialized = true;
+    return true;
+  } catch(e) {
+    console.error('[SupremeAlpha] Supabase init failed:', e);
+    supabaseInitialized = true;
+    return false;
   }
-} catch(e) {
-  console.error('Supabase init error:', e);
 }
 
 // STATE
@@ -741,23 +855,118 @@ let sponsorTiers = [];
 let messages = [];
 let projectTags = [];
 let sponsorBenefits = [];
+let deferredPrompt = null;
+
+// ============================================================
+// TERMS & PRIVACY
+// ============================================================
+function checkTermsAccepted() {
+  return localStorage.getItem('sa_terms_accepted') === 'true';
+}
+
+function acceptTerms() {
+  const checkbox = document.getElementById('termsAccept');
+  if (!checkbox.checked) return;
+  localStorage.setItem('sa_terms_accepted', 'true');
+  document.getElementById('termsModal').classList.remove('active');
+  initApp();
+}
+
+function setupTermsModal() {
+  const checkbox = document.getElementById('termsAccept');
+  const btn = document.getElementById('termsAcceptBtn');
+  if (!checkbox || !btn) return;
+
+  checkbox.addEventListener('change', () => {
+    btn.disabled = !checkbox.checked;
+    btn.style.opacity = checkbox.checked ? '1' : '0.5';
+  });
+}
+
+// ============================================================
+// PWA INSTALL
+// ============================================================
+function setupPWA() {
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    const btn = document.getElementById('pwaInstallBtn');
+    if (btn) btn.classList.add('show');
+  });
+
+  window.addEventListener('appinstalled', () => {
+    deferredPrompt = null;
+    const btn = document.getElementById('pwaInstallBtn');
+    if (btn) btn.classList.remove('show');
+    showToast('Installed', 'SupremeAlpha is now on your home screen!', 'success');
+  });
+}
+
+async function installPWA() {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  if (outcome === 'accepted') {
+    deferredPrompt = null;
+    document.getElementById('pwaInstallBtn').classList.remove('show');
+  }
+}
+
+// ============================================================
+// SERVICE WORKER
+// ============================================================
+function registerServiceWorker() {
+  if ('serviceWorker' in navigator) {
+    const swCode = `
+      const CACHE_NAME = 'supremealpha-v1';
+      const urlsToCache = [
+        '/',
+        '/index.html'
+      ];
+      self.addEventListener('install', event => {
+        event.waitUntil(
+          caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
+        );
+        self.skipWaiting();
+      });
+      self.addEventListener('fetch', event => {
+        event.respondWith(
+          caches.match(event.request).then(response => {
+            if (response) return response;
+            return fetch(event.request).catch(() => {
+              if (event.request.mode === 'navigate') {
+                return caches.match('/index.html');
+              }
+            });
+          })
+        );
+      });
+      self.addEventListener('activate', event => {
+        event.waitUntil(self.clients.claim());
+      });
+    `;
+
+    const blob = new Blob([swCode], { type: 'application/javascript' });
+    const swUrl = URL.createObjectURL(blob);
+
+    navigator.serviceWorker.register(swUrl).then(reg => {
+      console.log('[SupremeAlpha] SW registered');
+    }).catch(err => {
+      console.log('[SupremeAlpha] SW registration failed:', err);
+    });
+  }
+}
 
 // ============================================================
 // TOAST SYSTEM
 // ============================================================
 function showToast(title, message, type = 'info') {
   const container = document.getElementById('toastContainer');
+  if (!container) return;
   const toast = document.createElement('div');
-  toast.className = `toast toast-${type}`;
+  toast.className = 'toast toast-' + type;
   const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
-  toast.innerHTML = `
-    <span class="toast-icon">${icons[type] || 'ℹ️'}</span>
-    <div class="toast-content">
-      <div class="toast-title">${title}</div>
-      <div class="toast-msg">${message}</div>
-    </div>
-    <button class="toast-close" onclick="this.parentElement.remove()">&times;</button>
-  `;
+  toast.innerHTML = '<span class="toast-icon">' + (icons[type] || 'ℹ️') + '</span><div class="toast-content"><div class="toast-title">' + title + '</div><div class="toast-msg">' + message + '</div></div><button class="toast-close" onclick="this.parentElement.remove()">&times;</button>';
   container.appendChild(toast);
   requestAnimationFrame(() => toast.classList.add('show'));
   setTimeout(() => {
@@ -781,7 +990,8 @@ if (localStorage.getItem('theme') === 'light') {
 // SCROLL & NAV
 // ============================================================
 window.addEventListener('scroll', () => {
-  document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50);
+  const header = document.getElementById('header');
+  if (header) header.classList.toggle('scrolled', window.scrollY > 50);
 });
 
 const observer = new IntersectionObserver((entries) => {
@@ -820,20 +1030,27 @@ function openAuthModal(type) {
 }
 function closeAuthModal() {
   document.getElementById('authModal').classList.remove('active');
-  document.getElementById('loginError').style.display = 'none';
-  document.getElementById('signupError').style.display = 'none';
+  const le = document.getElementById('loginError');
+  const se = document.getElementById('signupError');
+  if (le) le.style.display = 'none';
+  if (se) se.style.display = 'none';
 }
 function switchAuthTab(type) {
   document.querySelectorAll('#authModal .tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab' + type.charAt(0).toUpperCase() + type.slice(1)).classList.add('active');
+  const tabId = 'tab' + type.charAt(0).toUpperCase() + type.slice(1);
+  const tab = document.getElementById(tabId);
+  if (tab) tab.classList.add('active');
+  const loginForm = document.getElementById('loginForm');
+  const signupForm = document.getElementById('signupForm');
+  const title = document.getElementById('authModalTitle');
   if (type === 'login') {
-    document.getElementById('loginForm').style.display = 'block';
-    document.getElementById('signupForm').style.display = 'none';
-    document.getElementById('authModalTitle').textContent = 'Sign In';
+    if (loginForm) loginForm.style.display = 'block';
+    if (signupForm) signupForm.style.display = 'none';
+    if (title) title.textContent = 'Sign In';
   } else {
-    document.getElementById('loginForm').style.display = 'none';
-    document.getElementById('signupForm').style.display = 'block';
-    document.getElementById('authModalTitle').textContent = 'Create Account';
+    if (loginForm) loginForm.style.display = 'none';
+    if (signupForm) signupForm.style.display = 'block';
+    if (title) title.textContent = 'Create Account';
   }
 }
 
@@ -842,7 +1059,7 @@ function switchAuthTab(type) {
 // ============================================================
 async function handleLogin(e) {
   e.preventDefault();
-  if (!supabase) { showToast('Error', 'Supabase not configured', 'error'); return; }
+  if (!supabase) { showToast('Error', 'Backend not configured', 'error'); return; }
   const btn = document.getElementById('loginBtn');
   const originalText = btn.innerHTML;
   btn.innerHTML = '<div class="spinner"></div>';
@@ -857,8 +1074,9 @@ async function handleLogin(e) {
   btn.disabled = false;
 
   if (error) {
-    document.getElementById('loginError').textContent = error.message;
-    document.getElementById('loginError').style.display = 'block';
+    const errEl = document.getElementById('loginError');
+    errEl.textContent = error.message;
+    errEl.style.display = 'block';
     return;
   }
 
@@ -869,7 +1087,7 @@ async function handleLogin(e) {
 
 async function handleSignup(e) {
   e.preventDefault();
-  if (!supabase) { showToast('Error', 'Supabase not configured', 'error'); return; }
+  if (!supabase) { showToast('Error', 'Backend not configured', 'error'); return; }
   const btn = document.getElementById('signupBtn');
   const originalText = btn.innerHTML;
   btn.innerHTML = '<div class="spinner"></div>';
@@ -889,13 +1107,14 @@ async function handleSignup(e) {
   btn.disabled = false;
 
   if (error) {
-    document.getElementById('signupError').textContent = error.message;
-    document.getElementById('signupError').style.display = 'block';
+    const errEl = document.getElementById('signupError');
+    errEl.textContent = error.message;
+    errEl.style.display = 'block';
     return;
   }
 
   closeAuthModal();
-  showToast('Account created!', 'Welcome to SupremeAlpha. You are now signed in.', 'success');
+  showToast('Account created!', 'Welcome to SupremeAlpha.', 'success');
   await loadUser();
 }
 
@@ -917,7 +1136,6 @@ async function loadUser() {
   currentUser = user;
 
   if (user) {
-    // Check admin status
     const { data: profile } = await supabase
       .from('profiles')
       .select('is_admin, full_name')
@@ -926,9 +1144,10 @@ async function loadUser() {
 
     isAdmin = profile?.is_admin || false;
 
-    // Update contact form with user info
-    document.getElementById('contactName').value = profile?.full_name || user.user_metadata?.full_name || '';
-    document.getElementById('contactEmail').value = user.email || '';
+    const contactName = document.getElementById('contactName');
+    const contactEmail = document.getElementById('contactEmail');
+    if (contactName) contactName.value = profile?.full_name || user.user_metadata?.full_name || '';
+    if (contactEmail) contactEmail.value = user.email || '';
   }
 
   updateAuthUI();
@@ -941,17 +1160,19 @@ function updateAuthUI() {
   const contactAuthHint = document.getElementById('contactAuthHint');
 
   if (currentUser) {
-    authSection.style.display = 'none';
-    userMenu.style.display = 'block';
+    if (authSection) authSection.style.display = 'none';
+    if (userMenu) userMenu.style.display = 'block';
     const name = currentUser.user_metadata?.full_name || currentUser.email?.split('@')[0] || 'User';
-    document.getElementById('userName').textContent = name;
-    document.getElementById('userAvatar').textContent = name.charAt(0).toUpperCase();
-    adminNavItem.style.display = isAdmin ? 'flex' : 'none';
+    const userName = document.getElementById('userName');
+    const userAvatar = document.getElementById('userAvatar');
+    if (userName) userName.textContent = name;
+    if (userAvatar) userAvatar.textContent = name.charAt(0).toUpperCase();
+    if (adminNavItem) adminNavItem.style.display = isAdmin ? 'flex' : 'none';
     if (contactAuthHint) contactAuthHint.innerHTML = 'Signed in as <strong style="color:var(--gold)">' + currentUser.email + '</strong>. Your messages will be linked to your account.';
   } else {
-    authSection.style.display = 'flex';
-    userMenu.style.display = 'none';
-    adminNavItem.style.display = 'none';
+    if (authSection) authSection.style.display = 'flex';
+    if (userMenu) userMenu.style.display = 'none';
+    if (adminNavItem) adminNavItem.style.display = 'none';
     if (contactAuthHint) contactAuthHint.innerHTML = 'You will need to sign in to send messages. <a href="#" onclick="openAuthModal(\'signup\');return false" style="color:var(--gold)">Create an account</a> or <a href="#" onclick="openAuthModal(\'login\');return false" style="color:var(--gold)">sign in</a>.';
   }
 }
@@ -981,25 +1202,23 @@ async function loadProjects() {
 
 function renderProjects(data) {
   const grid = document.getElementById('projectsGrid');
+  if (!grid) return;
   if (!data || data.length === 0) {
     grid.innerHTML = '<div class="empty-state"><p>No projects yet.</p></div>';
     return;
   }
 
-  grid.innerHTML = data.map(p => `
-    <div class="product">
-      <div class="prod-header">
-        <div class="prod-logo">${p.name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase()}</div>
-        <span class="prod-status ${p.status === 'live' ? 'status-live' : 'status-soon'}">${p.status === 'live' ? 'Live' : 'Soon'}</span>
-      </div>
-      <h3>${p.name}</h3>
-      <p>${p.description}</p>
-      <div class="prod-tags">${(p.tags || []).map(t => `<span>${t}</span>`).join('')}</div>
-      <div class="prod-btns">
-        ${p.url ? `<a href="${p.url}" class="btn btn-gold" target="_blank">Launch App</a>` : `<button class="btn btn-ghost" style="cursor:default">Launching Soon</button>`}
-      </div>
-    </div>
-  `).join('');
+  grid.innerHTML = data.map(p => {
+    const initials = p.name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+    const statusClass = p.status === 'live' ? 'status-live' : 'status-soon';
+    const statusText = p.status === 'live' ? 'Live' : 'Soon';
+    const btnHtml = p.url 
+      ? '<a href="' + p.url + '" class="btn btn-gold" target="_blank">Launch App</a>'
+      : '<button class="btn btn-ghost" style="cursor:default">Launching Soon</button>';
+    const tagsHtml = (p.tags || []).map(t => '<span>' + t + '</span>').join('');
+
+    return '<div class="product"><div class="prod-header"><div class="prod-logo">' + initials + '</div><span class="prod-status ' + statusClass + '">' + statusText + '</span></div><h3>' + p.name + '</h3><p>' + p.description + '</p><div class="prod-tags">' + tagsHtml + '</div><div class="prod-btns">' + btnHtml + '</div></div>';
+  }).join('');
 }
 
 async function loadSponsorTiers() {
@@ -1025,21 +1244,17 @@ async function loadSponsorTiers() {
 
 function renderSponsorTiers(data) {
   const grid = document.getElementById('sponsorsGrid');
+  if (!grid) return;
   if (!data || data.length === 0) {
     grid.innerHTML = '<div class="empty-state"><p>No sponsor tiers available.</p></div>';
     return;
   }
 
-  grid.innerHTML = data.map(s => `
-    <div class="sponsor-card">
-      <div class="sponsor-tier">${s.name}</div>
-      <h3>${s.name}</h3>
-      <div class="sponsor-amount">${s.amount}</div>
-      <p>${s.description}</p>
-      <ul class="sponsor-benefits">${(s.benefits || []).map(b => `<li>${b}</li>`).join('')}</ul>
-      <button class="btn btn-gold" style="width:100%" onclick="openSponsorInquiry('${s.id}', '${s.name.replace(/'/g, "\\'")}')">Inquire Now</button>
-    </div>
-  `).join('');
+  grid.innerHTML = data.map(s => {
+    const benefitsHtml = (s.benefits || []).map(b => '<li>' + b + '</li>').join('');
+    const safeName = s.name.replace(/'/g, "\\'");
+    return '<div class="sponsor-card"><div class="sponsor-tier">' + s.name + '</div><h3>' + s.name + '</h3><div class="sponsor-amount">' + s.amount + '</div><p>' + s.description + '</p><ul class="sponsor-benefits">' + benefitsHtml + '</ul><button class="btn btn-gold" style="width:100%" onclick="openSponsorInquiry(\'' + s.id + '\', \'' + safeName + '\')">Inquire Now</button></div>';
+  }).join('');
 }
 
 // ============================================================
@@ -1047,7 +1262,7 @@ function renderSponsorTiers(data) {
 // ============================================================
 async function handleContactSubmit(e) {
   e.preventDefault();
-  if (!supabase) { showToast('Error', 'Supabase not configured', 'error'); return; }
+  if (!supabase) { showToast('Error', 'Backend not configured', 'error'); return; }
   if (!currentUser) { openAuthModal('login'); return; }
 
   const btn = document.getElementById('contactSubmitBtn');
@@ -1060,7 +1275,6 @@ async function handleContactSubmit(e) {
   const subject = document.getElementById('contactSubject').value.trim();
   const message = document.getElementById('contactMessage').value.trim();
 
-  // Save to Supabase
   const { data: msgData, error: msgError } = await supabase
     .from('messages')
     .insert([{
@@ -1080,15 +1294,15 @@ async function handleContactSubmit(e) {
     return;
   }
 
-  // Send email notification via API
-  try {
-    await fetch(API_BASE_URL + '/api/send-email', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, subject, message, type: 'contact' })
-    });
-  } catch(e) {
-    console.log('Email API not available');
+  // Send email notification
+  if (API_BASE_URL) {
+    try {
+      await fetch(API_BASE_URL + '/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, subject, message, type: 'contact' })
+      });
+    } catch(e) {}
   }
 
   btn.innerHTML = originalText;
@@ -1117,7 +1331,7 @@ function closeSponsorModal() {
 
 async function handleSponsorSubmit(e) {
   e.preventDefault();
-  if (!supabase) { showToast('Error', 'Supabase not configured', 'error'); return; }
+  if (!supabase) { showToast('Error', 'Backend not configured', 'error'); return; }
 
   const btn = document.getElementById('sponsorSubmitBtn');
   const originalText = btn.innerHTML;
@@ -1149,14 +1363,15 @@ async function handleSponsorSubmit(e) {
     return;
   }
 
-  // Send email
-  try {
-    await fetch(API_BASE_URL + '/api/send-email', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, subject: 'Sponsor Inquiry: ' + tierName, message, type: 'sponsor_inquiry', sponsorTier: tierName })
-    });
-  } catch(e) {}
+  if (API_BASE_URL) {
+    try {
+      await fetch(API_BASE_URL + '/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, subject: 'Sponsor Inquiry: ' + tierName, message, type: 'sponsor_inquiry', sponsorTier: tierName })
+      });
+    } catch(e) {}
+  }
 
   btn.innerHTML = originalText;
   btn.disabled = false;
@@ -1194,16 +1409,10 @@ async function loadMyMessages() {
     return;
   }
 
-  list.innerHTML = data.map(m => `
-    <div style="padding:20px 24px;border-bottom:1px solid var(--border)">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <span style="font-weight:700;font-size:14px">${m.subject || 'No Subject'}</span>
-        <span class="status-pill status-${m.status}">${m.status}</span>
-      </div>
-      <p style="font-size:13px;color:var(--fg2);margin-bottom:8px;line-height:1.6">${m.message.substring(0, 150)}${m.message.length > 150 ? '...' : ''}</p>
-      <span style="font-size:11px;color:var(--fg3);font-family:monospace">${new Date(m.created_at).toLocaleDateString()}</span>
-    </div>
-  `).join('');
+  list.innerHTML = data.map(m => {
+    const preview = m.message.substring(0, 150) + (m.message.length > 150 ? '...' : '');
+    return '<div style="padding:20px 24px;border-bottom:1px solid var(--border)"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-weight:700;font-size:14px">' + (m.subject || 'No Subject') + '</span><span class="status-pill status-' + m.status + '">' + m.status + '</span></div><p style="font-size:13px;color:var(--fg2);margin-bottom:8px;line-height:1.6">' + preview + '</p><span style="font-size:11px;color:var(--fg3);font-family:monospace">' + new Date(m.created_at).toLocaleDateString() + '</span></div>';
+  }).join('');
 }
 
 // ============================================================
@@ -1226,9 +1435,11 @@ function exitAdmin() {
 
 function switchAdminTab(tab) {
   document.querySelectorAll('.admin-nav-item').forEach(b => b.classList.remove('active'));
-  document.querySelector(`.admin-nav-item[data-tab="${tab}"]`).classList.add('active');
+  const navItem = document.querySelector('.admin-nav-item[data-tab="' + tab + '"]');
+  if (navItem) navItem.classList.add('active');
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('tab-' + tab).classList.add('active');
+  const panel = document.getElementById('tab-' + tab);
+  if (panel) panel.classList.add('active');
 
   if (tab === 'messages') refreshMessages();
   if (tab === 'projects') renderAdminProjects();
@@ -1253,14 +1464,15 @@ async function refreshMessages() {
   if (error) return;
   messages = data || [];
 
-  // Update badge
   const newCount = messages.filter(m => m.status === 'new').length;
   const badge = document.getElementById('msgBadge');
-  if (newCount > 0) {
-    badge.textContent = newCount;
-    badge.style.display = 'block';
-  } else {
-    badge.style.display = 'none';
+  if (badge) {
+    if (newCount > 0) {
+      badge.textContent = newCount;
+      badge.style.display = 'block';
+    } else {
+      badge.style.display = 'none';
+    }
   }
 
   renderMessagesTable();
@@ -1270,20 +1482,29 @@ async function refreshMessages() {
 function renderMessagesTable() {
   const recentTbody = document.getElementById('recentMessagesTable');
   const allTbody = document.getElementById('allMessagesTable');
+  if (!recentTbody || !allTbody) return;
 
   const recent = messages.slice(0, 5);
 
-  const renderRow = (m, showActions) => `
-    <tr>
-      <td><strong>${m.name}</strong></td>
-      ${!showActions ? '' : `<td>${m.email}</td>`}
-      <td>${m.subject || 'No Subject'}</td>
-      <td><span class="status-pill" style="font-size:9px;padding:2px 8px;background:${m.type === 'contact' ? 'rgba(96,165,250,.1)' : 'rgba(201,168,76,.1)'};color:${m.type === 'contact' ? 'var(--info)' : 'var(--gold)'};border:1px solid ${m.type === 'contact' ? 'rgba(96,165,250,.2)' : 'rgba(201,168,76,.2)'};border-radius:100px">${m.type === 'contact' ? 'Contact' : 'Sponsor'}</span></td>
-      <td><span class="status-pill status-${m.status}">${m.status}</span></td>
-      <td style="font-family:monospace;font-size:11px">${new Date(m.created_at).toLocaleDateString()}</td>
-      ${showActions ? `<td><div class="table-actions"><button onclick="viewMessage('${m.id}')" title="View">👁</button><button onclick="updateMessageStatus('${m.id}', 'read')" title="Mark Read">✓</button><button onclick="updateMessageStatus('${m.id}', 'replied')" title="Mark Replied">↩</button><button onclick="deleteMessage('${m.id}')" title="Delete" style="color:var(--error)">🗑</button></div></td>` : ''}
-    </tr>
-  `;
+  const renderRow = function(m, showActions) {
+    const typeStyle = m.type === 'contact' 
+      ? 'background:rgba(96,165,250,.1);color:var(--info);border:1px solid rgba(96,165,250,.2)' 
+      : 'background:rgba(201,168,76,.1);color:var(--gold);border:1px solid rgba(201,168,76,.2)';
+    const typeText = m.type === 'contact' ? 'Contact' : 'Sponsor';
+    const dateStr = new Date(m.created_at).toLocaleDateString();
+
+    let html = '<tr><td><strong>' + m.name + '</strong></td>';
+    if (showActions) html += '<td>' + m.email + '</td>';
+    html += '<td>' + (m.subject || 'No Subject') + '</td>';
+    html += '<td><span class="status-pill" style="font-size:9px;padding:2px 8px;border-radius:100px;' + typeStyle + '">' + typeText + '</span></td>';
+    html += '<td><span class="status-pill status-' + m.status + '">' + m.status + '</span></td>';
+    html += '<td style="font-family:monospace;font-size:11px">' + dateStr + '</td>';
+    if (showActions) {
+      html += '<td><div class="table-actions"><button onclick="viewMessage(\'' + m.id + '\')" title="View">👁</button><button onclick="updateMessageStatus(\'' + m.id + '\', 'read')" title="Mark Read">✓</button><button onclick="updateMessageStatus(\'' + m.id + '\', 'replied')" title="Mark Replied">↩</button><button onclick="deleteMessage(\'' + m.id + '\')" title="Delete" style="color:var(--error)">🗑</button></div></td>';
+    }
+    html += '</tr>';
+    return html;
+  };
 
   recentTbody.innerHTML = recent.length ? recent.map(m => renderRow(m, false)).join('') : '<tr><td colspan="5" style="text-align:center;color:var(--fg3)">No messages yet</td></tr>';
   allTbody.innerHTML = messages.length ? messages.map(m => renderRow(m, true)).join('') : '<tr><td colspan="7" style="text-align:center;color:var(--fg3)">No messages yet</td></tr>';
@@ -1294,29 +1515,13 @@ async function viewMessage(id) {
   if (!msg) return;
 
   const body = document.getElementById('messageDetailBody');
-  body.innerHTML = `
-    <div style="margin-bottom:20px">
-      <div style="font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;margin-bottom:4px">From</div>
-      <div style="font-weight:700">${msg.name}</div>
-      <div style="color:var(--gold);font-size:13px">${msg.email}</div>
-    </div>
-    <div style="margin-bottom:20px">
-      <div style="font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;margin-bottom:4px">Subject</div>
-      <div>${msg.subject || 'No Subject'}</div>
-    </div>
-    <div style="margin-bottom:20px">
-      <div style="font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;margin-bottom:4px">Type</div>
-      <span class="status-pill" style="font-size:10px;padding:3px 10px;background:${msg.type === 'contact' ? 'rgba(96,165,250,.1)' : 'rgba(201,168,76,.1)'};color:${msg.type === 'contact' ? 'var(--info)' : 'var(--gold)'};border:1px solid ${msg.type === 'contact' ? 'rgba(96,165,250,.2)' : 'rgba(201,168,76,.2)'};border-radius:100px">${msg.type === 'contact' ? 'Contact' : 'Sponsor Inquiry'}</span>
-    </div>
-    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:20px">
-      <div style="font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;margin-bottom:8px">Message</div>
-      <p style="white-space:pre-wrap;line-height:1.7">${msg.message}</p>
-    </div>
-    <div style="font-size:11px;color:var(--fg3);font-family:monospace">Received: ${new Date(msg.created_at).toLocaleString()}</div>
-  `;
+  const typeLabel = msg.type === 'contact' ? 'Contact' : 'Sponsor Inquiry';
+  const typeColor = msg.type === 'contact' ? 'var(--info)' : 'var(--gold)';
+
+  body.innerHTML = '<div style="margin-bottom:20px"><div style="font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;margin-bottom:4px">From</div><div style="font-weight:700">' + msg.name + '</div><div style="color:var(--gold);font-size:13px">' + msg.email + '</div></div><div style="margin-bottom:20px"><div style="font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;margin-bottom:4px">Subject</div><div>' + (msg.subject || 'No Subject') + '</div></div><div style="margin-bottom:20px"><div style="font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;margin-bottom:4px">Type</div><span class="status-pill" style="font-size:10px;padding:3px 10px;background:' + (msg.type === 'contact' ? 'rgba(96,165,250,.1)' : 'rgba(201,168,76,.1)') + ';color:' + typeColor + ';border:1px solid ' + (msg.type === 'contact' ? 'rgba(96,165,250,.2)' : 'rgba(201,168,76,.2)') + ';border-radius:100px">' + typeLabel + '</span></div><div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:20px"><div style="font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;margin-bottom:8px">Message</div><p style="white-space:pre-wrap;line-height:1.7">' + msg.message + '</p></div><div style="font-size:11px;color:var(--fg3);font-family:monospace">Received: ' + new Date(msg.created_at).toLocaleString() + '</div>';
+
   document.getElementById('messageDetailModal').classList.add('active');
 
-  // Auto-mark as read
   if (msg.status === 'new') {
     await updateMessageStatus(id, 'read');
   }
@@ -1341,11 +1546,17 @@ async function deleteMessage(id) {
 }
 
 function updateStats() {
-  document.getElementById('statTotalMessages').textContent = messages.length;
-  document.getElementById('statNewMessages').textContent = messages.filter(m => m.status === 'new').length;
-  document.getElementById('statProjects').textContent = projects.length;
-  document.getElementById('statProjectsLive').textContent = projects.filter(p => p.status === 'live').length + ' Live';
-  document.getElementById('statSponsors').textContent = sponsorTiers.length;
+  const total = document.getElementById('statTotalMessages');
+  const newMsg = document.getElementById('statNewMessages');
+  const proj = document.getElementById('statProjects');
+  const projLive = document.getElementById('statProjectsLive');
+  const sponsors = document.getElementById('statSponsors');
+
+  if (total) total.textContent = messages.length;
+  if (newMsg) newMsg.textContent = messages.filter(m => m.status === 'new').length;
+  if (proj) proj.textContent = projects.length;
+  if (projLive) projLive.textContent = projects.filter(p => p.status === 'live').length + ' Live';
+  if (sponsors) sponsors.textContent = sponsorTiers.length;
 }
 
 // ============================================================
@@ -1353,42 +1564,52 @@ function updateStats() {
 // ============================================================
 function renderAdminProjects() {
   const tbody = document.getElementById('adminProjectsTable');
+  if (!tbody) return;
   if (!projects.length) {
     tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--fg3)">No projects yet</td></tr>';
     return;
   }
-  tbody.innerHTML = projects.map(p => `
-    <tr>
-      <td><strong>${p.name}</strong></td>
-      <td><span class="status-pill ${p.status === 'live' ? 'status-live' : 'status-soon'}" style="font-size:9px;padding:2px 8px;border-radius:3px">${p.status}</span></td>
-      <td style="font-family:monospace;font-size:11px">${p.url ? '<a href="' + p.url + '" target="_blank" style="color:var(--gold)">Link</a>' : '-'}</td>
-      <td>${(p.tags || []).map(t => `<span style="font-size:10px;padding:2px 8px;background:var(--bg);border:1px solid var(--border);border-radius:3px;margin-right:4px">${t}</span>`).join('')}</td>
-      <td><div class="table-actions"><button onclick="editProject('${p.id}')" title="Edit">✏</button><button onclick="deleteProject('${p.id}')" title="Delete" style="color:var(--error)">🗑</button></div></td>
-    </tr>
-  `).join('');
+  tbody.innerHTML = projects.map(p => {
+    const tagsHtml = (p.tags || []).map(t => '<span style="font-size:10px;padding:2px 8px;background:var(--bg);border:1px solid var(--border);border-radius:3px;margin-right:4px">' + t + '</span>').join('');
+    const statusClass = p.status === 'live' ? 'status-live' : 'status-soon';
+    return '<tr><td><strong>' + p.name + '</strong></td><td><span class="status-pill ' + statusClass + '" style="font-size:9px;padding:2px 8px;border-radius:3px">' + p.status + '</span></td><td style="font-family:monospace;font-size:11px">' + (p.url ? '<a href="' + p.url + '" target="_blank" style="color:var(--gold)">Link</a>' : '-') + '</td><td>' + tagsHtml + '</td><td><div class="table-actions"><button onclick="editProject(\'' + p.id + '\')" title="Edit">✏</button><button onclick="deleteProject(\'' + p.id + '\')" title="Delete" style="color:var(--error)">🗑</button></div></td></tr>';
+  }).join('');
 }
 
-function openProjectModal(projectId = null) {
+function openProjectModal(projectId) {
   projectTags = [];
-  document.getElementById('projectForm').reset();
-  document.getElementById('projectId').value = '';
-  document.getElementById('projectModalTitle').textContent = 'Add Project';
-  document.getElementById('projectTagsWrap').innerHTML = '<input type="text" class="tag-input" id="projectTagInput" placeholder="Add tag...">';
+  const form = document.getElementById('projectForm');
+  const idInput = document.getElementById('projectId');
+  const title = document.getElementById('projectModalTitle');
+  const wrap = document.getElementById('projectTagsWrap');
+
+  if (form) form.reset();
+  if (idInput) idInput.value = '';
+  if (title) title.textContent = 'Add Project';
+  if (wrap) wrap.innerHTML = '<input type="text" class="tag-input" id="projectTagInput" placeholder="Add tag...">';
   setupTagInput('projectTagInput', 'projectTagsWrap', projectTags);
 
   if (projectId) {
     const p = projects.find(x => x.id === projectId);
     if (p) {
-      document.getElementById('projectId').value = p.id;
-      document.getElementById('projectName').value = p.name;
-      document.getElementById('projectDesc').value = p.description;
-      document.getElementById('projectStatus').value = p.status;
-      document.getElementById('projectUrl').value = p.url || '';
-      document.getElementById('projectLogo').value = p.logo_url || '';
-      document.getElementById('projectSort').value = p.sort_order || 0;
+      if (idInput) idInput.value = p.id;
+      const name = document.getElementById('projectName');
+      const desc = document.getElementById('projectDesc');
+      const status = document.getElementById('projectStatus');
+      const url = document.getElementById('projectUrl');
+      const logo = document.getElementById('projectLogo');
+      const sort = document.getElementById('projectSort');
+
+      if (name) name.value = p.name;
+      if (desc) desc.value = p.description;
+      if (status) status.value = p.status;
+      if (url) url.value = p.url || '';
+      if (logo) logo.value = p.logo_url || '';
+      if (sort) sort.value = p.sort_order || 0;
+
       projectTags = [...(p.tags || [])];
       renderTags('projectTagsWrap', 'projectTagInput', projectTags);
-      document.getElementById('projectModalTitle').textContent = 'Edit Project';
+      if (title) title.textContent = 'Edit Project';
     }
   }
 
@@ -1458,41 +1679,50 @@ async function deleteProject(id) {
 // ============================================================
 function renderAdminSponsors() {
   const tbody = document.getElementById('adminSponsorsTable');
+  if (!tbody) return;
   if (!sponsorTiers.length) {
     tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--fg3)">No sponsor tiers yet</td></tr>';
     return;
   }
-  tbody.innerHTML = sponsorTiers.map(s => `
-    <tr>
-      <td><strong>${s.name}</strong></td>
-      <td style="color:var(--gold);font-weight:700">${s.amount}</td>
-      <td><span class="status-pill ${s.status === 'active' ? 'status-live' : 'status-soon'}" style="font-size:9px;padding:2px 8px;border-radius:3px">${s.status}</span></td>
-      <td>${(s.benefits || []).map(b => `<span style="font-size:10px;padding:2px 8px;background:var(--bg);border:1px solid var(--border);border-radius:3px;margin-right:4px">${b}</span>`).join('')}</td>
-      <td><div class="table-actions"><button onclick="editSponsorTier('${s.id}')" title="Edit">✏</button><button onclick="deleteSponsorTier('${s.id}')" title="Delete" style="color:var(--error)">🗑</button></div></td>
-    </tr>
-  `).join('');
+  tbody.innerHTML = sponsorTiers.map(s => {
+    const benefitsHtml = (s.benefits || []).map(b => '<span style="font-size:10px;padding:2px 8px;background:var(--bg);border:1px solid var(--border);border-radius:3px;margin-right:4px">' + b + '</span>').join('');
+    const statusClass = s.status === 'active' ? 'status-live' : 'status-soon';
+    return '<tr><td><strong>' + s.name + '</strong></td><td style="color:var(--gold);font-weight:700">' + s.amount + '</td><td><span class="status-pill ' + statusClass + '" style="font-size:9px;padding:2px 8px;border-radius:3px">' + s.status + '</span></td><td>' + benefitsHtml + '</td><td><div class="table-actions"><button onclick="editSponsorTier(\'' + s.id + '\')" title="Edit">✏</button><button onclick="deleteSponsorTier(\'' + s.id + '\')" title="Delete" style="color:var(--error)">🗑</button></div></td></tr>';
+  }).join('');
 }
 
-function openSponsorTierModal(tierId = null) {
+function openSponsorTierModal(tierId) {
   sponsorBenefits = [];
-  document.getElementById('sponsorTierForm').reset();
-  document.getElementById('sponsorTierId').value = '';
-  document.getElementById('sponsorTierModalTitle').textContent = 'Add Sponsor Tier';
-  document.getElementById('sponsorBenefitsWrap').innerHTML = '<input type="text" class="tag-input" id="sponsorBenefitInput" placeholder="Add benefit...">';
+  const form = document.getElementById('sponsorTierForm');
+  const idInput = document.getElementById('sponsorTierId');
+  const title = document.getElementById('sponsorTierModalTitle');
+  const wrap = document.getElementById('sponsorBenefitsWrap');
+
+  if (form) form.reset();
+  if (idInput) idInput.value = '';
+  if (title) title.textContent = 'Add Sponsor Tier';
+  if (wrap) wrap.innerHTML = '<input type="text" class="tag-input" id="sponsorBenefitInput" placeholder="Add benefit...">';
   setupTagInput('sponsorBenefitInput', 'sponsorBenefitsWrap', sponsorBenefits);
 
   if (tierId) {
     const s = sponsorTiers.find(x => x.id === tierId);
     if (s) {
-      document.getElementById('sponsorTierId').value = s.id;
-      document.getElementById('sponsorTierNameInput').value = s.name;
-      document.getElementById('sponsorTierDesc').value = s.description;
-      document.getElementById('sponsorTierAmount').value = s.amount;
-      document.getElementById('sponsorTierStatus').value = s.status;
-      document.getElementById('sponsorTierSort').value = s.sort_order || 0;
+      if (idInput) idInput.value = s.id;
+      const name = document.getElementById('sponsorTierNameInput');
+      const desc = document.getElementById('sponsorTierDesc');
+      const amount = document.getElementById('sponsorTierAmount');
+      const status = document.getElementById('sponsorTierStatus');
+      const sort = document.getElementById('sponsorTierSort');
+
+      if (name) name.value = s.name;
+      if (desc) desc.value = s.description;
+      if (amount) amount.value = s.amount;
+      if (status) status.value = s.status;
+      if (sort) sort.value = s.sort_order || 0;
+
       sponsorBenefits = [...(s.benefits || [])];
       renderTags('sponsorBenefitsWrap', 'sponsorBenefitInput', sponsorBenefits);
-      document.getElementById('sponsorTierModalTitle').textContent = 'Edit Sponsor Tier';
+      if (title) title.textContent = 'Edit Sponsor Tier';
     }
   }
 
@@ -1578,11 +1808,12 @@ function setupTagInput(inputId, wrapId, tagsArray) {
 function renderTags(wrapId, inputId, tagsArray) {
   const wrap = document.getElementById(wrapId);
   const input = document.getElementById(inputId);
+  if (!wrap || !input) return;
   wrap.innerHTML = '';
   tagsArray.forEach((tag, i) => {
     const pill = document.createElement('div');
     pill.className = 'tag-pill';
-    pill.innerHTML = `${tag}<button onclick="removeTag(${i}, '${wrapId}', '${inputId}')">&times;</button>`;
+    pill.innerHTML = tag + '<button onclick="removeTag(' + i + ', \'' + wrapId + '\', \'' + inputId + '\')">&times;</button>';
     wrap.appendChild(pill);
   });
   wrap.appendChild(input);
@@ -1605,24 +1836,23 @@ function removeTag(index, wrapId, inputId) {
 async function loadAnalytics() {
   if (!supabase) return;
 
-  // Page views
   const { data: views } = await supabase.from('page_views').select('*');
   const viewCount = views?.length || 0;
-  document.getElementById('statPageViews').textContent = viewCount;
+  const pv = document.getElementById('statPageViews');
+  if (pv) pv.textContent = viewCount;
 
-  // Unique visitors (by session_id)
   const sessions = new Set(views?.map(v => v.session_id) || []);
-  document.getElementById('statVisitors').textContent = sessions.size;
+  const uv = document.getElementById('statVisitors');
+  if (uv) uv.textContent = sessions.size;
 
-  // Contact submissions
   const { data: contacts } = await supabase.from('messages').select('*').eq('type', 'contact');
-  document.getElementById('statContacts').textContent = contacts?.length || 0;
+  const sc = document.getElementById('statContacts');
+  if (sc) sc.textContent = contacts?.length || 0;
 
-  // Sponsor inquiries
   const { data: inqs } = await supabase.from('messages').select('*').eq('type', 'sponsor_inquiry');
-  document.getElementById('statSponsorInq').textContent = inqs?.length || 0;
+  const si = document.getElementById('statSponsorInq');
+  if (si) si.textContent = inqs?.length || 0;
 
-  // Daily views chart (simple bar chart with CSS)
   const daily = {};
   (views || []).forEach(v => {
     const d = new Date(v.created_at).toLocaleDateString('en-US', { weekday: 'short' });
@@ -1630,23 +1860,13 @@ async function loadAnalytics() {
   });
 
   const days = Object.keys(daily);
-  const maxVal = Math.max(...Object.values(daily), 1);
+  const values = Object.values(daily);
+  const maxVal = Math.max(...values, 1);
 
-  const chartHtml = days.length ? `
-    <div style="display:flex;align-items:flex-end;gap:16px;height:160px;padding:20px 0">
-      ${days.map(d => `
-        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px">
-          <div style="width:100%;background:var(--bg3);border-radius:4px;height:120px;position:relative;overflow:hidden">
-            <div style="position:absolute;bottom:0;left:0;right:0;background:var(--gold);border-radius:4px;transition:height .5s;height:${(daily[d] / maxVal * 100)}%"></div>
-          </div>
-          <span style="font-size:11px;color:var(--fg3);font-family:monospace">${d}</span>
-          <span style="font-size:12px;font-weight:700">${daily[d]}</span>
-        </div>
-      `).join('')}
-    </div>
-  ` : '<div style="text-align:center;color:var(--fg3)">No data yet</div>';
-
-  document.getElementById('analyticsChart').innerHTML = chartHtml;
+  const chart = document.getElementById('analyticsChart');
+  if (chart) {
+    chart.innerHTML = days.length ? '<div style="display:flex;align-items:flex-end;gap:16px;height:160px;padding:20px 0">' + days.map(d => '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px"><div style="width:100%;background:var(--bg3);border-radius:4px;height:120px;position:relative;overflow:hidden"><div style="position:absolute;bottom:0;left:0;right:0;background:var(--gold);border-radius:4px;transition:height .5s;height:' + (daily[d] / maxVal * 100) + '%"></div></div><span style="font-size:11px;color:var(--fg3);font-family:monospace">' + d + '</span><span style="font-size:12px;font-weight:700">' + daily[d] + '</span></div>').join('') + '</div>' : '<div style="text-align:center;color:var(--fg3)">No data yet</div>';
+  }
 }
 
 // ============================================================
@@ -1666,35 +1886,43 @@ async function trackPageView() {
 }
 
 // ============================================================
-// INIT
+// APP INITIALIZATION
 // ============================================================
-document.addEventListener('DOMContentLoaded', async () => {
+function initApp() {
+  // Initialize Supabase (single init)
+  const hasSupabase = initSupabase();
+
+  // Setup PWA
+  setupPWA();
+  registerServiceWorker();
+
+  // Setup terms modal
+  setupTermsModal();
+
   // Hide loader
   setTimeout(() => {
-    document.getElementById('pageLoader').classList.add('hidden');
-  }, 800);
+    const loader = document.getElementById('pageLoader');
+    if (loader) loader.classList.add('hidden');
+  }, 600);
 
-  if (!supabase) {
-    showToast('Configuration Needed', 'Please set your Supabase credentials in the code.', 'warning');
-    // Render empty states
+  if (!hasSupabase) {
+    showToast('Configuration Needed', 'Please set your Supabase credentials in config.js', 'warning');
     renderProjects([]);
     renderSponsorTiers([]);
     return;
   }
 
-  // Load user session
-  await loadUser();
-
-  // Load data
-  await Promise.all([
-    loadProjects(),
-    loadSponsorTiers(),
-    trackPageView()
-  ]);
-
-  // Setup tag inputs
-  setupTagInput('projectTagInput', 'projectTagsWrap', projectTags);
-  setupTagInput('sponsorBenefitInput', 'sponsorBenefitsWrap', sponsorBenefits);
+  // Load user and data
+  loadUser().then(() => {
+    Promise.all([
+      loadProjects(),
+      loadSponsorTiers(),
+      trackPageView()
+    ]).then(() => {
+      setupTagInput('projectTagInput', 'projectTagsWrap', projectTags);
+      setupTagInput('sponsorBenefitInput', 'sponsorBenefitsWrap', sponsorBenefits);
+    });
+  });
 
   // Listen for auth changes
   supabase.auth.onAuthStateChange(async (event, session) => {
@@ -1706,12 +1934,30 @@ document.addEventListener('DOMContentLoaded', async () => {
       updateAuthUI();
     }
   });
+}
+
+// DOM Ready
+document.addEventListener('DOMContentLoaded', () => {
+  // Check if terms accepted
+  if (!checkTermsAccepted()) {
+    // Show terms modal, don't init app yet
+    setupTermsModal();
+    setTimeout(() => {
+      const loader = document.getElementById('pageLoader');
+      if (loader) loader.classList.add('hidden');
+    }, 400);
+  } else {
+    // Terms already accepted, init normally
+    initApp();
+  }
 });
 
 // Close modals on overlay click
 document.querySelectorAll('.modal-overlay').forEach(overlay => {
   overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) overlay.classList.remove('active');
+    if (e.target === overlay && !overlay.id.includes('termsModal')) {
+      overlay.classList.remove('active');
+    }
   });
 });
 </script>
