@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+This code has one issue and that's the fact that when terms and privacy is accepted the confirm button  won't be active again.. so just fix that an give me code back without  changing anything or removing  anything:<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -6,7 +6,7 @@
 <title>SupremeAlpha — Founder & Digital Architect</title>
 <meta name="description" content="Nigerian technology entrepreneur building the future of African digital innovation through blockchain, Web3, and decentralized platforms.">
 <meta name="theme-color" content="#0a0a0a">
-<link rel="manifest" href="/manifest.json">
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiU3VwcmVtZUFscGhhIiwic2hvcnRfbmFtZSI6IkFscGhhTG9nIiwic3RhcnRfdXJsIjoiLyIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwYTBhMGEiLCJ0aGVtZV9jb2xvciI6IiMwYTBhMGEiLCJpY29ucyI6W3sic3JjIjoiIiwic2l6ZXMiOiIxOTJ4MTkyIiwidHlwZSI6ImltYWdlL3BuZyJ9XX0=">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.108.2/dist/umd/supabase.min.js"></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -74,9 +74,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .checkbox-wrap{display:flex;align-items:flex-start;gap:12px;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:pointer;transition:border-color .2s}
 .checkbox-wrap:hover{border-color:var(--gold)}
 .checkbox-wrap input[type="checkbox"]{width:18px;height:18px;accent-color:var(--gold);margin-top:2px;cursor:pointer}
-.checkbox-wrap label{cursor:pointer;font-size:13px;color:var(--fg2);line-height:1.5}
-.checkbox-wrap label a{color:var(--gold);text-decoration:none}
-.checkbox-wrap label a:hover{text-decoration:underline}
+.checkbox-wrap span{cursor:pointer;font-size:13px;color:var(--fg2);line-height:1.5}
+.checkbox-wrap span a{color:var(--gold);text-decoration:none}
+.checkbox-wrap span a:hover{text-decoration:underline}
 .tag-input-wrap{display:flex;flex-wrap:wrap;gap:6px;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:6px;min-height:44px}
 .tag-input-wrap:focus-within{border-color:var(--gold)}
 .tag-pill{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:4px 10px;font-size:12px;display:flex;align-items:center;gap:6px}
@@ -317,7 +317,7 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
       <div class="form-group">
         <label class="checkbox-wrap">
           <input type="checkbox" id="termsAccept">
-          <label for="termsAccept">I have read and agree to the <strong>Terms of Use</strong> and <strong>Privacy Policy</strong>. I understand how my data will be collected and used.</label>
+          <span>I have read and agree to the <strong>Terms of Use</strong> and <strong>Privacy Policy</strong>. I understand how my data will be collected and used.</span>
         </label>
       </div>
 
@@ -414,8 +414,8 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
       </div>
     </div>
     <div class="about-img-wrap">
-      <img src="file_00000000832c71f4a3e2b6d42ec94c07.png" class="about-img" alt="SupremeAlpha" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-      <div style="display:none;width:100%;aspect-ratio:3/4;background:var(--bg3);border-radius:4px;align-items:center;justify-content:center;color:var(--fg3);font-size:12px;font-family:monospace">your-image.jpg</div>
+      <img src="" data-placeholder="Add your profile image URL here" class="about-img" alt="SupremeAlpha" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div style="display:none;width:100%;aspect-ratio:3/4;background:var(--bg3);border-radius:4px;align-items:center;justify-content:center;color:var(--fg3);font-size:12px;font-family:monospace">Add your profile image</div>
     </div>
   </div>
 </section>
@@ -491,17 +491,17 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
     <div class="message-card">
       <h3>💬 WhatsApp</h3>
       <p>Quick conversations, project updates, or urgent inquiries. Available during business hours (WAT).</p>
-      <a href="https://wa.me/234XXXXXXXXXX" class="message-btn" target="_blank">Message on WhatsApp</a>
+      <a href="#" onclick="alert('Add your WhatsApp number in the code');return false" class="message-btn" target="_blank">Message on WhatsApp</a>
     </div>
     <div class="message-card">
       <h3>🐙 GitHub</h3>
       <p>Explore open source projects, review code, or contribute to repositories. See the work behind the products.</p>
-      <a href="#" class="message-btn ghost" onclick="alert('Add your GitHub URL');return false">View GitHub</a>
+      <a href="https://github.com/supremealpha" class="message-btn ghost" target="_blank">View GitHub</a>
     </div>
     <div class="message-card">
       <h3>💼 LinkedIn</h3>
       <p>Professional connections, endorsements, and business networking. Let's grow together.</p>
-      <a href="#" class="message-btn ghost" onclick="alert('Add your LinkedIn URL');return false">Connect on LinkedIn</a>
+      <a href="https://linkedin.com/in/supremealpha" class="message-btn ghost" target="_blank">Connect on LinkedIn</a>
     </div>
   </div>
 </section>
@@ -813,6 +813,12 @@ section{padding:120px 48px;position:relative;max-width:1200px;margin:0 auto}
 // These are read from window.env which is injected at build time
 // or from a config.js file. For local dev, create a config.js:
 // window.env = { SUPABASE_URL: '...', SUPABASE_ANON_KEY: '...', API_BASE_URL: '...' };
+// ⚠️ CONFIGURATION REQUIRED: Create a config.js file with:
+// window.env = {
+//   SUPABASE_URL: 'https://your-project.supabase.co',
+//   SUPABASE_ANON_KEY: 'your-anon-key',
+//   API_BASE_URL: 'https://your-backend.vercel.app'
+// };
 const ENV = (typeof window !== 'undefined' && window.env) ? window.env : {};
 
 const SUPABASE_URL = ENV.SUPABASE_URL || '';
@@ -869,6 +875,15 @@ function acceptTerms() {
   if (!checkbox.checked) return;
   localStorage.setItem('sa_terms_accepted', 'true');
   document.getElementById('termsModal').classList.remove('active');
+
+  // Reset checkbox and button for next time
+  checkbox.checked = false;
+  const btn = document.getElementById('termsAcceptBtn');
+  if (btn) {
+    btn.disabled = true;
+    btn.style.opacity = '0.5';
+  }
+
   initApp();
 }
 
@@ -876,6 +891,10 @@ function setupTermsModal() {
   const checkbox = document.getElementById('termsAccept');
   const btn = document.getElementById('termsAcceptBtn');
   if (!checkbox || !btn) return;
+
+  // Initialize button state based on current checkbox state
+  btn.disabled = !checkbox.checked;
+  btn.style.opacity = checkbox.checked ? '1' : '0.5';
 
   checkbox.addEventListener('change', () => {
     btn.disabled = !checkbox.checked;
@@ -1217,7 +1236,7 @@ function renderProjects(data) {
       : '<button class="btn btn-ghost" style="cursor:default">Launching Soon</button>';
     const tagsHtml = (p.tags || []).map(t => '<span>' + t + '</span>').join('');
 
-    return '<div class="product"><div class="prod-header"><div class="prod-logo">' + initials + '</div><span class="prod-status ' + statusClass + '">' + statusText + '</span></div><h3>' + p.name + '</h3><p>' + p.description + '</p><div class="prod-tags">' + tagsHtml + '</div><div class="prod-btns">' + btnHtml + '</div></div>';
+    return '<div class="product"><div class="prod-header"><div class="prod-logo">' + initials + '</div><span class="prod-status ' + statusClass + '">' + statusText + '</span></div><h3>' + escapeHtml(p.name) + '</h3><p>' + escapeHtml(p.description) + '</p><div class="prod-tags">' + tagsHtml + '</div><div class="prod-btns">' + btnHtml + '</div></div>';
   }).join('');
 }
 
@@ -1253,7 +1272,7 @@ function renderSponsorTiers(data) {
   grid.innerHTML = data.map(s => {
     const benefitsHtml = (s.benefits || []).map(b => '<li>' + b + '</li>').join('');
     const safeName = s.name.replace(/'/g, "\\'");
-    return '<div class="sponsor-card"><div class="sponsor-tier">' + s.name + '</div><h3>' + s.name + '</h3><div class="sponsor-amount">' + s.amount + '</div><p>' + s.description + '</p><ul class="sponsor-benefits">' + benefitsHtml + '</ul><button class="btn btn-gold" style="width:100%" onclick="openSponsorInquiry(\'' + s.id + '\', \'' + safeName + '\')">Inquire Now</button></div>';
+    return '<div class="sponsor-card"><div class="sponsor-tier">' + escapeHtml(s.name) + '</div><h3>' + escapeHtml(s.name) + '</h3><div class="sponsor-amount">' + s.amount + '</div><p>' + escapeHtml(s.description) + '</p><ul class="sponsor-benefits">' + benefitsHtml + '</ul><button class="btn btn-gold" style="width:100%" onclick="openSponsorInquiry(\'' + s.id + '\', \'' + safeName + '\')">Inquire Now</button></div>';
   }).join('');
 }
 
@@ -1411,7 +1430,7 @@ async function loadMyMessages() {
 
   list.innerHTML = data.map(m => {
     const preview = m.message.substring(0, 150) + (m.message.length > 150 ? '...' : '');
-    return '<div style="padding:20px 24px;border-bottom:1px solid var(--border)"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-weight:700;font-size:14px">' + (m.subject || 'No Subject') + '</span><span class="status-pill status-' + m.status + '">' + m.status + '</span></div><p style="font-size:13px;color:var(--fg2);margin-bottom:8px;line-height:1.6">' + preview + '</p><span style="font-size:11px;color:var(--fg3);font-family:monospace">' + new Date(m.created_at).toLocaleDateString() + '</span></div>';
+    return '<div style="padding:20px 24px;border-bottom:1px solid var(--border)"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-weight:700;font-size:14px">' + escapeHtml(m.subject || 'No Subject') + '</span><span class="status-pill status-' + m.status + '">' + m.status + '</span></div><p style="font-size:13px;color:var(--fg2);margin-bottom:8px;line-height:1.6">' + escapeHtml(preview) + '</p><span style="font-size:11px;color:var(--fg3);font-family:monospace">' + new Date(m.created_at).toLocaleDateString() + '</span></div>';
   }).join('');
 }
 
@@ -1493,14 +1512,14 @@ function renderMessagesTable() {
     const typeText = m.type === 'contact' ? 'Contact' : 'Sponsor';
     const dateStr = new Date(m.created_at).toLocaleDateString();
 
-    let html = '<tr><td><strong>' + m.name + '</strong></td>';
-    if (showActions) html += '<td>' + m.email + '</td>';
-    html += '<td>' + (m.subject || 'No Subject') + '</td>';
+    let html = '<tr><td><strong>' + escapeHtml(m.name) + '</strong></td>';
+    if (showActions) html += '<td>' + escapeHtml(m.email) + '</td>';
+    html += '<td>' + escapeHtml(m.subject || 'No Subject') + '</td>';
     html += '<td><span class="status-pill" style="font-size:9px;padding:2px 8px;border-radius:100px;' + typeStyle + '">' + typeText + '</span></td>';
     html += '<td><span class="status-pill status-' + m.status + '">' + m.status + '</span></td>';
     html += '<td style="font-family:monospace;font-size:11px">' + dateStr + '</td>';
     if (showActions) {
-      html += '<td><div class="table-actions"><button onclick="viewMessage(\'' + m.id + '\')" title="View">👁</button><button onclick="updateMessageStatus(\'' + m.id + '\', 'read')" title="Mark Read">✓</button><button onclick="updateMessageStatus(\'' + m.id + '\', 'replied')" title="Mark Replied">↩</button><button onclick="deleteMessage(\'' + m.id + '\')" title="Delete" style="color:var(--error)">🗑</button></div></td>';
+      html += '<td><div class="table-actions"><button onclick="viewMessage(\'' + m.id + '\')" title="View">👁</button><button onclick="updateMessageStatus(\'' + m.id + '\', \'read\')" title="Mark Read">✓</button><button onclick="updateMessageStatus(\'' + m.id + '\', \'replied\')" title="Mark Replied">↩</button><button onclick="deleteMessage(\'' + m.id + '\')" title="Delete" style="color:var(--error)">🗑</button></div></td>';
     }
     html += '</tr>';
     return html;
@@ -1518,12 +1537,12 @@ async function viewMessage(id) {
   const typeLabel = msg.type === 'contact' ? 'Contact' : 'Sponsor Inquiry';
   const typeColor = msg.type === 'contact' ? 'var(--info)' : 'var(--gold)';
 
-  body.innerHTML = '<div style="margin-bottom:20px"><div style="font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;margin-bottom:4px">From</div><div style="font-weight:700">' + msg.name + '</div><div style="color:var(--gold);font-size:13px">' + msg.email + '</div></div><div style="margin-bottom:20px"><div style="font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;margin-bottom:4px">Subject</div><div>' + (msg.subject || 'No Subject') + '</div></div><div style="margin-bottom:20px"><div style="font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;margin-bottom:4px">Type</div><span class="status-pill" style="font-size:10px;padding:3px 10px;background:' + (msg.type === 'contact' ? 'rgba(96,165,250,.1)' : 'rgba(201,168,76,.1)') + ';color:' + typeColor + ';border:1px solid ' + (msg.type === 'contact' ? 'rgba(96,165,250,.2)' : 'rgba(201,168,76,.2)') + ';border-radius:100px">' + typeLabel + '</span></div><div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:20px"><div style="font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;margin-bottom:8px">Message</div><p style="white-space:pre-wrap;line-height:1.7">' + msg.message + '</p></div><div style="font-size:11px;color:var(--fg3);font-family:monospace">Received: ' + new Date(msg.created_at).toLocaleString() + '</div>';
+  body.innerHTML = '<div style="margin-bottom:20px"><div style="font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;margin-bottom:4px">From</div><div style="font-weight:700">' + escapeHtml(msg.name) + '</div><div style="color:var(--gold);font-size:13px">' + escapeHtml(msg.email) + '</div></div><div style="margin-bottom:20px"><div style="font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;margin-bottom:4px">Subject</div><div>' + (msg.subject || 'No Subject') + '</div></div><div style="margin-bottom:20px"><div style="font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;margin-bottom:4px">Type</div><span class="status-pill" style="font-size:10px;padding:3px 10px;background:' + (msg.type === 'contact' ? 'rgba(96,165,250,.1)' : 'rgba(201,168,76,.1)') + ';color:' + typeColor + ';border:1px solid ' + (msg.type === 'contact' ? 'rgba(96,165,250,.2)' : 'rgba(201,168,76,.2)') + ';border-radius:100px">' + typeLabel + '</span></div><div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:20px"><div style="font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;margin-bottom:8px">Message</div><p style="white-space:pre-wrap;line-height:1.7">' + escapeHtml(msg.message) + '</p></div><div style="font-size:11px;color:var(--fg3);font-family:monospace">Received: ' + new Date(msg.created_at).toLocaleString() + '</div>';
 
   document.getElementById('messageDetailModal').classList.add('active');
 
   if (msg.status === 'new') {
-    await updateMessageStatus(id, 'read');
+    await updateMessageStatus(id, "read");
   }
 }
 
@@ -1572,7 +1591,7 @@ function renderAdminProjects() {
   tbody.innerHTML = projects.map(p => {
     const tagsHtml = (p.tags || []).map(t => '<span style="font-size:10px;padding:2px 8px;background:var(--bg);border:1px solid var(--border);border-radius:3px;margin-right:4px">' + t + '</span>').join('');
     const statusClass = p.status === 'live' ? 'status-live' : 'status-soon';
-    return '<tr><td><strong>' + p.name + '</strong></td><td><span class="status-pill ' + statusClass + '" style="font-size:9px;padding:2px 8px;border-radius:3px">' + p.status + '</span></td><td style="font-family:monospace;font-size:11px">' + (p.url ? '<a href="' + p.url + '" target="_blank" style="color:var(--gold)">Link</a>' : '-') + '</td><td>' + tagsHtml + '</td><td><div class="table-actions"><button onclick="editProject(\'' + p.id + '\')" title="Edit">✏</button><button onclick="deleteProject(\'' + p.id + '\')" title="Delete" style="color:var(--error)">🗑</button></div></td></tr>';
+    return '<tr><td><strong>' + escapeHtml(p.name) + '</strong></td><td><span class="status-pill ' + statusClass + '" style="font-size:9px;padding:2px 8px;border-radius:3px">' + p.status + '</span></td><td style="font-family:monospace;font-size:11px">' + (p.url ? '<a href="' + p.url + '" target="_blank" style="color:var(--gold)">Link</a>' : '-') + '</td><td>' + tagsHtml + '</td><td><div class="table-actions"><button onclick="editProject(\'' + p.id + '\')" title="Edit">✏</button><button onclick="deleteProject(\'' + p.id + '\')" title="Delete" style="color:var(--error)">🗑</button></div></td></tr>';
   }).join('');
 }
 
@@ -1687,7 +1706,7 @@ function renderAdminSponsors() {
   tbody.innerHTML = sponsorTiers.map(s => {
     const benefitsHtml = (s.benefits || []).map(b => '<span style="font-size:10px;padding:2px 8px;background:var(--bg);border:1px solid var(--border);border-radius:3px;margin-right:4px">' + b + '</span>').join('');
     const statusClass = s.status === 'active' ? 'status-live' : 'status-soon';
-    return '<tr><td><strong>' + s.name + '</strong></td><td style="color:var(--gold);font-weight:700">' + s.amount + '</td><td><span class="status-pill ' + statusClass + '" style="font-size:9px;padding:2px 8px;border-radius:3px">' + s.status + '</span></td><td>' + benefitsHtml + '</td><td><div class="table-actions"><button onclick="editSponsorTier(\'' + s.id + '\')" title="Edit">✏</button><button onclick="deleteSponsorTier(\'' + s.id + '\')" title="Delete" style="color:var(--error)">🗑</button></div></td></tr>';
+    return '<tr><td><strong>' + escapeHtml(s.name) + '</strong></td><td style="color:var(--gold);font-weight:700">' + s.amount + '</td><td><span class="status-pill ' + statusClass + '" style="font-size:9px;padding:2px 8px;border-radius:3px">' + s.status + '</span></td><td>' + benefitsHtml + '</td><td><div class="table-actions"><button onclick="editSponsorTier(\'' + s.id + '\')" title="Edit">✏</button><button onclick="deleteSponsorTier(\'' + s.id + '\')" title="Delete" style="color:var(--error)">🗑</button></div></td></tr>';
   }).join('');
 }
 
@@ -1888,6 +1907,15 @@ async function trackPageView() {
 // ============================================================
 // APP INITIALIZATION
 // ============================================================
+
+// XSS SANITIZATION HELPER
+function escapeHtml(text) {
+  if (!text) return '';
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
 function initApp() {
   // Initialize Supabase (single init)
   const hasSupabase = initSupabase();
@@ -1925,7 +1953,10 @@ function initApp() {
   });
 
   // Listen for auth changes
-  supabase.auth.onAuthStateChange(async (event, session) => {
+  // Store subscription for cleanup
+let authSubscription = null;
+if (authSubscription) authSubscription.unsubscribe();
+authSubscription = supabase.auth.onAuthStateChange(async (event, session) => {
     if (event === 'SIGNED_IN') {
       await loadUser();
     } else if (event === 'SIGNED_OUT') {
