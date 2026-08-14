@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SupremeAlpha OS</title>
+<meta name="description" content="The complete digital twin of SupremeAlpha — founder, builder, and digital architect.">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>⚡</text></svg>">
+</head>
+<body>
+<!-- PAGE LOADER -->
+<div class="page-loader" id="pageLoader">
+  <div class="loader-bar"></div>
+  <div class="loader-text">Initializing Alpha OS</div>
+</div>
+
+<!-- PWA INSTALL BUTTON -->
+<button class="pwa-install-btn" id="pwaInstallBtn">
+  <span>📲</span> Install App
+</button>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- HEADER -->
+<header class="header" id="header">
+  <a href="#/" class="logo" data-nav>Alpha<span>-Log</span></a>
+  <div class="header-actions">
+    <div id="authSection">
+      <button class="auth-btn outline" onclick="window.app.openAuth('login')">Sign In</button>
+      <button class="auth-btn" onclick="window.app.openAuth('signup')">Get Started</button>
+    </div>
+    <div class="user-menu" id="userMenu" style="display:none">
+      <button class="user-menu-btn" id="userMenuBtn">
+        <div class="user-avatar" id="userAvatar">SA</div>
+        <span id="userName">User</span>
+      </button>
+      <div class="user-dropdown">
+        <div class="user-dropdown-item" onclick="window.app.openMyMessages()">💬 My Messages</div>
+        <div class="user-dropdown-item" id="adminNavItem" style="display:none" onclick="window.app.goToAdmin()">⚡ Admin Panel</div>
+        <div class="user-dropdown-divider"></div>
+        <button class="user-dropdown-item" onclick="window.app.signOut()">🚪 Sign Out</button>
+      </div>
+    </div>
+    <button class="theme-toggle" id="themeToggle" title="Toggle theme"></button>
+  </div>
+</header>
+
+<!-- MOBILE MENU OVERLAY -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu-close" onclick="window.app.toggleMobileMenu()">&times;</button>
+  <nav class="mobile-menu-nav">
+    <a href="#/" data-nav>Home</a>
+    <a href="#/work" data-nav>Work</a>
+    <a href="#/writings" data-nav>Writings</a>
+    <a href="#/timeline" data-nav>Timeline</a>
+    <a href="#/graveyard" data-nav>Graveyard</a>
+    <a href="#/garden" data-nav>Garden</a>
+    <a href="#/principles" data-nav>Principles</a>
+    <a href="#/reading" data-nav>Reading</a>
+    <a href="#/links" data-nav>Links</a>
+    <a href="#/media" data-nav>Media</a>
+    <a href="#/now" data-nav>Now</a>
+    <a href="#/travel" data-nav>Travel</a>
+    <a href="#/goals" data-nav>Goals</a>
+    <a href="#/predictions" data-nav>Predictions</a>
+    <a href="#/ama" data-nav>AMA</a>
+    <a href="#/guestbook" data-nav>Guestbook</a>
+    <a href="#/sponsors" data-nav>Sponsor</a>
+    <a href="#/contact" data-nav>Contact</a>
+  </nav>
+</div>
+
+<!-- MAIN CONTENT AREA -->
+<main id="app"></main>
+
+<!-- FLOATING NAV -->
+<div class="float-nav" id="floatNav">
+  <a href="#/" class="float-btn active" data-nav>Home</a>
+  <a href="#/work" class="float-btn" data-nav>Work</a>
+  <a href="#/writings" class="float-btn" data-nav>Write</a>
+  <a href="#/now" class="float-btn" data-nav>Now</a>
+  <a href="#/contact" class="float-btn" data-nav>Contact</a>
+  <button class="float-btn menu" onclick="window.app.toggleMobileMenu()">☰</button>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer" id="siteFooter">
+  <div class="footer-left">
+    <p class="logo" style="margin-bottom:8px">Alpha<span>-Log</span></p>
+    <p style="font-size:12px;color:var(--fg3);max-width:320px;line-height:1.6">
+      The complete digital operating system of SupremeAlpha. Built with intention, shipped with obsession.
+    </p>
+  </div>
+  <div class="footer-right">
+    <div class="footer-links">
+      <a href="#/timeline">Timeline</a>
+      <a href="#/graveyard">Graveyard</a>
+      <a href="#/garden">Garden</a>
+      <a href="#/principles">Principles</a>
+      <a href="#/reading">Reading</a>
+      <a href="#/links">Links</a>
+      <a href="#/media">Media</a>
+      <a href="#/travel">Travel</a>
+      <a href="#/goals">Goals</a>
+      <a href="#/predictions">Predictions</a>
+      <a href="#/ama">AMA</a>
+      <a href="#/guestbook">Guestbook</a>
+      <a href="#/colophon">Colophon</a>
+    </div>
+    <p style="font-size:11px;color:var(--fg3);font-family:monospace;margin-top:16px">
+      Abuja, Nigeria · 2026 · <a href="#/colophon" style="color:var(--fg3)">v2.0.0</a>
+    </p>
+  </div>
+</footer>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-header">
+      <h3 id="authModalTitle">Sign In</h3>
+      <button class="modal-close" onclick="window.app.closeAuth()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="tabs">
+        <button class="tab-btn active" id="tabLogin" onclick="window.app.switchAuthTab('login')">Sign In</button>
+        <button class="tab-btn" id="tabSignup" onclick="window.app.switchAuthTab('signup')">Create Account</button>
+      </div>
+      <form id="loginForm" onsubmit="window.app.handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" id="loginEmail" placeholder="you@example.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-input" id="loginPassword" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn btn-gold" style="width:100%" id="loginBtn"><span>Sign In</span></button>
+        <div class="form-error" id="loginError"></div>
+      </form>
+      <form id="signupForm" onsubmit="window.app.handleSignup(event)" style="display:none">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input type="text" class="form-input" id="signupName" placeholder="John Doe" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" id="signupEmail" placeholder="you@example.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-input" id="signupPassword" placeholder="Min 6 characters" minlength="6" required>
+        </div>
+        <button type="submit" class="btn btn-gold" style="width:100%" id="signupBtn"><span>Create Account</span></button>
+        <div class="form-error" id="signupError"></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- MY MESSAGES MODAL -->
+<div class="modal-overlay" id="messagesModal">
+  <div class="modal" style="max-width:700px;max-height:80vh">
+    <div class="modal-header">
+      <h3>My Messages</h3>
+      <button class="modal-close" onclick="window.app.closeMyMessages()">&times;</button>
+    </div>
+    <div class="modal-body" style="padding:0">
+      <div id="myMessagesList" style="max-height:60vh;overflow-y:auto">
+        <div style="padding:40px;text-align:center;color:var(--fg3)">Loading...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SPONSOR INQUIRY MODAL -->
+<div class="modal-overlay" id="sponsorModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Sponsor Inquiry</h3>
+      <button class="modal-close" onclick="window.app.closeSponsorModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="sponsorForm" onsubmit="window.app.handleSponsorSubmit(event)">
+        <div class="form-group">
+          <label class="form-label">Selected Tier</label>
+          <input type="text" class="form-input" id="sponsorTierNameDisplay" readonly style="background:var(--bg3);color:var(--gold);font-weight:700">
+          <input type="hidden" id="sponsorTierId">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="form-group"><label class="form-label">Name</label><input type="text" class="form-input" id="sponsorName" required></div>
+          <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="sponsorEmail" required></div>
+        </div>
+        <div class="form-group"><label class="form-label">Company</label><input type="text" class="form-input" id="sponsorCompany"></div>
+        <div class="form-group"><label class="form-label">Message</label><textarea class="form-textarea" id="sponsorMessage" required></textarea></div>
+        <button type="submit" class="btn btn-gold" style="width:100%" id="sponsorSubmitBtn"><span>Submit Inquiry</span></button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- MESSAGE DETAIL MODAL -->
+<div class="modal-overlay" id="messageDetailModal">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-header"><h3>Message Detail</h3><button class="modal-close" onclick="window.app.closeMessageDetail()">&times;</button></div>
+    <div class="modal-body" id="messageDetailBody"><div style="padding:20px;text-align:center;color:var(--fg3)">Loading...</div></div>
+  </div>
+</div>
+
+<!-- ADMIN MODALS -->
+<div class="modal-overlay" id="projectModal">
+  <div class="modal">
+    <div class="modal-header"><h3 id="projectModalTitle">Add Project</h3><button class="modal-close" onclick="window.app.closeProjectModal()">&times;</button></div>
+    <div class="modal-body">
+      <form id="projectForm" onsubmit="window.app.handleProjectSubmit(event)">
+        <input type="hidden" id="projectId">
+        <div class="form-group"><label class="form-label">Project Name</label><input type="text" class="form-input" id="projectName" required></div>
+        <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="projectDesc" required></textarea></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="form-group"><label class="form-label">Status</label><select class="form-select" id="projectStatus"><option value="live">Live</option><option value="soon">Coming Soon</option></select></div>
+          <div class="form-group"><label class="form-label">URL</label><input type="url" class="form-input" id="projectUrl" placeholder="https://..."></div>
+        </div>
+        <div class="form-group"><label class="form-label">Logo URL</label><input type="url" class="form-input" id="projectLogo" placeholder="https://..."></div>
+        <div class="form-group"><label class="form-label">Tags (press Enter)</label><div class="tag-input-wrap" id="projectTagsWrap"><input type="text" class="tag-input" id="projectTagInput" placeholder="Add tag..."></div></div>
+        <div class="form-group"><label class="form-label">Sort Order</label><input type="number" class="form-input" id="projectSort" value="0" min="0"></div>
+        <div style="display:flex;gap:10px"><button type="submit" class="btn btn-gold" style="flex:1" id="projectSubmitBtn">Save</button><button type="button" class="btn btn-ghost" onclick="window.app.closeProjectModal()">Cancel</button></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="sponsorTierModal">
+  <div class="modal">
+    <div class="modal-header"><h3 id="sponsorTierModalTitle">Add Sponsor Tier</h3><button class="modal-close" onclick="window.app.closeSponsorTierModal()">&times;</button></div>
+    <div class="modal-body">
+      <form id="sponsorTierForm" onsubmit="window.app.handleSponsorTierSubmit(event)">
+        <input type="hidden" id="sponsorTierId">
+        <div class="form-group"><label class="form-label">Tier Name</label><input type="text" class="form-input" id="sponsorTierNameInput" required></div>
+        <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="sponsorTierDesc" required></textarea></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="form-group"><label class="form-label">Amount</label><input type="text" class="form-input" id="sponsorTierAmount" placeholder="$1,000 - $5,000" required></div>
+          <div class="form-group"><label class="form-label">Status</label><select class="form-select" id="sponsorTierStatus"><option value="active">Active</option><option value="inactive">Inactive</option></select></div>
+        </div>
+        <div class="form-group"><label class="form-label">Benefits (press Enter)</label><div class="tag-input-wrap" id="sponsorBenefitsWrap"><input type="text" class="tag-input" id="sponsorBenefitInput" placeholder="Add benefit..."></div></div>
+        <div class="form-group"><label class="form-label">Sort Order</label><input type="number" class="form-input" id="sponsorTierSort" value="0" min="0"></div>
+        <div style="display:flex;gap:10px"><button type="submit" class="btn btn-gold" style="flex:1" id="sponsorTierSubmitBtn">Save</button><button type="button" class="btn btn-ghost" onclick="window.app.closeSponsorTierModal()">Cancel</button></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
