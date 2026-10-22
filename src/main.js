@@ -212,7 +212,7 @@ function updateAuthUI() {
     if (authSection) authSection.style.display = 'flex';
     if (userMenu) userMenu.style.display = 'none';
     if (adminNavItem) adminNavItem.style.display = 'none';
-    if (contactAuthHint) contactAuthHint.innerHTML = 'Sign in to send messages. <a href="#" onclick="window.app.openAuth('signup');return false" style="color:var(--gold)">Create account</a>.';
+    if (contactAuthHint) contactAuthHint.innerHTML = 'Sign in to send messages. <a href="#" onclick="window.app.openAuth(&quot;signup&quot;);return false" style="color:var(--gold)">Create account</a>.';
   }
 }
 
