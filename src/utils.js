@@ -81,3 +81,42 @@ export function trackFloatNav() {
     });
   });
 }
+export function sectionWrapper(title, content, id = '') {
+  return `
+    <section class="content-section" ${id ? `id="${escapeHtml(id)}"` : ''}>
+      <div class="section-header">
+        <h2>${escapeHtml(title)}</h2>
+      </div>
+      <div class="section-content">
+        ${content}
+      </div>
+    </section>
+  `;
+}
+
+export function emptyState(message = 'Nothing to display yet.') {
+  return `
+    <div class="empty-state">
+      <p>${escapeHtml(message)}</p>
+    </div>
+  `;
+}
+
+export function loadingState(message = 'Loading...') {
+  return `
+    <div class="loading-state">
+      <p>${escapeHtml(message)}</p>
+    </div>
+  `;
+}
+
+export function statusPill(status = '') {
+  const safeStatus = escapeHtml(status);
+  const cssClass = safeStatus.toLowerCase().replace(/[^a-z0-9-]/g, '');
+
+  return `
+    <span class="status-pill status-${cssClass}">
+      ${safeStatus}
+    </span>
+  `;
+}
